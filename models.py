@@ -1,6 +1,6 @@
 from flask import Flask
 from utils import db
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class Usuario(db.Model):
@@ -20,21 +20,15 @@ class Usuario(db.Model):
         return check_password_hash(self.senha, senha_without_hash)
     
     def __repr__(self):
-        return "<Usuario {}>".format(self.nome)
+        return f"<Usuario {self.nome}>"
 
 class Projeto(db.Model):
     __tablename__= "projeto"
     id = db.Column(db.Integer, primary_key = True)
     nome = db.Column(db.String(100))
     descricao = db.Column(db.String(200))
-    data_criacao = db.Column(db.Date)
+    data_criacao = db.Column(db.Date, default=date.today)
     # membros = db.Column(db.String(300))
-
-    def __init__(self, nome, descricao, data_criacao, membros):
-        self.nome = nome
-        self.descricao = descricao
-        self.data_criacao = data_criacao
-        self.membros = membros
 
 class Avistamento(db.Model):
     __tablename__= "avistamento"
