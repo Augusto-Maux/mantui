@@ -51,3 +51,20 @@ class Avistamento(db.Model):
         self.localizacao = localizacao
         self.observacoes = observacoes
         self.data_hora = data_hora
+
+class Ave(db.Model):
+    __tablename__= "ave"
+    id = db.Column(db.Integer, primary_key = True)
+    nome_cientifico = db.Column(db.String(100))
+    nome_comum = db.Column(db.String(100))
+    especie = db.Column(db.String(100))
+    sexo = db.Column(db.String(100))
+    tipo_registro = db.Column(db.String(100))
+    # add fk_id_avistamento 
+
+    def __init__(self, nome_cientifico, nome_comum, especie, sexo, tipo_registro):
+        self.nome_cientifico = nome_cientifico
+        self.nome_comum = nome_comum
+        self.especie = especie
+        self.sexo = sexo
+        self.tipo_registro = tipo_registro
