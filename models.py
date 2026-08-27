@@ -1,5 +1,6 @@
 from flask import Flask
 from utils import db
+from datetime import datetime, timezone
 
 class Usuario(db.Model):
     __tablename__= "usuario"
@@ -35,3 +36,18 @@ class Projeto(db.Model):
         self.descricao = descricao
         self.data_criacao = data_criacao
         self.membros = membros
+
+class Avistamento(db.Model):
+    __tablename__= "avistamento"
+    id = db.Column(db.Integer, primary_key = True)
+    nome = db.Column(db.String(100))
+    localizacao = db.Column(db.String(200))
+    observacoes = db.Column(db.String(300))
+    data_hora = db.Column(db.Datetime(timezone=True), nullable=False)
+    # add fk_anilha_id here
+
+    def __init__(self, nome, localizacao, observacoes, data_hora):
+        self.nome = nome
+        self.localizacao = localizacao
+        self.observacoes = observacoes
+        self.data_hora = data_hora
