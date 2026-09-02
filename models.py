@@ -1,6 +1,5 @@
-from flask import Flask
-from utils import db
-from datetime import datetime, timezone, date
+from utils import db, relationship
+from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class Usuario(db.Model):
@@ -11,7 +10,11 @@ class Usuario(db.Model):
     senha = db.Column(db.String(100), nullable=False)
     idade = db.Column(db.Integer)
     status_conta = db.Column(db.Boolean, default=True)
-    cargo = db.Column(db.String(100))
+    papel = db.Column(db.String(100))
+    foto_perfil = db.Column(db.String(100), unique=True)
+
+    projetos = relationship('Projeto', back_populates='user')
+    # create __init__ function here
 
     def def_senha(self, senha_without_hash):
         self.senha = generate_password_hash(senha_without_hash)
@@ -28,7 +31,12 @@ class Projeto(db.Model):
     nome = db.Column(db.String(100))
     descricao = db.Column(db.String(200))
     data_criacao = db.Column(db.Date, default=date.today)
-    # membros = db.Column(db.String(300))
+    id_user_criador = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+
+    # membros, quant_mebros, quant_equipes
+    # create __init__ function here
+
+    user = relationship('Usuario', back_populates='projetos')
 
 class Avistamento(db.Model):
     __tablename__= "avistamento"
@@ -61,3 +69,6 @@ class Ave(db.Model):
         self.especie = especie
         self.sexo = sexo
         self.tipo_registro = tipo_registro
+
+class Equipe(db.Model):
+    ...
