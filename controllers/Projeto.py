@@ -7,7 +7,7 @@ bp_projeto = Blueprint("projeto", __name__, template_folder='templates')
 @bp_projeto.route('/recovery')
 def recovery():
 	projetos = Projeto.query.all()
-	return render_template('projeto_recovery.html', projeto=projetos)
+	return render_template('projeto_recovery.html', projetos=projetos)
 
 @bp_projeto.route('/add', methods=['GET', 'POST'])
 def add():
@@ -29,11 +29,11 @@ def add():
 def update(id):
 	projeto = Projeto.query.get(id)
 	if request.method=="GET":
-		return render_template('projeto_update.html', p=projeto)
+		return render_template('projeto_update.html', projeto=projeto)
 	
 	elif request.method=="POST":
 		projeto.nome = request.form.get('nome')
-		projeto.email = request.form.get('email')
+		projeto.descricao = request.form.get('descricao')
 		db.session.add(projeto)
 		db.session.commit()
 		return redirect(url_for('projeto.recovery'))

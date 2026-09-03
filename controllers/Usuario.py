@@ -32,7 +32,7 @@ def add():
 def update(id):
 	user = Usuario.query.get(id)
 	if request.method=="GET":
-		return render_template('usuario_update.html', u=user)
+		return render_template('usuario_update.html', user=user)
 	
 	elif request.method=="POST":
 		user.nome = request.form.get('nome')

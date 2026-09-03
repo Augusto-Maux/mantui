@@ -7,7 +7,7 @@ bp_equipe = Blueprint("equipe", __name__, template_folder='templates')
 @bp_equipe.route('/recovery')
 def recovery():
 	equipes = Equipe.query.all()
-	return render_template('equipe_recovery.html', equipe=equipes)
+	return render_template('equipe_recovery.html', equipes=equipes)
 
 @bp_equipe.route('/add', methods=['GET', 'POST'])
 def add():
@@ -28,7 +28,7 @@ def add():
 def update(id):
 	equipe = Equipe.query.get(id)
 	if request.method=="GET":
-		return render_template('equipe_update.html', e=equipe)
+		return render_template('equipe_update.html', equipe=equipe)
 	
 	elif request.method=="POST":
 		equipe.nome = request.form.get('nome')

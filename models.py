@@ -96,9 +96,9 @@ class Especie(db.Model):
     audio = db.Column(db.String(300))
     imagem = db.Column(db.String(300))
 
-    def __init__(self, nome_comum, nome_cientfico):
+    def __init__(self, nome_comum, nome_cientifico):
         self.nome_comum = nome_comum
-        self.nome_cientfico = nome_cientfico
+        self.nome_cientifico = nome_cientifico
 
     def __repr__(self):
         return f"<Especie {self.nome_comum} {self.nome_cientfico}>"

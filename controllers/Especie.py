@@ -7,7 +7,7 @@ bp_especie = Blueprint("especie", __name__, template_folder='templates')
 @bp_especie.route('/recovery')
 def recovery():
 	especies = Especie.query.all()
-	return render_template('especie_recovery.html', especie=especies)
+	return render_template('especie_recovery.html', especies=especies)
 
 @bp_especie.route('/add', methods=['GET', 'POST'])
 def add():
@@ -29,11 +29,11 @@ def add():
 def update(id):
 	especie = Especie.query.get(id)
 	if request.method=="GET":
-		return render_template('especie_update.html', e=especie)
+		return render_template('especie_update.html', especie=especie)
 	
 	elif request.method=="POST":
-		especie.nome = request.form.get('nome')
-		especie.email = request.form.get('email')
+		especie.nome_comum = request.form.get('nome_comum')
+		especie.nome_cientifico = request.form.get('nome_cientifico')
 		db.session.add(especie)
 		db.session.commit()
 		return redirect(url_for('especie.recovery'))

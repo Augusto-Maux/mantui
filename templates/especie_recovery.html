@@ -11,17 +11,17 @@
 		<thead>
             <tr>
                 <th></th>
-                <th>Nome</th>
-                <th>Descrição</th>
+                <th>Nome Comum</th>
+                <th>Nome Científico</th>
             </tr>
 		</thead>
 
 		<tbody>			
-			{% for projeto in projetos %}
+			{% for especie in especies %}
 			<tr>
 				<td>{{especie.id}}</td>
-				<td>{{especie.nome}}</td>
-				<td>{{especie.descricao}}</td>
+				<td>{{especie.nome_comum}}</td>
+				<td>{{especie.nome_cientifico}}</td>
 			</tr>
 			{% endfor %}
 		</tbody>

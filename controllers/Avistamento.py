@@ -12,7 +12,7 @@ def recovery():
 @bp_avistamento.route('/add', methods=['GET', 'POST'])
 def add():
 	if request.method=="GET":
-		return render_template('equipe_add.html')
+		return render_template('avistamento_add.html')
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
@@ -35,7 +35,7 @@ def add():
 def update(id):
 	avistamento = Avistamento.query.get(id)
 	if request.method=="GET":
-		return render_template('avistamento_update.html', a=avistamento)
+		return render_template('avistamento_update.html', avistamento=avistamento)
 	
 	elif request.method=="POST":
 		avistamento.nome = request.form.get('nome')
@@ -46,7 +46,7 @@ def update(id):
 		avistamento.cond_clima = request.form.get('cond_clima')
 		avistamento.cond_ventos = request.form.get('cond_ventos')
 		avistamento.observacoes = request.form.get('observacoes')
-        db.session.add(avistamento)
+		db.session.add(avistamento)
 		db.session.commit()
 		return redirect(url_for('avistamento.recovery'))
 
