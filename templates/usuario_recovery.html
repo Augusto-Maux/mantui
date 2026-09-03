@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <table class="table">
+
+		<thead>
+            <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Ação</th>
+            </tr>
+		</thead>
+
+		<tbody>			
+			{% for u in usuarios %}
+			<tr>
+				<td>{{u.id}}</td>
+				<td>{{u.nome}}</td>
+				<td>{{u.email}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+</body>
+</html>

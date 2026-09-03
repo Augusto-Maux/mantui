@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{{url_for('usuario.add')}}" method="POST">
+
+        Nome: <input type="text" name="nome"><br/>
+        E-mail: <input type="email" name="email"><br/>
+        Senha: <input type="text" name="senha"><br/>
+        Idade: <input type="number" name="idade"><br/>
+        Papel: <input type="text" name="papel"><br/>
+        <input type="submit" name="Cadastrar">
+
+    </form>
+</body>
+</html>
