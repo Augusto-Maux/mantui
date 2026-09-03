@@ -39,6 +39,10 @@ class Projeto(db.Model):
     fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
 
+    def __init__(self, nome, descricao):
+        self.nome = nome
+        self.descricao = descricao
+
     def __repr__(self):
         return f"<Projeto {self.nome}>"
 

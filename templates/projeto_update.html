@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{{url_for('projeto.update', id=projeto.id)}}" method="POST">
+        
+        Nome: <input type="text" name="nome" value="{{projeto.nome}}"><br/>
+        Descrição: <input type="text" name="descricao" value="{{projeto.descricao}}"><br/>
+        <input type="submit" name="Cadastrar">
+    
+    </form>
+</body>
+</html>

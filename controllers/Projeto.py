@@ -1,3 +1,49 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request, redirect, url_for
+from models import Projeto
+from utils import db
 
 bp_projeto = Blueprint("projeto", __name__, template_folder='templates')
+
+@bp_projeto.route('/recovery')
+def recovery():
+	projetos = Projeto.query.all()
+	return render_template('projeto_recovery.html', projeto=projetos)
+
+@bp_projeto.route('/add', methods=['GET', 'POST'])
+def add():
+	if request.method=="GET":
+		return render_template('projeto_add.html')
+	
+	elif request.method=="POST":
+		nome = request.form.get('nome')
+		descricao = request.form.get('descricao')
+		projeto = Projeto(nome, descricao)
+		db.session.add(projeto)
+		db.session.commit()
+		return redirect(url_for('projeto.recovery'))
+	
+	else:
+		return "Acesso inválido"
+
+@bp_projeto.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+	projeto = Projeto.query.get(id)
+	if request.method=="GET":
+		return render_template('projeto_update.html', p=projeto)
+	
+	elif request.method=="POST":
+		projeto.nome = request.form.get('nome')
+		projeto.email = request.form.get('email')
+		db.session.add(projeto)
+		db.session.commit()
+		return redirect(url_for('projeto.recovery'))
+	
+	else:
+		return "Acesso inválido"
+
+@bp_projeto.route('/delete/<int:id>')
+def delete(id):
+	projeto = Projeto.query.get(id)
+	db.session.delete(projeto)
+	db.session.commit()
+	return "Dados excluídos"
