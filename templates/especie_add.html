@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{{url_for('especie.add')}}" method="POST">
+
+        Nome Comum: <input type="text" name="nome_comum"><br/>
+        Nome Científico: <input type="text" name="nome_cientifico"><br/>
+        <input type="submit" name="Cadastrar">
+
+    </form>
+</body>
+</html>

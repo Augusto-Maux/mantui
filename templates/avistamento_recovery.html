@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <table class="table">
+
+		<thead>
+            <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Bioma</th>
+                <th>Tipo Registro</th>
+                <th>Condição do Clima</th>
+                <th>Condição dos Ventos</th>
+                <th>Observações</th>
+            </tr>
+		</thead>
+
+		<tbody>			
+			{% for a in avistamento%}
+			<tr>
+				<td>{{a.id}}</td>
+				<td>{{a.nome}}</td>
+				<td>{{a.latitude}}</td>
+				<td>{{a.longitude}}</td>
+				<td>{{a.bioma}}</td>
+				<td>{{a.tipo_registro}}</td>
+				<td>{{a.cond_clima}}</td>
+				<td>{{a.cond_ventos}}</td>
+				<td>{{a.observacoes}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+</body>
+</html>

@@ -56,6 +56,9 @@ class Equipe(db.Model):
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
     projeto = db.relationship('Projeto', foreign_keys=fk_id_projeto)
 
+    def __init__(self, nome):
+        self.nome = nome
+
     def __repr__(self):
         return f"<Equipe {self.nome}>"
 
@@ -72,6 +75,16 @@ class Avistamento(db.Model):
     observacoes = db.Column(db.String(300))
     data_hora = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.now(timezone.utc))
 
+    def __init__(self, nome, latitude, longitude, bioma, tipo_registro, cond_clima, cond_ventos, observacoes):
+        self.nome = nome
+        self.latitude = latitude
+        self.longitude = longitude
+        self.bioma = bioma
+        self.tipo_registro = tipo_registro
+        self.cond_clima = cond_clima
+        self.cond_ventos = cond_ventos
+        self.observacoes = observacoes
+
     def __repr__(self):
         return f"<Avistamento {self.nome}>"
 
@@ -83,5 +96,9 @@ class Especie(db.Model):
     audio = db.Column(db.String(300))
     imagem = db.Column(db.String(300))
 
+    def __init__(self, nome_comum, nome_cientfico):
+        self.nome_comum = nome_comum
+        self.nome_cientfico = nome_cientfico
+
     def __repr__(self):
-        return f"<Especie {self.nome}>"
+        return f"<Especie {self.nome_comum} {self.nome_cientfico}>"
