@@ -145,3 +145,18 @@ class Familia(db.Model):
 
     def __repr__(self):
         return f"<Familia {self.nome}>"
+
+class Ave(db.model):
+	__tablename__ = "ave"
+	id = db.column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+	caracteristicas = db.Column(db.String(300))
+	sexo = db.Column(db.String(100))
+
+    def __init__(self, nome, caracteristicas, sexo):
+	    self.nome = nome
+        self.caracteristicas = caracteristicas
+        self.sexo = sexo
+
+    def __repr__(self):
+        return f"<Ave {self.nome}>"
