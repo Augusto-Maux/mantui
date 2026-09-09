@@ -48,6 +48,8 @@ def update(id):
 		avistamento.cond_clima = request.form.get('cond_clima')
 		avistamento.cond_ventos = request.form.get('cond_ventos')
 		avistamento.observacoes = request.form.get('observacoes')
+		avistamento.fk_id_user = request.form.get('fk_id_user')
+		avistamento.fk_id_especie = request.form.get('fk_id_especie')
 		db.session.add(avistamento)
 		db.session.commit()
 		return redirect(url_for('avistamento.recovery'))
