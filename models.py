@@ -74,8 +74,12 @@ class Avistamento(db.Model):
     cond_ventos = db.Column(db.String(200))
     observacoes = db.Column(db.String(300))
     data_hora = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.now(timezone.utc))
+    fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    user = db.relationship('Usuario', foreign_keys=fk_id_user)
+    fk_id_especie = db.Column(db.Integer, db.ForeignKey('especie.id'))
+    especie = db.relationship('Especie', foreign_keys=fk_id_especie)
 
-    def __init__(self, nome, latitude, longitude, bioma, tipo_registro, cond_clima, cond_ventos, observacoes):
+    def __init__(self, nome, latitude, longitude, bioma, tipo_registro, cond_clima, cond_ventos, observacoes, fk_id_user, fk_id_especie):
         self.nome = nome
         self.latitude = latitude
         self.longitude = longitude
@@ -84,6 +88,8 @@ class Avistamento(db.Model):
         self.cond_clima = cond_clima
         self.cond_ventos = cond_ventos
         self.observacoes = observacoes
+        self.fk_id_user = fk_id_user
+        self.fk_id_especie = fk_id_especie
 
     def __repr__(self):
         return f"<Avistamento {self.nome}>"
@@ -95,10 +101,47 @@ class Especie(db.Model):
     nome_cientifico = db.Column(db.String(200))
     audio = db.Column(db.String(300))
     imagem = db.Column(db.String(300))
+    fk_id_familia = db.Column(db.Integer, db.ForeignKey('familia.id'))
+    fk_id_status_conservacao = db.Column(db.Integer, db.ForeignKey('status_conservacao.id'))
+    familia = db.relationship('Familia', foreign_keys=fk_id_familia)
+    status_conservacao = db.relationship('StatusConservacao', foreign_keys=fk_id_status_conservacao)
 
-    def __init__(self, nome_comum, nome_cientifico):
+    def __init__(self, nome_comum, nome_cientifico, fk_id_familia, fk_id_status_conservacao):
         self.nome_comum = nome_comum
         self.nome_cientifico = nome_cientifico
+        self.fk_id_familia = fk_id_familia
+        self.fk_id_status_conservacao = fk_id_status_conservacao
 
     def __repr__(self):
-        return f"<Especie {self.nome_comum} {self.nome_cientfico}>"
+        return f"<Especie {self.nome_comum} {self.nome_cientifico}>"
+
+class StatusConservacao(db.Model):
+    __tablename__ = "status_conservacao"
+    id = db.Column(db.Integer, primary_key=True)
+    categoria = db.Column(db.String(300))
+    data_avaliacao = db.Column(db.Date, default=date.today)
+    fonte = db.Column(db.String(300))
+    descricao = db.Column(db.String(300))
+    observacoes = db.Column(db.String(300))
+
+    def __init__(self, descricao, categoria, observacoes, fonte):
+        self.descricao = descricao
+        self.categoria = categoria
+        self.observacoes = observacoes
+        self.fonte = fonte
+
+    def __repr__(self):
+        return f"<Status Conservação {self.descricao}>"
+
+class Familia(db.Model):
+    __tablename__ = "familia"
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    caracteristicas = db.Column(db.String(300))
+
+    def __init__(self, nome, caracteristicas):
+        self.nome = nome
+        self.caracteristicas = caracteristicas
+
+    def __repr__(self):
+        return f"<Familia {self.nome}>"
