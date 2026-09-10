@@ -13,6 +13,7 @@ Contexto do banco de dados:
 ## 🗂️ Estrutura do Repositório
 ```text
 ├── 📂 controllers/       # organiza o fluxo de dados e resposta pro Usuário
+|   ├── Ave.py
 │   ├── Avistamento.py
 │   ├── Equipe.py 
 │   ├── Especie.py 
@@ -27,6 +28,10 @@ Contexto do banco de dados:
 │        └── Diagrama-de-Classes.png 
 │   
 ├── 📂 templates/         # Guarda os arquivos HTML
+│   ├── ave_add.html
+│   ├── ave_recovery.html 
+│   ├── ave_update.html
+|   | 
 │   ├── avistamento_add.html
 │   ├── avistamento_recovery.html 
 │   ├── avistamento_update.html

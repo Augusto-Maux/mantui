@@ -14,10 +14,10 @@ def add():
 	if request.method == "GET":
 		return render_template('ave_add.html')
 
-    elif request.method == "POST":
+	elif request.method == "POST":
 		nome = request.form.get('nome')
 		caracteristicas = request.form.get('caracteristicas')
-        sexo = request.form.get('sexo')
+		sexo = request.form.get('sexo')
 
 		ave = Ave(nome, caracteristicas, sexo)
 
@@ -38,7 +38,7 @@ def update(id):
 	elif request.method == "POST":
 		ave.nome = request.form.get('nome')
 		ave.caracteristicas = request.form.get('caracteristicas')
-        ave.sexo = request.form.get('sexo')
+		ave.sexo = request.form.get('sexo')
 
 		db.session.commit()
 
