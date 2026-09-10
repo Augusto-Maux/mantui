@@ -39,6 +39,7 @@ class Projeto(db.Model):
     fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
 
+    # add fk - templates too
     def __init__(self, nome, descricao):
         self.nome = nome
         self.descricao = descricao
@@ -56,6 +57,7 @@ class Equipe(db.Model):
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
     projeto = db.relationship('Projeto', foreign_keys=fk_id_projeto)
 
+    # add fk - templates too
     def __init__(self, nome):
         self.nome = nome
 

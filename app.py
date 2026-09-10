@@ -23,10 +23,9 @@ app.register_blueprint(bp_status, url_prefix='/status_conservacao')
 app.register_blueprint(bp_familia, url_prefix='/familia')
 app.register_blueprint(bp_ave, url_prefix='/ave')
 
-# excluir posteriormente
 @app.route('/')
-def index():
-    return "Bem-vindo ao Mantuí"
+def first_page():
+    return "Bem-vindo(a) ao Mantuí!"
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db_usuario = os.getenv('DB_USERNAME')
