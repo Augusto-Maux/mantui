@@ -2,7 +2,6 @@ from flask import Flask
 from utils import db
 import os
 from flask_migrate import Migrate
-from models import Usuario, Projeto, Equipe, Avistamento, Especie
 
 from controllers.Usuario import bp_usuario
 from controllers.Projeto import bp_projeto
@@ -23,6 +22,11 @@ app.register_blueprint(bp_especie, url_prefix='/especie')
 app.register_blueprint(bp_status, url_prefix='/status_conservacao')
 app.register_blueprint(bp_familia, url_prefix='/familia')
 app.register_blueprint(bp_ave, url_prefix='/ave')
+
+# excluir posteriormente
+@app.route('/')
+def index():
+    return "Bem-vindo ao Mantuí"
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db_usuario = os.getenv('DB_USERNAME')

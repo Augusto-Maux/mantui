@@ -7,7 +7,7 @@ bp_ave = Blueprint("ave", __name__, template_folder='templates')
 @bp_ave.route('/recovery')
 def recovery():
 	aves = Ave.query.all()
-	return render_template('ave_recovery.html', ave=aves)
+	return render_template('ave_recovery.html', aves=aves)
 
 @bp_ave.route('/add', methods=['GET', 'POST'])
 def add():
