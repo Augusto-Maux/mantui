@@ -1,6 +1,10 @@
-# Mantuí 🐦 / Banco de Dados 💾
+# Mantuí 🐦
 
-> Este repositório foi criado para o desenvolvimento do banco de dados e da camada do sistema Mantuí baseada nos conceitos de modelagem UML. A partir dos diagramas de entidade-relacionamento (DER) e de classes, foram implementadas as entidades, funções e rotas que estruturam esta etapa do projeto.
+> O Mantuí é um sistema web offline-first criado para apoiar o monitoramento e a conservação de aves limícolas migratórias no litoral do Rio Grande do Norte. A plataforma permite registrar avistamentos com geolocalização, organizar dados de campo, gerar relatórios e auxiliar no gerenciamento de equipes, mesmo em áreas com acesso limitado ou inexistente à internet.
+
+> O projeto foi pensado para atender às necessidades de pesquisadores envolvidos em ações de conservação, especialmente diante dos desafios do monitoramento em regiões remotas e da importância ecológica dessas aves para a biodiversidade. Sua proposta está conectada ao contexto do Flyways Brasil, iniciativa da SAVE Brasil voltada à conservação de aves limícolas e seus habitats na Bacia Potiguar.
+
+---
 
 ## 📌 Sobre o Projeto
 Contexto do banco de dados:
