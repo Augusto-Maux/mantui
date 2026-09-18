@@ -7,6 +7,18 @@
 ---
 
 ## 📌 Sobre o Projeto
+Contexto do Frontend:
+- **Linguagens de marcação e estilo Utilizadas:** HTML5, CSS
+- **Framework Utilizado:** TailwindCSS
+- **Versão:** 4.3.3
+- **Bibliotecas:** anime.js
+  
+Contexto do Backend:
+- **Linguagens de programação Utilizadas:** Python, JavaScript
+- **Framework Utilizado:** Flask
+- **Versão:** 3.1.x
+- **Bibliotecas:** Flask-Migrate, Flask-Script, Flask-SQLAlchemy, Jinja2, PyMySQL, python-dotenv, utils
+
 Contexto do banco de dados:
 - **Biblioteca Utilizada:** SQLAlchemy
 - **Versão:** 2.0.52
@@ -90,7 +102,6 @@ Breve resumo das principais classes:
 | `Familia` | Grupo no qual as espécies pertencem. |
 | `StatusConservacao` | Estatísticas sobre a conservação das espécies de aves, com base nos avistamentos. |
 | `Midia` | Estrutura os arquivos presentes nos avistamentos (os registros) e complementa o StatusConservacao. |
-| `GeradorRelatorio` | Cria relatórios com base nos dados dos avistamentos. |
 | `GeradorGrafico` | Cria rGráficos com base nos dados dos avistamentos. |
 | `MapaInterativo` | Representação visual dos dados coletados e construidos sobre as espécies. |
 
