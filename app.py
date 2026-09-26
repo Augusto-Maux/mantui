@@ -1,5 +1,7 @@
 from flask import Flask
+from flask import render_template
 from utils import db
+from dotenv import load_dotenv
 import os
 from flask_migrate import Migrate
 
@@ -11,6 +13,8 @@ from controllers.Especie import bp_especie
 from controllers.StatusConservacao import bp_status
 from controllers.Familia import bp_familia
 from controllers.Ave import bp_ave
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -25,7 +29,7 @@ app.register_blueprint(bp_ave, url_prefix='/ave')
 
 @app.route('/')
 def first_page():
-    return "Bem-vindo(a) ao Mantuí!"
+    return render_template('index.html')
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db_usuario = os.getenv('DB_USERNAME')
@@ -36,9 +40,12 @@ db_port = os.getenv('DB_PORT')
 
 conexao = f"mysql+pymysql://{db_usuario}:{db_senha}@{db_host}:{db_port}/{db_mydb}"
 
-print(conexao)
+# print(conexao)
 app.config['SQLALCHEMY_DATABASE_URI'] = conexao
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 migrate = Migrate(app, db)
+
+if __name__ == "__main__":
+    app.run(debug=True)
