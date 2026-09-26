@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
-    <title>Mantuí</title>
-</head>
-<body class="bg-green-700">
-    <h1 class="text-amber-50 text-2xl font-bold">Bem-vindo ao Mantuí!!!</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-green-700 min-h-screen">
+    <h1 class="text-green-500 text-2xl font-bold">Bem-vindo ao Mantuí!!!</h1>
+
+    <div class="large row centered">
+        <div class="square draggable"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/animations.js') }}"></script>
+{% endblock %}
