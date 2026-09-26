@@ -61,6 +61,7 @@ python app.py
 >DB_PORT=porta_do_banco
 > ```
 
+
 **Frontend (Tailwind CLI) - Terminal 2:**
 ```bash
 # Instalar dependências do Node.js (Tailwind CSS CLI registrado no package.json)
