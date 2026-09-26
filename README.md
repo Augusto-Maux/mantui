@@ -26,6 +26,53 @@ Contexto do banco de dados:
 
 ---
 
+## 🚀 Como Executar o Projeto
+
+Após clonar o repositório, instale as dependências do projeto:
+
+**Backend (Python) - Terminal 1:**
+```bash
+# Criar o ambiente virtual
+python -m venv venv
+
+# Ativar o ambiente virtual
+# No Windows (Git Bash):
+source venv/Scripts/activate
+# No Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
+# No Linux/Mac:
+source venv/bin/activate
+
+# Instalar pacotes Python (Flask, SQLAlchemy, python-dotenv, etc.)
+pip install -r requirements.txt
+
+# Certifique-se de estar com a venv ativada (source venv/Scripts/activate)
+python app.py
+```
+
+> Importante: Crie um arquivo .env na raiz do projeto com as credenciais do seu banco MySQL (veja o .env.example).
+> ```bash
+FLASK_APP=app:app
+SECRET_KEY=sua-palavra-secreta
+DB_USERNAME=usuario_do_banco
+DB_PASSWORD=senha_do_banco
+DB_HOST=host_do_banco
+DB_DATABASE=nome_do_banco
+DB_PORT=porta_do_banco
+    ```
+
+**Frontend (Tailwind CLI) - Terminal 2:**
+```bash
+# Instalar dependências do Node.js (Tailwind CSS CLI registrado no package.json)
+npm install
+
+# Cria a pasta static/dist/output.css na primeira execução e monitora as alterações dos arquivos HTML em tempo real
+npm run dev
+```
+> Importante: Para visualizar as classes enquanto programa instale a biblioteca de tailwind css do VScode
+
+---
+
 ## 🗂️ Estrutura do Repositório
 ```text
 ├── 📂 controllers/       # organiza o fluxo de dados e resposta pro Usuário
