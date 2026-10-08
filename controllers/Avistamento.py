@@ -7,12 +7,12 @@ bp_avistamento = Blueprint("avistamento", __name__, template_folder='templates')
 @bp_avistamento.route('/recovery')
 def recovery():
 	avistamento = Avistamento.query.all()
-	return render_template('avistamento_recovery.html', avistamento=avistamento)
+	return render_template('avistamento/avistamento_recovery.html', avistamento=avistamento)
 
 @bp_avistamento.route('/add', methods=['GET', 'POST'])
 def add():
 	if request.method=="GET":
-		return render_template('avistamento_add.html')
+		return render_template('avistamento/avistamento_add.html')
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
@@ -37,7 +37,7 @@ def add():
 def update(id):
 	avistamento = Avistamento.query.get(id)
 	if request.method=="GET":
-		return render_template('avistamento_update.html', avistamento=avistamento)
+		return render_template('avistamento/avistamento_update.html', avistamento=avistamento)
 	
 	elif request.method=="POST":
 		avistamento.nome = request.form.get('nome')

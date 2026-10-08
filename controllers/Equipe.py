@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import Equipe
 from utils import db
 
@@ -7,18 +7,19 @@ bp_equipe = Blueprint("equipe", __name__, template_folder='templates')
 @bp_equipe.route('/recovery')
 def recovery():
 	equipes = Equipe.query.all()
-	return render_template('equipe_recovery.html', equipes=equipes)
+	return render_template('equipe/equipe_recovery.html', equipes=equipes)
 
 @bp_equipe.route('/add', methods=['GET', 'POST'])
 def add():
 	if request.method=="GET":
-		return render_template('equipe_add.html')
+		return render_template('equipe/equipe_add.html')
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
 		equipe = Equipe(nome)
 		db.session.add(equipe)
 		db.session.commit()
+		flash('Equipe Adicionada!')
 		return redirect(url_for('equipe.recovery'))
 	
 	else:
@@ -28,7 +29,7 @@ def add():
 def update(id):
 	equipe = Equipe.query.get(id)
 	if request.method=="GET":
-		return render_template('equipe_update.html', equipe=equipe)
+		return render_template('equipe/equipe_update.html', equipe=equipe)
 	
 	elif request.method=="POST":
 		equipe.nome = request.form.get('nome')
@@ -44,4 +45,5 @@ def delete(id):
 	equipe = Equipe.query.get(id)
 	db.session.delete(equipe)
 	db.session.commit()
-	return "Dados excluídos"
+	flash('Equipe Excluída!')
+	return redirect(url_for('equipe.recovery'))

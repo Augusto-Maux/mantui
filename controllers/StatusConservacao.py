@@ -7,12 +7,12 @@ bp_status = Blueprint("status_conservacao", __name__, template_folder='templates
 @bp_status.route('/recovery')
 def recovery():
 	status_conservacao = StatusConservacao.query.all()
-	return render_template('status_conservacao_recovery.html', status_conservacao=status_conservacao)
+	return render_template('status_conservacao/status_conservacao_recovery.html', status_conservacao=status_conservacao)
 
 @bp_status.route('/add', methods=['GET', 'POST'])
 def add():
 	if request.method=="GET":
-		return render_template('status_conservacao_add.html')
+		return render_template('status_conservacao/status_conservacao_add.html')
 	
 	elif request.method=="POST":
 		descricao = request.form.get('descricao')
@@ -31,7 +31,7 @@ def add():
 def update(id):
 	status_conservacao = StatusConservacao.query.get(id)
 	if request.method=="GET":
-		return render_template('status_conservacao_update.html', status_conservacao=status_conservacao)
+		return render_template('status_conservacao/status_conservacao_update.html', status_conservacao=status_conservacao)
 	
 	elif request.method=="POST":
 		status_conservacao.descricao = request.form.get('descricao')

@@ -7,12 +7,12 @@ bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 @bp_usuario.route('/recovery')
 def recovery():
 	usuarios = Usuario.query.all()
-	return render_template('usuario_recovery.html', usuarios=usuarios)
+	return render_template('usuario/usuario_recovery.html', usuarios=usuarios)
 
 @bp_usuario.route('/add', methods=['GET', 'POST'])
 def add():
 	if request.method=="GET":
-		return render_template('usuario_add.html')
+		return render_template('usuario/usuario_add.html')
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
@@ -32,7 +32,7 @@ def add():
 def update(id):
 	user = Usuario.query.get(id)
 	if request.method=="GET":
-		return render_template('usuario_update.html', user=user)
+		return render_template('usuario/usuario_update.html', user=user)
 	
 	elif request.method=="POST":
 		user.nome = request.form.get('nome')
