@@ -1,2 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500&display=swap');
+
 @import "tailwindcss";
 @source "../../templates";
+
+
+@theme {
+  /* Laranja Mantuí */
+  --color-laranja-mantui-50: #FEF7EE;
+  --color-laranja-mantui-100: #FDEDD7;
+  --color-laranja-mantui-200: #FBD7AD;
+  --color-laranja-mantui-300: #F7BB74;
+  --color-laranja-mantui-400: #F39444;
+  --color-laranja-mantui-500: #F0761F;
+  --color-laranja-mantui-600: #E05C15;
+  --color-laranja-mantui-700: #BB4513;
+  --color-laranja-mantui-800: #943818;
+  --color-laranja-mantui-900: #783016;
+  --color-laranja-mantui-950: #411609;
+
+  /* Amarelo Mantuí */
+  --color-amarelo-mantui-50: #FFFAEB;
+  --color-amarelo-mantui-100: #FDF0C8;
+  --color-amarelo-mantui-200: #FCE18B;
+  --color-amarelo-mantui-300: #FACC4F;
+  --color-amarelo-mantui-400: #F9BB35;
+  --color-amarelo-mantui-500: #F2950E;
+  --color-amarelo-mantui-600: #D76F08;
+  --color-amarelo-mantui-700: #B24D0B;
+  --color-amarelo-mantui-800: #913B0F;
+  --color-amarelo-mantui-900: #773110;
+  --color-amarelo-mantui-950: #441804;
+
+  /* Verde Mantuí */
+  --color-verde-mantui-50: #F1FAEB;
+  --color-verde-mantui-100: #E1F3D4;
+  --color-verde-mantui-200: #C4EBAE;
+  --color-verde-mantui-300: #9FD87E;
+  --color-verde-mantui-400: #7DC665;
+  --color-verde-mantui-500: #5EAB37;
+  --color-verde-mantui-600: #478828;
+  --color-verde-mantui-700: #386823;
+  --color-verde-mantui-800: #305321;
+  --color-verde-mantui-900: #2A481F;
+  --color-verde-mantui-950: #13270C;
+
+  /* Neutros */
+  --color-neutro-mantui-50: #FEF7EE;
+  --color-neutro-mantui-100: #F1EFEB;
+  --color-neutro-mantui-200: #E4E0DA;
+  --color-neutro-mantui-300: #D3CCC4;
+  --color-neutro-mantui-400: #BBB2A9;
+  --color-neutro-mantui-500: #9E938B;
+  --color-neutro-mantui-600: #7D736C;
+  --color-neutro-mantui-700: #5D5551;
+  --color-neutro-mantui-800: #403B38;
+  --color-neutro-mantui-900: #272524;
+  --color-neutro-mantui-950: #100900;
+}
+
+@font-face {
+  font-family: "Comum Sans";
+  src: url("../assets/fonts/ComumSans-Regular.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Comum Sans";
+  src: url("../assets/fonts/ComumSans-Bold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
