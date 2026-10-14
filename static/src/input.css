@@ -5,6 +5,10 @@
 
 
 @theme {
+    /* Breakpoints do sistema */
+  --breakpoint-tablet: 46.5rem;
+  --breakpoint-desktop: 80rem;
+
   /* Laranja Mantuí */
   --color-laranja-mantui-50: #FEF7EE;
   --color-laranja-mantui-100: #FDEDD7;
@@ -75,3 +79,7 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* @font-face {
+  --font-sans: "Lato", sans-serif;
+} */
