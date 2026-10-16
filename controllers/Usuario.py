@@ -4,6 +4,7 @@ from utils import db
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
+# funcionando, mas talvez o usuário precise de mais atributos (16/10 - 17h16)
 @bp_usuario.route('/recovery')
 def recovery():
 	usuarios = Usuario.query.all()

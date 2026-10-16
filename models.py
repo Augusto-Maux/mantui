@@ -9,9 +9,9 @@ class Usuario(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     senha = db.Column(db.String(255), nullable=False)
     idade = db.Column(db.Integer)
-    # status_conta = db.Column(db.Boolean, default=True)
     papel = db.Column(db.String(100))
-    foto_perfil = db.Column(db.String(100), unique=True)
+    
+    # foto_perfil = db.Column(db.String(100), unique=True)
 
     def __init__(self, nome, email, senha_text, idade, papel):
         self.nome = nome
@@ -134,31 +134,3 @@ class StatusConservacao(db.Model):
 
     def __repr__(self):
         return f"<Status Conservação {self.descricao}>"
-
-class Familia(db.Model):
-    __tablename__ = "familia"
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
-    caracteristicas = db.Column(db.String(300))
-
-    def __init__(self, nome, caracteristicas):
-        self.nome = nome
-        self.caracteristicas = caracteristicas
-
-    def __repr__(self):
-        return f"<Familia {self.nome}>"
-
-class Ave(db.Model):
-        __tablename__ = "ave"
-        id = db.Column(db.Integer, primary_key=True)
-        nome = db.Column(db.String(100))
-        caracteristicas = db.Column(db.String(300))
-        sexo = db.Column(db.String(100))
-
-        def __init__(self, nome, caracteristicas, sexo):
-            self.nome = nome
-            self.caracteristicas = caracteristicas
-            self.sexo = sexo
-
-        def __repr__(self):
-            return f"<Ave {self.nome}>"

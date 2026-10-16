@@ -24,8 +24,12 @@ def add():
 		cond_clima = request.form.get('cond_clima')
 		cond_ventos = request.form.get('cond_ventos')
 		observacoes = request.form.get('observacoes')
+
+		# encontrar meio de não precisar que o usuário digite o id
+		# problema na adição do fk id usuário (16/10 - 17h10)
 		fk_id_user = request.form.get('fk_id_user')
 		fk_id_especie = request.form.get('fk_id_especie')
+		
 		avistamento = Avistamento(nome, latitude, longitude, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie)
 		db.session.add(avistamento)
 		db.session.commit()
@@ -34,6 +38,7 @@ def add():
 	else:
 		return "Acesso inválido"
 
+# precisa ser testado após algum avistamento ser registrado (16/10 - 17h12)
 @bp_avistamento.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
 	avistamento = Avistamento.query.get(id)
@@ -54,9 +59,12 @@ def update(id):
 		db.session.commit()
 		return redirect(url_for('avistamento.recovery'))
 
+# precisa ser testado após algum avistamento ser registrado (16/10 - 17h12)
 @bp_avistamento.route('/delete/<int:id>')
 def delete(id):
 	avistamento = Avistamento.query.get(id)
 	db.session.delete(avistamento)
 	db.session.commit()
+
+	# adicionar flash msg com redirecionamento ao invés do return (16/10 - 17h12)
 	return "Dados excluídos"
