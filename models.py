@@ -103,15 +103,12 @@ class Especie(db.Model):
     nome_cientifico = db.Column(db.String(200))
     audio = db.Column(db.String(300))
     imagem = db.Column(db.String(300))
-    fk_id_familia = db.Column(db.Integer, db.ForeignKey('familia.id'))
     fk_id_status_conservacao = db.Column(db.Integer, db.ForeignKey('status_conservacao.id'))
-    familia = db.relationship('Familia', foreign_keys=fk_id_familia)
     status_conservacao = db.relationship('StatusConservacao', foreign_keys=fk_id_status_conservacao)
 
-    def __init__(self, nome_comum, nome_cientifico, fk_id_familia, fk_id_status_conservacao):
+    def __init__(self, nome_comum, nome_cientifico, fk_id_status_conservacao):
         self.nome_comum = nome_comum
         self.nome_cientifico = nome_cientifico
-        self.fk_id_familia = fk_id_familia
         self.fk_id_status_conservacao = fk_id_status_conservacao
 
     def __repr__(self):

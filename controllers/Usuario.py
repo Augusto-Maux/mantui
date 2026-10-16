@@ -4,6 +4,8 @@ from utils import db
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
+# o flask db upgrade falhou "Unknown table 'pi2026_mantui.ave'", ou seja, deve ser refeito (16/10 - 17h58)
+
 # funcionando, mas talvez o usuário precise de mais atributos (16/10 - 17h16)
 @bp_usuario.route('/recovery')
 def recovery():
@@ -29,6 +31,7 @@ def add():
 	else:
 		return "Acesso inválido"
 
+# falta redefinição de senha (16/10 - 17h55)
 @bp_usuario.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
 	user = Usuario.query.get(id)
