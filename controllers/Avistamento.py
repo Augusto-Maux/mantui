@@ -4,6 +4,7 @@ from utils import db
 
 bp_avistamento = Blueprint("avistamento", __name__, template_folder='templates')
 
+# precisa testar com um avistamento existente (16/10 - 17h)
 @bp_avistamento.route('/recovery')
 def recovery():
 	avistamento = Avistamento.query.all()
