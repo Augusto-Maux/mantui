@@ -17,9 +17,8 @@ def add():
 	elif request.method=="POST":
 		nome_comum = request.form.get('nome_comum')
 		nome_cientifico = request.form.get('nome_cientifico')
-		fk_id_familia = request.form.get('fk_id_familia')
 		fk_id_status_conservacao = request.form.get('fk_id_status_conservacao')
-		especie = Especie(nome_comum, nome_cientifico, fk_id_familia, fk_id_status_conservacao)
+		especie = Especie(nome_comum, nome_cientifico, fk_id_status_conservacao)
 		db.session.add(especie)
 		db.session.commit()
 		return redirect(url_for('especie.recovery'))
