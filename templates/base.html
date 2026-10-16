@@ -1,23 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>{% block title %}Meu App{% endblock %}</title>
+  <title>{% block title %}Mantuí{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
+
 <body>
-
-<!--
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class="flashes">
-        {% for message in messages %} 
-          <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
--->
-
   {% if current_user %}
     {% include "partials/header_auth.html" %}
   {% else %}
@@ -30,7 +19,6 @@
 
   {% include "partials/footer.html" %}
 
-<!-- Só chamamos a biblioteca nas páginas que vamos usar animação -->
-    {% block scripts %}{% endblock %}
 </body>
+
 </html>
