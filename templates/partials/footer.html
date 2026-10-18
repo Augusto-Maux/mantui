@@ -1,16 +1,19 @@
-<footer class="
-bg-neutro-mantui-200 flex flex-col px-4 tablet:flex-row,px-6 desktop:gap 12
-">
-    <div class="">
+<footer
+  class="h-full"
+  style="background-image: url('{{ url_for('static', filename='img/footer-bg.png') }}'); background-size: cover;"
+>
+
+<section class="grid grid-cols-1 tablet:grid-cols-1 desktop:grid-cols-2">
+    <div class="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-2">
         <img src="{{ url_for('static', filename='img/logo-footer.png') }}" alt="Logo do Mantuí">
-        <h2 class="font-sans">Mantuí</h2>
-        <p>
+        <h2 class="font-sans font-bold text-laranja-mantui-50">Mantuí</h2>
+        <p class="font-lato font-medium text-laranja-mantui-50">
         O Mantuí é o sistema de Conservação para Aves Brasileiras. 
         Crie grupos, procure especies e faça Avistamentos
         </p>
     </div>
 
-    <section class="space-y-1.5">
+    <section class="w-full grid grid-cols-1 tablet:grid-cols-3 desktop:grid-cols-3">
         <div>
             <h3 class="text-neutro-mantui-950 font-bold">Mapa do Site</h3>
             <ul>
@@ -108,6 +111,8 @@ bg-neutro-mantui-200 flex flex-col px-4 tablet:flex-row,px-6 desktop:gap 12
             </div>
         </div>
     </section>
+
+</section>
 
     <article class="bg-neutro-mantui-900 flex justify-between">
         <span class="text-laranja-mantui-50">© 2025 MANTUÍ. Todos os direitos Reservados</span>

@@ -6,7 +6,7 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
 
-<body>
+<body class="min-h-screen">
   {% if current_user %}
     {% include "partials/header_auth.html" %}
   {% else %}

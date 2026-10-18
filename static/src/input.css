@@ -3,9 +3,31 @@
 @import "tailwindcss";
 @source "../../templates";
 
+  /* Fontes do sistema Instaladas | /assts/fonts Comum Sans - Regular e Bold */
+@font-face {
+  font-family: "Comum Sans";
+  src: url("../assets/fonts/ComumSans-Regular.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Comum Sans";
+  src: url("../assets/fonts/ComumSans-Bold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @theme {
-    /* Breakpoints do sistema */
+  /* Família tipográfica */
+  --font-sans: "Comum Sans", sans-serif;
+  --font-lato: "Lato", sans-serif;
+
+  /* Breakpoints do sistema */
   --breakpoint-tablet: 46.5rem;
   --breakpoint-desktop: 80rem;
 
@@ -61,25 +83,3 @@
   --color-neutro-mantui-900: #272524;
   --color-neutro-mantui-950: #100900;
 }
-
-@font-face {
-  font-family: "Comum Sans";
-  src: url("../assets/fonts/ComumSans-Regular.otf")
-    format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Comum Sans";
-  src: url("../assets/fonts/ComumSans-Bold.otf")
-    format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* @font-face {
-  --font-sans: "Lato", sans-serif;
-} */
