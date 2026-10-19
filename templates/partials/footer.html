@@ -1,9 +1,7 @@
-<footer
-  class="h-full"
-  style="background-image: url('{{ url_for('static', filename='img/footer-bg.png') }}'); background-size: cover;"
->
+<footer class="">
 
-<section class="grid grid-cols-1 tablet:grid-cols-1 desktop:grid-cols-2">
+<section class="px-2.5 h-[825px] grid grid-cols-1 tablet:h-[519px] grid-cols-1 desktop:h-[519px] grid-cols-2"
+         style="background-image: url('{{ url_for('static', filename='img/footer-bg.png') }}'); background-size: cover;">
     <div class="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-2">
         <img src="{{ url_for('static', filename='img/logo-footer.png') }}" alt="Logo do Mantuí">
         <h2 class="font-sans font-bold text-laranja-mantui-50">Mantuí</h2>
@@ -18,7 +16,7 @@
             <h3 class="text-neutro-mantui-950 font-bold">Mapa do Site</h3>
             <ul>
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-4 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
                         <p>Página Inicial</p>
                     </a>
