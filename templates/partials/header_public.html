@@ -1,0 +1,61 @@
+<input type="checkbox" id="controle-menu" class="peer hidden" />
+
+<header class="bg-[url(/static/img/header-bg.png)] bg-cover bg-center bg-no-repeat h-[76px] w-full flex text-white justify-between items-center mx-auto max-w-auto px-[20px] md:px-[40px] xl:px-[72px] py-[12px] relative z-40">
+    
+    <div class="logo">
+        <a href="#">
+            <img class="w-[62px] h-[52px] object-contain" src="static/img/logo-header.png" alt="Logo">
+        </a>
+    </div>
+
+    <div class="flex items-center gap-[16px] md:gap-[32px]">
+        
+        <nav class="hidden lg:block text-neutro-mantui-50 font-lato font-medium">
+            <ul class="flex gap-[18px]">
+                <li><a href="#" class="">Parceiros</a></li>
+                <li><a href="#" class="">Avistamentos</a></li>
+                <li><a href="#" class="">Sobre Nós</a></li>
+                <li><a href="#" class="">FAQ</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex max-md:hidden items-center gap-[12px] font-lato font-medium">
+            <a href="" class="text-white py-[8px] px-[32px] border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
+            <a href="" class="text-laranja-mantui-600 bg-neutro-mantui-50 py-[8px] px-[12px] rounded-[4px] hover:bg-opacity-90 transition">Cadastre-se</a>
+        </div>
+
+        <label for="controle-menu" class="block lg:hidden text-white focus:outline-none cursor-pointer" aria-label="Abrir Menu">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </label>
+
+    </div>
+</header>
+
+<div class="fixed top-0 right-0 h-full w-[280px] bg-[#111] text-white p-6 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 lg:hidden peer-checked:translate-x-0">
+    
+    <div class="flex justify-end mb-8">
+        <label for="controle-menu" class="text-white focus:outline-none cursor-pointer" aria-label="Fechar Menu">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </label>
+    </div>
+
+    <nav class="font-lato font-medium text-lg mb-8 text-neutro-mantui-50">
+        <ul class="flex flex-col gap-6">
+            <li><a href="#parceiros" class="hover:text-white block transition">Parceiros</a></li>
+            <li><a href="#avistamentos" class="hover:text-white block transition">Avistamentos</a></li>
+            <li><a href="#sobre" class="hover:text-white block transition">Sobre Nós</a></li>
+            <li><a href="#faq" class="hover:text-white block transition">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <div class="hidden max-md:flex flex-col gap-4 font-lato font-medium">
+        <a href="" class="text-white text-center py-3 px-4 border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
+        <a href="" class="text-laranja-mantui-600 bg-neutro-mantui-50 text-center py-3 px-4 rounded-[4px] hover:bg-opacity-90 transition">Cadastre-se</a>
+    </div>
+</div>
+
+<label for="controle-menu" class="fixed inset-0 bg-black/50 hidden z-40 lg:hidden peer-checked:block cursor-pointer"></label>
