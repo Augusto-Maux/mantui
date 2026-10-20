@@ -1,109 +1,116 @@
-<footer class="">
+<footer class="w-full">
 
-<section class="px-2.5 h-[825px] grid grid-cols-1 tablet:h-[519px] grid-cols-1 desktop:h-[519px] grid-cols-2"
+<section class="px-6 py-12 grid grid-cols-1 gap-12 desktop:grid-cols-2 desktop:gap-8 desktop:min-h-[519px]"
          style="background-image: url('{{ url_for('static', filename='img/footer-bg.png') }}'); background-size: cover;">
-    <div class="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-2">
-        <img src="{{ url_for('static', filename='img/logo-footer.png') }}" alt="Logo do Mantuí">
-        <h2 class="font-sans font-bold text-laranja-mantui-50">Mantuí</h2>
-        <p class="font-lato font-medium text-laranja-mantui-50">
+
+
+    <div class="flex flex-col gap-4 tablet:flex-row tablet:items-center desktop:items-start">
+        <img src="{{ url_for('static', filename='img/logo-footer.png') }}" alt="Logo do Mantuí" class="w-24 object-contain">
+    
+    <div class="flex flex-col gap-2 tablet:ml-4">
+        <h2 class="font-sans font-bold text-laranja-mantui-50 text-2xl">Mantuí</h2>
+        <p class="font-lato font-medium text-laranja-mantui-50 max-w-md">
         O Mantuí é o sistema de Conservação para Aves Brasileiras. 
         Crie grupos, procure especies e faça Avistamentos
         </p>
     </div>
 
-    <section class="w-full grid grid-cols-1 tablet:grid-cols-3 desktop:grid-cols-3">
-        <div>
-            <h3 class="text-neutro-mantui-950 font-bold">Mapa do Site</h3>
-            <ul>
+    </div>
+
+    <section class="w-full grid grid-cols-1 gap-8 tablet:grid-cols-3">
+
+        <div class="flex flex-col gap-4">
+            <h3 class="text-laranja-mantui-50 font-bold font-sans">Mapa do Site</h3>
+            <ul class="flex flex-col gap-3">
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-laranja-mantui-50">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Página Inicial</p>
+                        <p class="font-lato">Página Inicial</p>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Cadastro</p>
+                        <p class="font-lato font-medium">Cadastro</p>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Login</p>
+                        <p class="font-lato font-medium">Login</p>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Parceiros</p>
+                        <p class="font-lato font-medium">Parceiros</p>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Avistamentos</p>
+                        <p class="font-lato font-medium">Avistamentos</p>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Sobre Nós</p>
+                        <p class="font-lato font-medium">Sobre Nós</p>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
                         <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Faq</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div>
-            <h3 class="text-neutro-mantui-950 font-bold">Legal</h3>
-            <ul>
-                <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
-                        <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Privacidade</p>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="flex items-center space-x-4 text-neutro-mantui-900">
-                        <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
-                        <p>Termo de uso</p>
+                        <p class="font-lato font-medium">Faq</p>
                     </a>
                 </li>
             </ul>
         </div>
 
-        <div>
-            <h3 class="text-neutro-mantui-950 font-bold">Contato</h3>
+        <div class="flex flex-col gap-4">
+            <h3 class="text-laranja-mantui-50 font-bold font-sans">Legal</h3>
+            <ul class="flex flex-col gap-3">
+                <li>
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
+                        <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
+                        <p class="font-lato font-medium">Termo de uso </p>
+                    </a>
+                </li>
 
-            <div class="flex justify-items-end-safe gap-2">
+                <li>
+                    <a href="#" class="flex items-center space-x-3 text-laranja-mantui-50">
+                        <img src="{{ url_for('static', filename='img/arrow-top-footer.svg') }}" alt="icone de seta">
+                        <p class="font-lato font-medium">Privacidade</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-            <div class="p-1.5 bg-neutro-mantui-950">
+        <div class="flex flex-col gap-4">
+            <h3 class="text-laranja-mantui-50 font-bold font-sans">Contato</h3>
+
+            <div class="flex flex-wrap gap-2">
+
+            <div class="p-2 bg-laranja-mantui-600 rounded cursor-pointer hover:bg-opacity-80 transition">
             <img src="{{ url_for('static', filename='img/instagram-icone.svg') }}" alt="icone do insta">
             </div>
 
-            <div class="p-1.5 bg-neutro-mantui-950">
-            <img src="{{ url_for('static', filename='img/instagram-icone.svg') }}" alt="icone do insta">
+            <div class="p-2 bg-laranja-mantui-600 rounded cursor-pointer hover:bg-opacity-80 transition flex justify-center">
+            <img src="{{ url_for('static', filename='img/youtube-icone.svg') }}" alt="icone do insta">
             </div>
 
-            <div class="p-1.5 bg-neutro-mantui-950">
-            <img src="{{ url_for('static', filename='img/instagram-icone.svg') }}" alt="icone do insta">
+            <div class="p-2 bg-laranja-mantui-600 rounded cursor-pointer hover:bg-opacity-80 transition">
+            <img src="{{ url_for('static', filename='img/figma-icone.svg') }}" alt="icone do insta">
             </div>
 
-            <div class="p-1.5 bg-neutro-mantui-950">
-            <img src="{{ url_for('static', filename='img/instagram-icone.svg') }}" alt="icone do insta">
+            <div class="p-2 bg-laranja-mantui-600 rounded cursor-pointer hover:bg-opacity-80 transition">
+            <img src="{{ url_for('static', filename='img/gitlab-icone.svg') }}" alt="icone do insta">
             </div>
 
             </div>
@@ -112,9 +119,9 @@
 
 </section>
 
-    <article class="bg-neutro-mantui-900 flex justify-between">
-        <span class="text-laranja-mantui-50">© 2025 MANTUÍ. Todos os direitos Reservados</span>
-        <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="Logo GitHub">
+    <article class="bg-neutro-mantui-950 px-6 py-4 flex flex-col gap-4 items-center justify-between tablet:flex-row">
+        <span class="text-laranja-mantui-50 text-sm text-center tablet:text-left">© 2025 MANTUÍ. Todos os direitos Reservados</span>
+        <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="Logo GitHub" class="w-6 h-6 cursor-pointer">
     </article>
 
 </footer>
