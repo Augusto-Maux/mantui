@@ -4,6 +4,7 @@ from utils import db
 
 bp_equipe = Blueprint("equipe", __name__, template_folder='templates')
 
+# OK
 @bp_equipe.route('/recovery')
 def recovery():
 	equipes = Equipe.query.all()
@@ -19,12 +20,16 @@ def add():
 		equipe = Equipe(nome)
 		db.session.add(equipe)
 		db.session.commit()
+
+		# não funciona ainda
 		flash('Equipe Adicionada!')
+
 		return redirect(url_for('equipe.recovery'))
 	
 	else:
 		return "Acesso inválido"
 
+# OK
 @bp_equipe.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
 	equipe = Equipe.query.get(id)
@@ -45,5 +50,8 @@ def delete(id):
 	equipe = Equipe.query.get(id)
 	db.session.delete(equipe)
 	db.session.commit()
+
+	# não funciona - 18h27 20/10
 	flash('Equipe Excluída!')
+
 	return redirect(url_for('equipe.recovery'))

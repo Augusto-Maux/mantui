@@ -4,6 +4,8 @@ from utils import db
 
 bp_especie = Blueprint("especie", __name__, template_folder='templates')
 
+# mesmos problemas de flash messages e back_populates
+
 @bp_especie.route('/recovery')
 def recovery():
 	especies = Especie.query.all()

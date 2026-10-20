@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import StatusConservacao
 from utils import db
 
 bp_status = Blueprint("status_conservacao", __name__, template_folder='templates')
+
+# mesmos problemas de flash messages
 
 @bp_status.route('/recovery')
 def recovery():
