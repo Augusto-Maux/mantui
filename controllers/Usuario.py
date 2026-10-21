@@ -1,13 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import Usuario
-from utils import db
+from utils import db, lm
+from flask_login import login_required, login_user, logout_user
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
-# o flask db upgrade falhou "Unknown table 'pi2026_mantui.ave'", ou seja, deve ser refeito (16/10 - 17h58)
-
-# funcionando, mas talvez o usuário precise de mais atributos (16/10 - 17h16)
 @bp_usuario.route('/recovery')
+@login_required
 def recovery():
 	usuarios = Usuario.query.all()
 	return render_template('usuario/usuario_recovery.html', usuarios=usuarios)
@@ -33,6 +32,7 @@ def add():
 
 # falta redefinição de senha (16/10 - 17h55)
 @bp_usuario.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update(id):
 	user = Usuario.query.get(id)
 	if request.method=="GET":
@@ -49,8 +49,47 @@ def update(id):
 		return "Acesso inválido"
 
 @bp_usuario.route('/delete/<int:id>')
+# admin_required
+@login_required
 def delete(id):
-	usuario = Usuario.query.get(id)
-	db.session.delete(usuario)
-	db.session.commit()
-	return "Dados excluídos"
+	try:
+		usuario = Usuario.query.get(id)
+		db.session.delete(usuario)
+		db.session.commit()
+		flash("Dados excluídos!", "success")
+	except Exception as e:
+		flash("Não foi possível excluir usuário", "danger")
+	return redirect(url_for('usuario.recovery'))
+
+# AUTH
+@lm.user_loader
+def load_user(id):
+	usuario = Usuario.query.filter_by(id=id).first()
+	return usuario
+
+# admin_required
+
+@bp_usuario.route('/login', methods=['GET', 'POST'])
+def login():
+	if request.method == 'GET':
+		return render_template('auth/login.html')
+
+	email = request.form.get('email')
+	senha = request.form.get('senha')
+
+	usuario = Usuario.query.filter_by(email = email).first()
+
+	if usuario and usuario._verificar_senhar(senha):
+		login_user(usuario)
+		flash('Login realizado!', 'success')
+		return redirect(url_for('usuario.recovery'))
+	
+	else:
+		flash('Dados não encontrados.', 'danger')
+		return redirect(url_for('usuario.login'))
+
+@bp_usuario.route('/logout', methods=['GET', 'POST'])
+def logout():
+	logout_user()
+	flash('Sessão encerrada', 'info')
+	redirect(url_for('usuario.login'))

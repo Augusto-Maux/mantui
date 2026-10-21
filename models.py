@@ -1,8 +1,9 @@
 from utils import db
 from datetime import date, datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-class Usuario(db.Model):
+class Usuario(db.Model, UserMixin):
     __tablename__= "usuario"
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), unique=True, nullable=False)
@@ -10,8 +11,8 @@ class Usuario(db.Model):
     senha = db.Column(db.String(255), nullable=False)
     idade = db.Column(db.Integer)
     papel = db.Column(db.String(100))
-    
-    # foto_perfil = db.Column(db.String(100), unique=True)
+
+    # upload de imagem - foto_perfil = db.Column(db.String(100), unique=True)
 
     def __init__(self, nome, email, senha_text, idade, papel):
         self.nome = nome

@@ -7,6 +7,14 @@
 </head>
 
 <body class="min-h-screen">
+
+  {% set mensagens = get_flashed_messages(with_categories=True) %} 
+    {% if mensagens %}     
+      {% for category, message in mensagens %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
   {% if current_user %}
     {% include "partials/header_auth.html" %}
   {% else %}

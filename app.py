@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template
-from utils import db
+from utils import db, lm
 from dotenv import load_dotenv
 import os
 from flask_migrate import Migrate
@@ -36,9 +36,10 @@ db_port = os.getenv('DB_PORT')
 
 conexao = f"mysql+pymysql://{db_usuario}:{db_senha}@{db_host}:{db_port}/{db_mydb}"
 
-# print(conexao)
 app.config['SQLALCHEMY_DATABASE_URI'] = conexao
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+lm.init_app(app)
 
 db.init_app(app)
 migrate = Migrate(app, db)
