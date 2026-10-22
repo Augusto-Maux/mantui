@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import Usuario
 from utils import db, lm
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
@@ -49,14 +49,18 @@ def update(id):
 		return "Acesso inválido"
 
 @bp_usuario.route('/delete/<int:id>')
-# admin_required
 @login_required
 def delete(id):
+	if current_user.papel not in ['Administrador', 'Moderador']:
+		flash("Sem acesso", "danger")
+		return redirect(url_for('usuario.recovery'))
+
 	try:
 		usuario = Usuario.query.get(id)
 		db.session.delete(usuario)
 		db.session.commit()
 		flash("Dados excluídos!", "success")
+		
 	except Exception as e:
 		flash("Não foi possível excluir usuário", "danger")
 	return redirect(url_for('usuario.recovery'))
@@ -67,19 +71,17 @@ def load_user(id):
 	usuario = Usuario.query.filter_by(id=id).first()
 	return usuario
 
-# admin_required
-
 @bp_usuario.route('/login', methods=['GET', 'POST'])
 def login():
 	if request.method == 'GET':
-		return render_template('auth/login.html')
+		return render_template('usuario/login.html')
 
 	email = request.form.get('email')
 	senha = request.form.get('senha')
 
 	usuario = Usuario.query.filter_by(email = email).first()
 
-	if usuario and usuario._verificar_senhar(senha):
+	if usuario and usuario._verificar_senha(senha):
 		login_user(usuario)
 		flash('Login realizado!', 'success')
 		return redirect(url_for('usuario.recovery'))
@@ -92,4 +94,4 @@ def login():
 def logout():
 	logout_user()
 	flash('Sessão encerrada', 'info')
-	redirect(url_for('usuario.login'))
+	return redirect(url_for('usuario.login'))
