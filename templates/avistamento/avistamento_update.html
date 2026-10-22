@@ -16,8 +16,13 @@
         Condição Climática: <input type="text" name="cond_clima"><br/>
         Condição Ventos: <input type="text" name="cond_ventos"><br/>
         Observações:  <input type="text" name="observacoes"><br/>
-        ID Espécie: <input type="number" name="fk_id_especie"><br/>
-        <input type="submit" name="Cadastrar">
+        ID Espécie: <select name="fk_id_especie" id="">
+            <option value="">Selecione uma espécie</option>
+            {% for especie in especies %}
+                <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" name="Atualizar">
     
     </form>
 </body>
