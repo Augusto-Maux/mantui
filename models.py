@@ -38,8 +38,10 @@ class Projeto(db.Model):
     descricao = db.Column(db.String(200))
     data_criacao = db.Column(db.Date, default=date.today)
     fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    fk_id_equipe = db.Column(db.Integer, db.ForeignKey('equipe.id'))
+
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
-    # back_populates
+    equipe = db.relationship('Equipe', back_populates='projetos')
 
     def __init__(self, nome, descricao, fk_id_user):
         self.nome = nome
@@ -54,14 +56,13 @@ class Equipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
     data_criacao = db.Column(db.Date, default=date.today)
-    fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-    fk_id_projeto = db.Column(db.Integer, db.ForeignKey('projetos.id'))
+    fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))    
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
-    projeto = db.relationship('Projeto', foreign_keys=fk_id_projeto)
+    projetos = db.relationship('Projeto', back_populates='equipe')
 
-    # encontrar modo de dizer equipe e conectar id
-    def __init__(self, nome):
+    def __init__(self, nome, fk_id_user):
         self.nome = nome
+        self.fk_id_user = fk_id_user
 
     def __repr__(self):
         return f"<Equipe {self.nome}>"
