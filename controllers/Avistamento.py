@@ -27,8 +27,6 @@ def add():
 		cond_clima = request.form.get('cond_clima')
 		cond_ventos = request.form.get('cond_ventos')
 		observacoes = request.form.get('observacoes')
-
-		# problema na adição do fk id usuário (16/10 - 17h10)
 		fk_id_user = current_user.id
 		fk_id_especie = request.form.get('fk_id_especie')
 		

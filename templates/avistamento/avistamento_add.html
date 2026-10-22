@@ -21,7 +21,7 @@
         ID Espécie: <select name="fk_id_especie" id="">
             <option value="">Selecione uma espécie</option>
             {% for especie in especies %}
-                <option value="">{{ especie.nome_comum }}</option>
+                <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
             {% endfor %}
         </select>
 
