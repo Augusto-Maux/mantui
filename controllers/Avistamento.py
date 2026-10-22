@@ -70,9 +70,9 @@ def delete(id):
 		avistamento = Avistamento.query.get(id)
 		db.session.delete(avistamento)
 		db.session.commit()
-		flash("Dados excluídos!", "success")
+		flash("Os dados do avistamento foram excluídos!", "success")
 
 	except Exception as e:
-		flash("Não foi possível excluir usuário", "danger")
+		flash("Não foi possível excluir avistamento", "danger")
 
 	return redirect(url_for('avistamento.recovery'))

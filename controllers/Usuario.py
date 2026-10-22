@@ -25,6 +25,7 @@ def add():
 		u = Usuario(nome, email, senha, idade, papel)
 		db.session.add(u)
 		db.session.commit()
+		login_user(u)
 		return redirect(url_for('usuario.recovery'))
 	
 	else:

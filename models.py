@@ -41,11 +41,10 @@ class Projeto(db.Model):
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
     # back_populates
 
-    # como colocar id user só pelo login?
-    # add fk - templates too
-    def __init__(self, nome, descricao):
+    def __init__(self, nome, descricao, fk_id_user):
         self.nome = nome
         self.descricao = descricao
+        self.fk_id_user = fk_id_user
 
     def __repr__(self):
         return f"<Projeto {self.nome}>"
@@ -59,7 +58,6 @@ class Equipe(db.Model):
     fk_id_projeto = db.Column(db.Integer, db.ForeignKey('projetos.id'))
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
     projeto = db.relationship('Projeto', foreign_keys=fk_id_projeto)
-    # adicionar back_populates
 
     # encontrar modo de dizer equipe e conectar id
     def __init__(self, nome):
