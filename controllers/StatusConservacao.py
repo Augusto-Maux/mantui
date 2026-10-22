@@ -1,17 +1,18 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import StatusConservacao
 from utils import db
+from flask_login import login_required, current_user
 
 bp_status = Blueprint("status_conservacao", __name__, template_folder='templates')
 
-# mesmos problemas de flash messages
-
 @bp_status.route('/recovery')
+@login_required
 def recovery():
 	status_conservacao = StatusConservacao.query.all()
 	return render_template('status_conservacao/status_conservacao_recovery.html', status_conservacao=status_conservacao)
 
 @bp_status.route('/add', methods=['GET', 'POST'])
+@login_required
 def add():
 	if request.method=="GET":
 		return render_template('status_conservacao/status_conservacao_add.html')
@@ -30,6 +31,7 @@ def add():
 		return "Acesso inválido"
 
 @bp_status.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update(id):
 	status_conservacao = StatusConservacao.query.get(id)
 	if request.method=="GET":
@@ -48,8 +50,19 @@ def update(id):
 		return "Acesso inválido"
 
 @bp_status.route('/delete/<int:id>')
+@login_required
 def delete(id):
-	status_conservacao = StatusConservacao.query.get(id)
-	db.session.delete(status_conservacao)
-	db.session.commit()
-	return "Dados excluídos"
+	if current_user.papel not in ['Administrador', 'Moderador']:
+		flash("Sem acesso", "danger")
+		return redirect(url_for('projeto.recovery'))
+
+	try:
+		status_conservacao = StatusConservacao.query.get(id)
+		db.session.delete(status_conservacao)
+		db.session.commit()
+		flash("Dados excluídos!", "success")
+
+	except Exception as e:
+		flash("Não foi possível excluir o Status", "danger")
+
+	return redirect(url_for('status_conservacao.recovery'))
