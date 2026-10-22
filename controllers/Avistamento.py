@@ -1,19 +1,22 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from models import Avistamento
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from models import Avistamento, Especie
 from utils import db
+from flask_login import login_required, current_user
 
 bp_avistamento = Blueprint("avistamento", __name__, template_folder='templates')
 
-# precisa testar com um avistamento existente (16/10 - 17h)
 @bp_avistamento.route('/recovery')
+@login_required
 def recovery():
 	avistamento = Avistamento.query.all()
 	return render_template('avistamento/avistamento_recovery.html', avistamento=avistamento)
 
 @bp_avistamento.route('/add', methods=['GET', 'POST'])
+@login_required
 def add():
 	if request.method=="GET":
-		return render_template('avistamento/avistamento_add.html')
+		especies = Especie.query.all()
+		return render_template('avistamento/avistamento_add.html', especies=especies)
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
@@ -25,9 +28,8 @@ def add():
 		cond_ventos = request.form.get('cond_ventos')
 		observacoes = request.form.get('observacoes')
 
-		# encontrar meio de não precisar que o usuário digite o id
 		# problema na adição do fk id usuário (16/10 - 17h10)
-		fk_id_user = request.form.get('fk_id_user')
+		fk_id_user = current_user.id
 		fk_id_especie = request.form.get('fk_id_especie')
 		
 		avistamento = Avistamento(nome, latitude, longitude, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie)
@@ -38,8 +40,8 @@ def add():
 	else:
 		return "Acesso inválido"
 
-# precisa ser testado após algum avistamento ser registrado (16/10 - 17h12)
 @bp_avistamento.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update(id):
 	avistamento = Avistamento.query.get(id)
 	if request.method=="GET":
@@ -59,12 +61,20 @@ def update(id):
 		db.session.commit()
 		return redirect(url_for('avistamento.recovery'))
 
-# precisa ser testado após algum avistamento ser registrado (16/10 - 17h12)
 @bp_avistamento.route('/delete/<int:id>')
+@login_required
 def delete(id):
-	avistamento = Avistamento.query.get(id)
-	db.session.delete(avistamento)
-	db.session.commit()
+	if current_user.papel not in ['Administrador', 'Moderador']:
+		flash("Sem acesso", "danger")
+		return redirect(url_for('avistamento.recovery'))
 
-	# adicionar flash msg com redirecionamento ao invés do return (16/10 - 17h12)
-	return "Dados excluídos"
+	try:
+		avistamento = Avistamento.query.get(id)
+		db.session.delete(avistamento)
+		db.session.commit()
+		flash("Dados excluídos!", "success")
+
+	except Exception as e:
+		flash("Não foi possível excluir usuário", "danger")
+
+	return redirect(url_for('avistamento.recovery'))
