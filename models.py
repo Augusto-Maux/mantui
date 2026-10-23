@@ -11,15 +11,15 @@ class Usuario(db.Model, UserMixin):
     senha = db.Column(db.String(255), nullable=False)
     idade = db.Column(db.Integer)
     papel = db.Column(db.String(100))
+    foto_perfil = db.Column(db.String(500), unique=True)
 
-    # upload de imagem - foto_perfil = db.Column(db.String(100), unique=True)
-
-    def __init__(self, nome, email, senha_text, idade, papel):
+    def __init__(self, nome, email, senha_text, idade, papel, foto_perfil):
         self.nome = nome
         self.email = email
         self.senha = self._def_senha(senha_text)
         self.idade = idade
         self.papel = papel
+        self.foto_perfil = foto_perfil
 
     def _def_senha(self, senha_without_hash):
         # self.senha = generate_password_hash(senha_without_hash)

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import Usuario
 from utils import db, lm
 from flask_login import login_required, login_user, logout_user, current_user
+from werkzeug.utils import secure_filename
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
@@ -22,7 +23,9 @@ def add():
 		senha = request.form.get('senha')
 		idade = request.form.get('idade')
 		papel = request.form.get('papel')
-		u = Usuario(nome, email, senha, idade, papel)
+		foto_perfil = request.files.get('foto_perfil')
+
+		u = Usuario(nome, email, senha, idade, papel, foto_perfil)
 		db.session.add(u)
 		db.session.commit()
 		login_user(u)

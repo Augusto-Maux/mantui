@@ -6,12 +6,13 @@
     <title>Cadastro de Usuário</title>
 </head>
 <body>
-    <form action="{{url_for('usuario.add')}}" method="POST">
+    <form action="{{url_for('usuario.add')}}" method="POST" enctype="multipart/form-data">
 
         Nome: <input type="text" name="nome"><br/>
         Email: <input type="email" name="email"><br/>
         Idade: <input type="number" name="idade"><br/>
         Papel: <input type="text" name="papel"><br/>
+        Foto de Perfil: <input type="file" name="foto_perfil" accept="image/png,image/jpeg,image/webp">
         Senha: <input type="text" name="senha"><br/>
         <input type="submit" name="Adicionar">
 
