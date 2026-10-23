@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Relatório de Avistamentos</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <!-- Avistamento - Demais Atributos -->
+                <th>ID</th>
+                <th>Nome do Avistamento</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for avistamento in avistamentos %}
+            <tr>
+                <td>{{ avistamento.id }}</td>
+                <td>{{ avistamento.nome }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

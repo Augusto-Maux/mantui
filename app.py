@@ -11,6 +11,7 @@ from controllers.Equipe import bp_equipe
 from controllers.Avistamento import bp_avistamento
 from controllers.Especie import bp_especie
 from controllers.StatusConservacao import bp_status
+from controllers.Relatorio import bp_relatorio
 
 load_dotenv()
 
@@ -22,6 +23,7 @@ app.register_blueprint(bp_equipe, url_prefix='/equipe')
 app.register_blueprint(bp_avistamento, url_prefix='/avistamento')
 app.register_blueprint(bp_especie, url_prefix='/especie')
 app.register_blueprint(bp_status, url_prefix='/status_conservacao')
+app.register_blueprint(bp_relatorio, url_prefix='/relatorio')
 
 @app.route('/')
 def first_page():
