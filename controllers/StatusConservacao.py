@@ -54,7 +54,7 @@ def update(id):
 def delete(id):
 	if current_user.papel not in ['Administrador', 'Moderador']:
 		flash("Sem acesso", "danger")
-		return redirect(url_for('projeto.recovery'))
+		return redirect(url_for('status_conservacao.recovery'))
 
 	try:
 		status_conservacao = StatusConservacao.query.get(id)

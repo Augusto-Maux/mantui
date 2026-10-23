@@ -8,14 +8,25 @@
 
 <body class="min-h-screen">
 
+  <!-- QUESTÃO DOS FLASHES PRECISA SER AJUSTADA -->
   {% set mensagens = get_flashed_messages(with_categories=True) %} 
     {% if mensagens %}     
       {% for category, message in mensagens %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
+        <div class="font-bold p-4 
+        {% if category == 'success' %}
+          bg-green-50 text-green-800
+        {% elif category == 'danger' %}
+          bg-red-50 text-red-800
+        {% else %}
+          bg-blue-50 text-blue-800
+        {% endif %}
+        ">
+          {{ message }}
+        </div>
       {% endfor %}
     {% endif %}
 
-  {% if current_user %}
+  {% if current_user.is_authenticated %}
     {% include "partials/header_auth.html" %}
   {% else %}
     {% include "partials/header_public.html" %}

@@ -1,36 +1,36 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import Equipe
 from utils import db
+from flask_login import current_user, login_required
 
 bp_equipe = Blueprint("equipe", __name__, template_folder='templates')
 
-# OK
 @bp_equipe.route('/recovery')
+@login_required
 def recovery():
 	equipes = Equipe.query.all()
 	return render_template('equipe/equipe_recovery.html', equipes=equipes)
 
 @bp_equipe.route('/add', methods=['GET', 'POST'])
+@login_required
 def add():
 	if request.method=="GET":
 		return render_template('equipe/equipe_add.html')
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
-		equipe = Equipe(nome)
+		fk_id_user = current_user.id
+		equipe = Equipe(nome, fk_id_user)
 		db.session.add(equipe)
 		db.session.commit()
-
-		# não funciona ainda
 		flash('Equipe Adicionada!')
-
 		return redirect(url_for('equipe.recovery'))
 	
 	else:
 		return "Acesso inválido"
 
-# OK
 @bp_equipe.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update(id):
 	equipe = Equipe.query.get(id)
 	if request.method=="GET":
@@ -46,12 +46,19 @@ def update(id):
 		return "Acesso inválido"
 
 @bp_equipe.route('/delete/<int:id>')
+@login_required
 def delete(id):
-	equipe = Equipe.query.get(id)
-	db.session.delete(equipe)
-	db.session.commit()
+	if current_user.papel not in ['Administrador', 'Moderador']:
+		flash("Sem acesso", "danger")
+		return redirect(url_for('equipe.recovery'))
 
-	# não funciona - 18h27 20/10
-	flash('Equipe Excluída!')
+	try:
+		equipe = Equipe.query.get(id)
+		db.session.delete(equipe)
+		db.session.commit()
+		flash("Equipe excluída!", "success")
+
+	except Exception as e:
+		flash("Não foi possível excluir a equipe", "danger")
 
 	return redirect(url_for('equipe.recovery'))

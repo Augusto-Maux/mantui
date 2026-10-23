@@ -43,16 +43,17 @@ class Projeto(db.Model):
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
     equipe = db.relationship('Equipe', back_populates='projetos')
 
-    def __init__(self, nome, descricao, fk_id_user):
+    def __init__(self, nome, descricao, fk_id_user, fk_id_equipe):
         self.nome = nome
         self.descricao = descricao
         self.fk_id_user = fk_id_user
+        self.fk_id_equipe = fk_id_equipe\
 
     def __repr__(self):
         return f"<Projeto {self.nome}>"
 
 class Equipe(db.Model):
-    __tablename__= "equipes"
+    __tablename__= "equipe"
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
     data_criacao = db.Column(db.Date, default=date.today)
@@ -104,8 +105,8 @@ class Especie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome_comum = db.Column(db.String(200))
     nome_cientifico = db.Column(db.String(200))
-    audio = db.Column(db.String(300))
-    imagem = db.Column(db.String(300))
+    audio = db.Column(db.String(300)) #link
+    # imagem = db.Column(db.String(300)) - UPLOAD DE IMAGENS
     fk_id_status_conservacao = db.Column(db.Integer, db.ForeignKey('status_conservacao.id'))
     status_conservacao = db.relationship('StatusConservacao', foreign_keys=fk_id_status_conservacao)
 

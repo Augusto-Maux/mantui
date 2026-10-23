@@ -10,7 +10,12 @@
 
         Nome Comum: <input type="text" name="nome_comum"><br/>
         Nome Científico: <input type="text" name="nome_cientifico"><br/>
-        ID Status Conservação: <input type="text" name="fk_id_status_conservacao"><br/>
+        Status Conservação: <select name="fk_id_especie" id="">
+            <option value="">Selecione um status</option>
+            {% for status in status_conservacao %}
+                <option value="{{ status_conservacao.id }}">{{ status_conservacao.categoria }}</option>
+            {% endfor %}
+        </select>
         <input type="submit" name="Cadastrar">
 
     </form>

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from models import Projeto
+from models import Projeto, Equipe
 from utils import db
 from flask_login import current_user, login_required
 
@@ -15,13 +15,15 @@ def recovery():
 @login_required
 def add():
 	if request.method=="GET":
-		return render_template('projeto/projeto_add.html')
+		equipes = Equipe.query.all()
+		return render_template('projeto/projeto_add.html', equipes=equipes)
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
 		descricao = request.form.get('descricao')
 		fk_id_user = current_user.id
-		projeto = Projeto(nome, descricao, fk_id_user)
+		fk_id_equipe = request.form.get('fk_id_equipe')
+		projeto = Projeto(nome, descricao, fk_id_user, fk_id_equipe)
 		db.session.add(projeto)
 		db.session.commit()
 		return redirect(url_for('projeto.recovery'))

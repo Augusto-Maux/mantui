@@ -10,6 +10,12 @@
 
         Nome: <input type="text" name="nome"><br/>
         Descricao: <input type="text" name="descricao"><br/>
+        Equipe: <select name="fk_id_equipe" id="">
+            <option value="">Selecione uma equipe</option>
+            {% for equipe in equipes %}
+                <option value="{{ equipe.id }}">{{ equipe.nome }}</option>
+            {% endfor %}
+        </select>
         <input type="submit" name="Cadastrar">
 
     </form>
