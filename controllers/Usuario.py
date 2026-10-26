@@ -22,6 +22,7 @@ def add():
 		email = request.form.get('email')
 		senha = request.form.get('senha')
 		idade = request.form.get('idade')
+		# criar entidade para CidadaoCientista, Administrador e Moderador
 		papel = request.form.get('papel')
 		foto_perfil = request.files.get('foto_perfil')
 

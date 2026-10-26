@@ -11,7 +11,14 @@
         Nome: <input type="text" name="nome"><br/>
         Email: <input type="email" name="email"><br/>
         Idade: <input type="number" name="idade"><br/>
-        Papel: <input type="text" name="papel"><br/>
+
+        Papel: <select name="papel" id="" required>
+            <option value=""> Selecione um papel </option>
+            <option value="Cidadão Cientista">Cidadão Cientista</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Moderador">Moderador</option>
+        </select> <br>
+        
         Foto de Perfil: <input type="file" name="foto_perfil" accept="image/png,image/jpeg,image/webp">
         Senha: <input type="text" name="senha"><br/>
         <input type="submit" name="Adicionar">

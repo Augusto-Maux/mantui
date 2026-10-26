@@ -8,6 +8,12 @@
 
 <body class="min-h-screen">
 
+  {% if current_user.is_authenticated %}
+    {% include "partials/header_auth.html" %}
+  {% else %}
+    {% include "partials/header_public.html" %}
+  {% endif %}
+
   <!-- QUESTÃO DOS FLASHES PRECISA SER AJUSTADA -->
   {% set mensagens = get_flashed_messages(with_categories=True) %} 
     {% if mensagens %}     
@@ -25,12 +31,6 @@
         </div>
       {% endfor %}
     {% endif %}
-
-  {% if current_user.is_authenticated %}
-    {% include "partials/header_auth.html" %}
-  {% else %}
-    {% include "partials/header_public.html" %}
-  {% endif %}
 
   <main>
     {% block content %}{% endblock %}
