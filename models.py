@@ -105,7 +105,7 @@ class Especie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome_comum = db.Column(db.String(200))
     nome_cientifico = db.Column(db.String(200))
-    audio = db.Column(db.String(300)) #link
+    # audio = db.Column(db.String(300))
     # imagem = db.Column(db.String(300)) - UPLOAD DE IMAGENS
     fk_id_status_conservacao = db.Column(db.Integer, db.ForeignKey('status_conservacao.id'))
     status_conservacao = db.relationship('StatusConservacao', foreign_keys=fk_id_status_conservacao)

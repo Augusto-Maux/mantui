@@ -8,9 +8,12 @@
 <body>
     <form action="{{url_for('especie.add')}}" method="POST">
 
-        Nome Comum: <input type="text" name="nome_comum"><br/>
-        Nome Científico: <input type="text" name="nome_cientifico"><br/>
-        Status Conservação: <select name="fk_id_especie" id="">
+        Nome Comum: <input type="text" name="nome_comum" required><br/>
+        Nome Científico: <input type="text" name="nome_cientifico" required><br/>
+        
+        <!-- Adicionar áudio e imagem aqui -->
+        
+        Status Conservação: <select name="fk_id_especie" id="" required>
             <option value="">Selecione um status</option>
             {% for status in status_conservacao %}
                 <option value="{{ status_conservacao.id }}">{{ status_conservacao.categoria }}</option>
