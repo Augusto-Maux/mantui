@@ -1,28 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+  <title>{% block title %}Cadastre-se no Mantuí{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
-<body>
-    <form action="{{url_for('usuario.add')}}" method="POST" enctype="multipart/form-data">
 
-        Nome: <input type="text" name="nome"><br/>
-        Email: <input type="email" name="email"><br/>
-        Idade: <input type="number" name="idade"><br/>
+<body class="min-h-screen w-full relative flex flex-col justify-between p-4 tablet:p-8 tablet:bg-cover tablet:bg-center"
+style="background-image: url('{{ url_for('static', filename='img/bg_cadastro_img.png') }}');">
 
-        Papel: <select name="papel" id="" required>
-            <option value=""> Selecione um papel </option>
-            <option value="Cidadão Cientista">Cidadão Cientista</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Moderador">Moderador</option>
-        </select> <br>
-        
-        Foto de Perfil: <input type="file" name="foto_perfil" accept="image/png,image/jpeg,image/webp">
-        Senha: <input type="text" name="senha"><br/>
-        <input type="submit" name="Adicionar">
+<a href="{{ url_for('first_page') }}">
+<div class="w-full">
+    <button class="p-2 bg-amarelo-mantui-500">
+        <img src="{{ url_for('static', filename='img/seta_cadastro.svg') }}" alt="Voltar Langing Page">
+    </button>
+</div>
+</a>
 
-    </form>
+<main class="w-full my-auto flex justify-center desktop:justify-end">
+
+    <div class="w-full max-w-md bg-contain bg-no-repeat bg-center p-4 tablet:p-8 tablet:max-w-lg desktop:max-w-xl"
+    style="background-image: url('{{ url_for('static', filename='img/selo-bg.png') }}');">
+
+        <div class="w-full text-neutro-mantui-950 p-6 min-h-[500px] flex flex-col justify-center items-center">
+
+            <div class="flex items-center space-x-3 py-center">
+                <h2 class="font-sans font-700 text-neutro-mantui-950 text-2xl leading-none">Boas Vindas ao</h2>
+                <img src="{{ url_for('static', filename='img/mantui_cadastro.svg') }}" alt="Logo Mantuí">
+            </div>
+
+                <form class="w-full flex flex-col gap-4 max-w-sm" action="{{url_for('usuario.add')}}" method="POST" enctype="multipart/form-data">
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                        <label class="text-lato font-medium text-neutro-mantui-950">Email</label>
+                        <strong class="text-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                        </p>
+                        <input type="email" placeholder="Digite seu E-mail..." class="px-4 py-2 rounded text-neutro-mantui-700 border-2 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="email">
+                    </div>
+
+                    <div class="grid grid-cols-1 tablet:grid-cols-2 gap-1.5 w-full">
+
+                        <div class="flex flex-col">
+                        <p>
+                        <label class="text-lato font-medium text-neutro-mantui-950">Nome Completo</label>
+                        <strong class="text-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                        </p>
+                        <input type="email" placeholder="Ex: João Paulo da Silva..." class="px-4 py-2 rounded text-neutro-mantui-700 border-2 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="nome">
+                        </div>
+
+                        <div class="flex flex-col">
+                        <p>
+                        <label class="text-lato font-medium text-neutro-mantui-950">Nome de Usuário</label>
+                        <strong class="text-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                        </p>
+                        <input type="email" placeholder="@Seu_Usuario" class="px-4 py-2 rounded text-neutro-mantui-700 border-2 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="usuario">
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                        <label class="text-lato font-medium text-neutro-mantui-950">Idade</label>
+                        <strong class="text-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                        </p>
+                        <input type="date" placeholder="DD/MM/AAAA" class="px-4 py-2 rounded text-neutro-mantui-700 border-2 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="idade">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                        <label class="text-lato font-medium text-neutro-mantui-950">Senha</label>
+                        <strong class="text-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                        </p>
+                        <input type="text" placeholder="Mínimo de 8 Caracteres" class="px-4 py-2 rounded text-neutro-mantui-700 border-2 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="idade">
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-amarelo-mantui-500 text-laranja-mantui-950 py-2 rounded font-lato font-medium flex justify-center items-center space-x-3 py-center">
+                        <p>
+                        Criar Conta
+                        </p>
+                        <img src="{{ url_for('static', filename='img/seta_criar_conta.svg') }}" alt="Voltar Langing Page">
+                    </button>
+
+                    
+                    Foto de Perfil: <input type="file" name="foto_perfil" accept="image/png,image/jpeg,image/webp">
+                    Senha: <input type="text" name="senha"><br/>
+                    <input type="submit" name="Adicionar">
+
+                </form>
+        </div>
+    </div>
+
+</main>
+
 </body>
+
 </html>

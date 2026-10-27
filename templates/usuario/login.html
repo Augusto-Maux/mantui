@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login de Usuário</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+
+<main class="min-h-screen w-full relative flex flex-col justify-between p-4 bg-neutro-mantui-50 tablet:p-8 tablet:bg-cover tablet:bg-center"
+style="background-image: url('{{ url_for('static', filename='img/bg_cadastro_img.png') }}'); background-size: cover;">
+
     <form action="{{url_for('usuario.login')}}" method="POST">
 
         Email: <input type="email" name="email"><br/>
@@ -13,5 +12,7 @@
         <input type="submit" name="Autenticar">
 
     </form>
-</body>
-</html>
+
+</main>
+
+{% endblock %}
