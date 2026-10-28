@@ -22,11 +22,12 @@ def add():
 		email = request.form.get('email')
 		senha = request.form.get('senha')
 		idade = request.form.get('idade')
+		username = request.form.get('username')
 		# criar entidade para CidadaoCientista, Administrador e Moderador
-		papel = request.form.get('papel')
-		foto_perfil = request.files.get('foto_perfil')
+		# papel = request.form.get('papel')
+		# foto_perfil = request.files.get('foto_perfil')
 
-		u = Usuario(nome, email, senha, idade, papel, foto_perfil)
+		u = Usuario(nome, email, senha, idade, username)
 		db.session.add(u)
 		db.session.commit()
 		login_user(u)
