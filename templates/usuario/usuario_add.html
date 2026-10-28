@@ -6,8 +6,8 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
 
-<body class="min-h-screen w-full relative flex flex-col justify-between p-4 tablet:p-8 tablet:bg-cover tablet:bg-center"
-style="background-image: url('{{ url_for('static', filename='img/bg_cadastro_img.png') }}');">
+<body class="min-h-screen w-full bg-laranja-mantui-50 relative flex flex-col justify-between p-4 tablet:p-8 tablet:bg-cover tablet:bg-center tablet:bg-[image:var(--bg-img)]"
+      style="--bg-img: url('{{ url_for('static', filename='img/bg_cadastro_img.png') }}');">
 
 <a href="{{ url_for('first_page') }}">
 <div class="w-full">
@@ -17,19 +17,19 @@ style="background-image: url('{{ url_for('static', filename='img/bg_cadastro_img
 </div>
 </a>
 
-<main class="w-full my-auto flex justify-center desktop:justify-end">
+<main class="w-full my-auto flex justify-center desktop:justify-end p-3 mb-3">
 
-    <div class="w-full max-w-md bg-contain bg-no-repeat bg-center p-4 tablet:p-8 tablet:max-w-lg desktop:max-w-xl"
+    <div class="w-full mt-3.5 max-w-md bg-contain bg-no-repeat bg-center p-4 tablet:p-8 tablet:mt-4 tablet:max-w-lg desktop:max-w-xl"
     style="background-image: url('{{ url_for('static', filename='img/selo-bg.png') }}');">
 
-        <div class="w-full text-neutro-mantui-950 p-6 min-h-[500px] flex flex-col justify-center items-center">
+        <div class="w-full text-neutro-mantui-950 p-6 flex flex-col justify-center items-center">
 
-            <div class="flex items-center space-x-3 py-center">
+            <div class="flex items-center space-x-3 py-center mb-2 mt-4">
                 <h2 class="font-sans font-700 text-neutro-mantui-950 text-2xl leading-none">Boas Vindas ao</h2>
                 <img src="{{ url_for('static', filename='img/mantui_cadastro.svg') }}" alt="Logo Mantuí">
             </div>
 
-                <form class="w-full flex flex-col gap-4 max-w-sm" action="{{url_for('usuario.add')}}" method="POST" enctype="multipart/form-data">
+                <form class="w-full flex flex-col gap-4 max-w-sm p-2" action="{{url_for('usuario.add')}}" method="POST" enctype="multipart/form-data">
 
                     <div class="flex flex-col gap-1">
                         <p>
@@ -75,19 +75,33 @@ style="background-image: url('{{ url_for('static', filename='img/bg_cadastro_img
                         <input type="text" placeholder="Mínimo de 8 Caracteres" class="px-4 py-2 rounded text-neutro-mantui-700 border-2 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="idade">
                     </div>
 
-                    <button type="submit" class="mt-4 bg-amarelo-mantui-500 text-laranja-mantui-950 py-2 rounded font-lato font-medium flex justify-center items-center space-x-3 py-center">
+                    <button type="submit" class="mt-4 bg-amarelo-mantui-500 text-laranja-mantui-950 py-2 rounded font-lato font-medium flex justify-center items-center space-x-3 py-center" name="Adicionar">
                         <p>
                         Criar Conta
                         </p>
-                        <img src="{{ url_for('static', filename='img/seta_criar_conta.svg') }}" alt="Voltar Langing Page">
+                        <img src="{{ url_for('static', filename='img/seta_criar_conta.svg') }}" alt="Criar Conta">
                     </button>
 
-                    
-                    Foto de Perfil: <input type="file" name="foto_perfil" accept="image/png,image/jpeg,image/webp">
-                    Senha: <input type="text" name="senha"><br/>
-                    <input type="submit" name="Adicionar">
-
                 </form>
+
+            <div class="w-full p-2 mt-3">
+            <div class="w-full">
+                <p class="flex justify-center text-center font-lato">
+                    Já possui uma Conta?
+                </p>
+                <a href="{{ url_for('usuario.login') }}" class="text-verde-mantui-500 underline flex justify-center text-center">Fazer Login</a>
+            </div>
+
+            <div class="w-full p-2 mt-1.5">
+                <p class="font-lato">
+                    Ao criar sua conta, você aceita nossos <a href="#" class="text-verde-mantui-500 underline"">Termos de Uso</a>Termos de Uso. 
+                    Para entender como processamos e protegemos seus dados, leia nossa <a href="#" class="text-verde-mantui-500 underline"">Política de Privacidade</a>. 
+                    Enviaremos apenas e-mails essenciais sobre a sua conta e atualizações do serviço.
+                </p>
+
+            </div>
+        </div>
+
         </div>
     </div>
 

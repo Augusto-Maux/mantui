@@ -1,18 +1,81 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <title>{% block title %}Entrar no Mantuí{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+</head>
 
-{% block content %}
+<body class="min-h-screen w-full bg-laranja-mantui-50 relative flex flex-col justify-between p-4 tablet:p-8 tablet:bg-cover tablet:bg-center tablet:bg-[image:var(--bg-img)]"
+      style="--bg-img: url('{{ url_for('static', filename='img/bg_login_img.png') }}');">
 
-<main class="min-h-screen w-full relative flex flex-col justify-between p-4 bg-neutro-mantui-50 tablet:p-8 tablet:bg-cover tablet:bg-center"
-style="background-image: url('{{ url_for('static', filename='img/bg_cadastro_img.png') }}'); background-size: cover;">
+<div class="w-full flex justify-end">
+<a href="{{ url_for('first_page') }}">
+    <button class="p-2 bg-verde-mantui-600">
+        <img src="{{ url_for('static', filename='img/seta-login.svg') }}" alt="Voltar Langing Page">
+    </button>
+</a>
+</div>
 
-    <form action="{{url_for('usuario.login')}}" method="POST">
+<main class="w-full my-auto flex justify-center desktop:justify-start p-6">
 
-        Email: <input type="email" name="email"><br/>
-        Senha: <input type="text" name="senha"><br/>
-        <input type="submit" name="Autenticar">
+    <div class="p-6 w-full mt-3.5 max-w-md tablet:mt-4 tablet:max-w-lg desktop:max-w-xl tablet:bg-contain tablet:bg-no-repeat tablet:bg-center tablet:p-12 desktop:p-16 tablet:bg-[image:var(--selo-img)]"
+             style="--selo-img: url('{{ url_for('static', filename='img/selo-bg-login.png') }}');">
 
-    </form>
+        <div class="w-full text-neutro-mantui-950 p-6 flex flex-col justify-center items-center mb-1.5">
+
+            <div class="w-full flex flex-col items-center justify-cente mb-2 mt-4">
+                <img class="mb-1.5" src="{{ url_for('static', filename='img/mantui_login.svg') }}" alt="Logo Mantuí">
+                <h2 class="font-sans font-700 text-neutro-mantui-950 text-2xl leading-none text-center">Acesse sua conta para continuar</h2>
+            </div>
+
+                <form class="w-full flex flex-col gap-4 max-w-sm p-4" action="{{url_for('usuario.login')}}" method="POST" enctype="multipart/form-data">
+
+                    <div class="flex flex-col p-2">
+                        <p class="space-x-0.5 flex items-center">
+                            <label class="font-lato font-medium text-neutro-mantui-950">Email ou Usuário</label>
+                            <strong class="font-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                        </p>
+                        <input type="text" placeholder="seu@email.com" class="w-full px-4 py-2 rounded text-neutro-mantui-700 border-3 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="login" required>
+                    </div>
+
+                    <div class="flex flex-col p-2">
+                        <div class="flex flex-row justify-between items-center w-full">
+                            <p class="space-x-0.5 flex items-center">
+                                <label class="font-lato font-medium text-neutro-mantui-950">Senha</label>
+                                <strong class="font-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
+                            </p>
+                            <a href="#" class="text-laranja-mantui-500 underline font-lato font-medium text-sm hover:opacity-80 transition">
+                                Esqueceu sua Senha?
+                            </a>
+                        </div>
+                        <input type="password" placeholder="********" class="w-full px-4 py-2 rounded text-neutro-mantui-700 border-3 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="senha" required>
+                    </div>
+
+                    <button type="submit" class="mt-4 bg-verde-mantui-600 text-verde-mantui-200 py-2 rounded font-lato font-medium flex justify-center items-center space-x-3 py-center" name="Adicionar">
+                        <p>
+                        Acessar Conta
+                        </p>
+                        <img src="{{ url_for('static', filename='img/seta_acessar_conta.png') }}" alt="Acessar Conta">
+                    </button>
+
+                </form>
+
+            <div class="w-full p-2 mt-3">
+            <div class="w-full">
+                <p class="flex justify-center text-center font-lato">
+                    Não possui uma Conta ainda?
+                </p>
+                <a href="{{ url_for('usuario.add') }}" class="text-laranja-mantui-500 underline flex justify-center text-center">Criar Conta</a>
+            </div>
+
+        </div>
+
+        </div>
+    </div>
 
 </main>
 
-{% endblock %}
+</body>
+
+</html>

@@ -20,7 +20,7 @@
         </nav>
 
         <div class="flex max-md:hidden items-center gap-[12px] font-lato font-medium">
-            <a href="" class="text-white py-[8px] px-[32px] border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
+            <a href="{{ url_for('usuario.login') }}" class="text-white py-[8px] px-[32px] border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
             <a href="{{ url_for('usuario.add') }}" class="text-laranja-mantui-600 bg-neutro-mantui-50 py-[8px] px-[12px] rounded-[4px] hover:bg-opacity-90 transition">Cadastre-se</a>
         </div>
 
@@ -53,7 +53,7 @@
     </nav>
 
     <div class="hidden max-md:flex flex-col gap-4 font-lato font-medium">
-        <a href="" class="text-white text-center py-3 px-4 border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
+        <a href="{{ url_for('usuario.login') }}" class="text-white text-center py-3 px-4 border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
         <a href="{{ url_for('usuario.add') }}" class="text-laranja-mantui-600 bg-neutro-mantui-50 text-center py-3 px-4 rounded-[4px] hover:bg-opacity-90 transition">Cadastre-se</a>
     </div>
 </div>
