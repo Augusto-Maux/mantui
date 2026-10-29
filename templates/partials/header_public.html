@@ -1,61 +1,58 @@
-<input type="checkbox" id="controle-menu" class="peer hidden" />
+<div class="relative w-full">
+    <!-- Checkbox oculta -->
+    <input type="checkbox" id="controle-menu" class="peer hidden" />
 
-<header class="bg-[url(/static/img/header-bg.png)] bg-cover bg-center bg-no-repeat h-[76px] w-full flex text-white justify-between items-center mx-auto max-w-auto px-[20px] md:px-[40px] xl:px-[72px] py-[12px] relative z-40">
-    
-    <div class="logo">
-        <a href="#">
-            <img class="w-[62px] h-[52px] object-contain" src="static/img/logo-header.png" alt="Logo">
-        </a>
-    </div>
+    <header class="bg-neutro-mantui-100 h-[76px] w-full flex justify-between items-center mx-auto px-[20px] md:px-[40px] xl:px-[72px] py-[12px] relative z-40">
+        <div>
+            <a href="#">
+                <img class="w-auto h-auto" src="static/img/logo-header.png" alt="Logo">
+            </a>
+        </div>
 
-    <div class="flex items-center gap-[16px] md:gap-[32px]">
+        <div class="flex items-center gap-[16px] md:gap-[32px]">
+
+            <!-- Nav Desktop -->
+            <nav class="hidden lg:block text-verde-mantui-600 font-lato font-medium">
+                <ul class="flex gap-[24px]">
+                    <li><a href="#" class="hover:text-verde-mantui-800">Parceiros</a></li>
+                    <li><a href="#" class="hover:text-verde-mantui-800">Avistamentos</a></li>
+                    <li><a href="#" class="hover:text-verde-mantui-800">Sobre Nós</a></li>
+                    <li><a href="#" class="hover:text-verde-mantui-800">FAQ</a></li>
+                </ul>
+            </nav>
+
+            <!-- Botões Desktop e Tablet -->
+            <div class="flex max-md:hidden items-center gap-[8px] font-lato font-medium">
+                <a href="{{ url_for('usuario.login') }}" class="text-verde-mantui-600 py-[8px] px-[32px] border-2 border-verde-mantui-600 rounded-[4px]">Entrar</a>
+                <a href="{{ url_for('usuario.add') }}" class="text-neutro-mantui-100 bg-verde-mantui-600 py-[8px] px-[12px] rounded-[4px]">Cadastre-se</a>
+            </div>
+
+            <!-- Icon Hamburger -->
+            <label for="controle-menu" class="block lg:hidden text-verde-mantui-600 focus:outline-none cursor-pointer select-none" aria-label="Abrir Menu">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </label>
+        </div>
+    </header>
+
+    <!-- Menu Suspenso -->
+    <div class="absolute top-[76px] right-0 w-full sm:w-[320px] bg-neutro-mantui-100 text-neutro-mantui-950 p-6 shadow-xl lg:hidden hidden peer-checked:block z-50 rounded-b-md">
         
-        <nav class="hidden lg:block text-neutro-mantui-50 font-lato font-medium">
-            <ul class="flex gap-[18px]">
-                <li><a href="#" class="">Parceiros</a></li>
-                <li><a href="#" class="">Avistamentos</a></li>
-                <li><a href="#" class="">Sobre Nós</a></li>
-                <li><a href="#" class="">FAQ</a></li>
+        <p class="font-lato font-bold text-base mb-4 text-neutro-mantui-900">Menu</p>
+
+        <nav class="font-lato font-medium text-base text-neutro-mantui-950">
+            <ul class="flex flex-col gap-4">
+                <li><a href="#parceiros" class="hover:text-verde-mantui-600 block">Parceiros</a></li>
+                <li><a href="#avistamentos" class="hover:text-verde-mantui-600 block">Avistamentos</a></li>
+                <li><a href="#sobre" class="hover:text-verde-mantui-600 block">Sobre Nós</a></li>
+                <li><a href="#faq" class="hover:text-verde-mantui-600 block">FAQ</a></li>
             </ul>
         </nav>
 
-        <div class="flex max-md:hidden items-center gap-[12px] font-lato font-medium">
-            <a href="{{ url_for('usuario.login') }}" class="text-white py-[8px] px-[32px] border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
-            <a href="{{ url_for('usuario.add') }}" class="text-laranja-mantui-600 bg-neutro-mantui-50 py-[8px] px-[12px] rounded-[4px] hover:bg-opacity-90 transition">Cadastre-se</a>
+        <!-- Botões no Menu Mobile -->
+        <div class="flex md:hidden flex-col gap-3 font-lato font-medium mt-6 pt-4 border-t border-gray-300/60">
+            <a href="{{ url_for('usuario.login') }}" class="text-verde-mantui-600 border-2 border-verde-mantui-600 text-center py-[8px] px-[32px] rounded-[4px]">Entrar</a>
+            <a href="{{ url_for('usuario.add') }}" class="text-neutro-mantui-100 bg-verde-mantui-600 text-center py-[8px] px-[12px] rounded-[4px]">Cadastre-se</a>
         </div>
-
-        <label for="controle-menu" class="block lg:hidden text-white focus:outline-none cursor-pointer" aria-label="Abrir Menu">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-        </label>
-
     </div>
-</header>
-
-<div class="fixed top-0 right-0 h-full w-[280px] bg-[#111] text-white p-6 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 lg:hidden peer-checked:translate-x-0">
-    
-    <div class="flex justify-end mb-8">
-        <label for="controle-menu" class="text-white focus:outline-none cursor-pointer" aria-label="Fechar Menu">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </label>
-    </div>
-
-    <nav class="font-lato font-medium text-lg mb-8 text-neutro-mantui-50">
-        <ul class="flex flex-col gap-6">
-            <li><a href="#parceiros" class="hover:text-white block transition">Parceiros</a></li>
-            <li><a href="#avistamentos" class="hover:text-white block transition">Avistamentos</a></li>
-            <li><a href="#sobre" class="hover:text-white block transition">Sobre Nós</a></li>
-            <li><a href="#faq" class="hover:text-white block transition">FAQ</a></li>
-        </ul>
-    </nav>
-
-    <div class="hidden max-md:flex flex-col gap-4 font-lato font-medium">
-        <a href="{{ url_for('usuario.login') }}" class="text-white text-center py-3 px-4 border-2 rounded-[4px] hover:bg-white hover:text-black transition">Entrar</a>
-        <a href="{{ url_for('usuario.add') }}" class="text-laranja-mantui-600 bg-neutro-mantui-50 text-center py-3 px-4 rounded-[4px] hover:bg-opacity-90 transition">Cadastre-se</a>
-    </div>
-</div>
-
-<label for="controle-menu" class="fixed inset-0 bg-black/50 hidden z-40 lg:hidden peer-checked:block cursor-pointer"></label>
