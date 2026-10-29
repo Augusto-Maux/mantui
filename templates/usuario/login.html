@@ -12,7 +12,7 @@
 <div class="w-full flex justify-end">
 <a href="{{ url_for('first_page') }}">
     <button class="p-2 bg-verde-mantui-600">
-        <img src="{{ url_for('static', filename='img/seta-login.svg') }}" alt="Voltar Langing Page">
+        <img src="{{ url_for('static', filename='img/seta-login.svg') }}" alt="Voltar Landing Page">
     </button>
 </a>
 </div>
@@ -29,14 +29,30 @@
                 <h2 class="font-sans font-700 text-neutro-mantui-950 text-2xl leading-none text-center">Acesse sua conta para continuar</h2>
             </div>
 
-                <form class="w-full flex flex-col gap-4 max-w-sm p-4" action="{{url_for('usuario.login')}}" method="POST" enctype="multipart/form-data">
+                  {% set mensagens = get_flashed_messages(with_categories=True) %} 
+                    {% if mensagens %}     
+                        {% for category, message in mensagens %}
+                            <div class="font-bold p-4 
+                            {% if category == 'success' %}
+                                bg-green-50 text-green-800
+                            {% elif category == 'danger' %}
+                                bg-red-50 text-red-800
+                            {% else %}
+                                bg-blue-50 text-blue-800
+                            {% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}  
+            
+            <form class="w-full flex flex-col gap-4 max-w-sm p-4" action="{{url_for('usuario.login')}}" method="POST">
 
                     <div class="flex flex-col p-2">
                         <p class="space-x-0.5 flex items-center">
-                            <label class="font-lato font-medium text-neutro-mantui-950">Email ou Usuário</label>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Email</label>
                             <strong class="font-lato font-medium text-verde-mantui-500 text-2xl">*</strong>
                         </p>
-                        <input type="text" placeholder="seu@email.com" class="w-full px-4 py-2 rounded text-neutro-mantui-700 border-3 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="login" required>
+                        <input type="text" placeholder="seu@email.com" class="w-full px-4 py-2 rounded text-neutro-mantui-700 border-3 border-neutro-mantui-700 focus:outline-none focus:border-laranja-mantui-500" name="email" required>
                     </div>
 
                     <div class="flex flex-col p-2">

@@ -7,14 +7,29 @@
 </head>
 <body>
 
+	{% set mensagens = get_flashed_messages(with_categories=True) %} 
+        {% if mensagens %}     
+            {% for category, message in mensagens %}
+                <div class="font-bold p-4 
+                    {% if category == 'success' %}
+                        bg-green-50 text-green-800
+                    {% elif category == 'danger' %}
+                        bg-red-50 text-red-800
+                    {% else %}
+                        bg-blue-50 text-blue-800
+                    {% endif %}">
+                        {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}  
+
     <table class="table">
 
 		<thead>
             <tr>
-                <th></th>
+                <th>ID</th>
                 <th>Nome</th>
                 <th>E-mail</th>
-                <th>Ação</th>
             </tr>
 		</thead>
 

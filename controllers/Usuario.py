@@ -24,17 +24,20 @@ def add():
 		idade = request.form.get('idade')
 		username = request.form.get('username')
 		# criar entidade para CidadaoCientista, Administrador e Moderador
-		# papel = request.form.get('papel')
+		papel = "Cidadão Cientista"
 		# foto_perfil = request.files.get('foto_perfil')
 
-		u = Usuario(nome, email, senha, idade, username)
+		u = Usuario(nome, email, senha, idade, username, papel)
 		db.session.add(u)
 		db.session.commit()
 		login_user(u)
+
+		flash('Cadastro Realizado!', 'success')
 		return redirect(url_for('usuario.recovery'))
 	
 	else:
-		return "Acesso inválido"
+		flash('Problema no Cadastro', 'danger')
+		return redirect(url_for('usuario.add'))
 
 # falta redefinição de senha (16/10 - 17h55)
 @bp_usuario.route('/update/<int:id>', methods=['GET', 'POST'])
@@ -49,10 +52,12 @@ def update(id):
 		user.email = request.form.get('email')
 		db.session.add(user)
 		db.session.commit()
+		flash('Atualização realizada!', 'success')
 		return redirect(url_for('usuario.recovery'))
 	
 	else:
-		return "Acesso inválido"
+		flash('Problema na atualização', 'danger')
+		return redirect(url_for('usuario.recovery'))
 
 @bp_usuario.route('/delete/<int:id>')
 @login_required
