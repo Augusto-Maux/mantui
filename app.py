@@ -1,8 +1,8 @@
+import os
 from flask import Flask
 from flask import render_template
 from utils import db, lm
 from dotenv import load_dotenv
-import os
 from flask_migrate import Migrate
 
 from controllers.Usuario import bp_usuario
