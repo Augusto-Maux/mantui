@@ -102,6 +102,33 @@ def delete(id):
 		flash("Não foi possível excluir usuário", "danger")
 	return redirect(url_for('usuario.recovery'))
 
+@bp_usuario.route('/tornar_moderador')
+@login_required
+def tornar_moderador():
+	if current_user.papel not in ['Administrador', 'Moderador']:
+		flash("Sem acesso", "danger")
+		return redirect(url_for('usuario.recovery'))
+
+	if request.method == "GET":
+		usuarios = Usuario.query.all()
+		return render_template('usuario/tornar_moderador.html', usuarios=usuarios)
+
+	elif request.method == "POST":
+		id = request.form.get('id')
+		usuario = Usuario.query.filter_by(id = id).first()
+
+		if usuario:
+			usuario.papel = 'Moderador'
+			
+		else:
+			flash('Dados não encontrados.', 'danger')
+			return redirect(url_for('usuario.tornar_moderador'))
+		
+
+	else:
+		flash('Problema ao tornar moderador', 'danger')
+		return redirect(url_for('usuario.recovery'))
+
 # AUTH
 @lm.user_loader
 def load_user(id):

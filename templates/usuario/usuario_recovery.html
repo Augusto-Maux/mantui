@@ -42,7 +42,7 @@
 				<td>{{u.email}}</td>
 
                 {% if u.foto_perfil %}
-                    <td src="{{ url_for('static', filename=u.foto_perfil) }}">{{u.foto_perfil}}</td>
+                    <td> <img src="{{ url_for('static', filename=u.foto_perfil) }}" alt="{{ u.nome }}" class="h-32 w-full object-cover rounded-lg"> </td>
                 {% endif %}
 			</tr>
 			{% endfor %}
