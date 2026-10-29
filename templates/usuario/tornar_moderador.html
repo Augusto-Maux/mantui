@@ -44,8 +44,9 @@
 		</tbody>
 	</table>
 
-    <form action="{{ url_for('usuario.tornar_moderador') }}">
+    <form action="{{ url_for('usuario.tornar_moderador') }}" method="POST">
         ID Novo Moderador <input type="number" name="id"><br/>
+        <input type="submit" name="Tornar Moderador">
     </form>
 
 </body>

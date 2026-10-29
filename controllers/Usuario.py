@@ -102,7 +102,7 @@ def delete(id):
 		flash("Não foi possível excluir usuário", "danger")
 	return redirect(url_for('usuario.recovery'))
 
-@bp_usuario.route('/tornar_moderador')
+@bp_usuario.route('/tornar_moderador', methods=['GET', 'POST'])
 @login_required
 def tornar_moderador():
 	if current_user.papel not in ['Administrador', 'Moderador']:
@@ -115,10 +115,12 @@ def tornar_moderador():
 
 	elif request.method == "POST":
 		id = request.form.get('id')
-		usuario = Usuario.query.filter_by(id = id).first()
+		usuario = Usuario.query.filter_by(id=id).first()
 
 		if usuario:
+			flash('Dados Atualizados', 'success')
 			usuario.papel = 'Moderador'
+			return redirect(url_for('usuario.recovery'))
 			
 		else:
 			flash('Dados não encontrados.', 'danger')
