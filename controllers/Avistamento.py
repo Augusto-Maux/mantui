@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from models import Avistamento, Especie
 from utils import db
+from weasyprint import HTML
 from flask_login import login_required, current_user
 
 bp_avistamento = Blueprint("avistamento", __name__, template_folder='templates')
@@ -33,10 +34,13 @@ def add():
 		avistamento = Avistamento(nome, latitude, longitude, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie)
 		db.session.add(avistamento)
 		db.session.commit()
+
+		flash('Avistamento Realizado!', 'success')
 		return redirect(url_for('avistamento.recovery'))
 	
 	else:
-		return "Acesso inválido"
+		flash('Problema no Cadastro', 'danger')
+		return redirect(url_for('avistamento.add'))
 
 @bp_avistamento.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -57,6 +61,11 @@ def update(id):
 		avistamento.fk_id_especie = request.form.get('fk_id_especie')
 		db.session.add(avistamento)
 		db.session.commit()
+		flash('Atualização realizada!', 'success')
+		return redirect(url_for('avistamento.recovery'))
+
+	else:
+		flash('Problema na atualização', 'danger')
 		return redirect(url_for('avistamento.recovery'))
 
 @bp_avistamento.route('/delete/<int:id>')
@@ -64,6 +73,7 @@ def update(id):
 def delete(id):
 	if current_user.papel not in ['Administrador', 'Moderador']:
 		flash("Sem acesso", "danger")
+		
 		return redirect(url_for('avistamento.recovery'))
 
 	try:
@@ -76,3 +86,13 @@ def delete(id):
 		flash("Não foi possível excluir avistamento", "danger")
 
 	return redirect(url_for('avistamento.recovery'))
+
+@bp_avistamento.route('/pdf')
+@login_required
+def avistamentos_pdf():
+    avistamentos = Avistamento.query.all()
+    html = render_template('relatorio/avistamentos.html', avistamentos=avistamentos)
+    pdf = HTML(string=html).write_pdf()
+    resposta = make_response(pdf)
+    resposta.headers['Content-Type'] = 'application/pdf'
+    return resposta

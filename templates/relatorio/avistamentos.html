@@ -15,6 +15,14 @@
                 <!-- Avistamento - Demais Atributos -->
                 <th>ID</th>
                 <th>Nome do Avistamento</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Bioma</th>
+                <th>Tipo do Registro</th>
+                <th>Condição do Clima</th>
+                <th>Condição dos Ventos</th>
+                <th>Observações</th>
+                <th>Espécie</th>
             </tr>
         </thead>
 
@@ -23,6 +31,14 @@
             <tr>
                 <td>{{ avistamento.id }}</td>
                 <td>{{ avistamento.nome }}</td>
+                <td>{{ avistamento.latitude }}</td>
+                <td>{{ avistamento.longitude }}</td>
+                <td>{{ avistamento.bioma }}</td>
+                <td>{{ avistamento.tipo_registro }}</td>
+                <td>{{ avistamento.cond_clima }}</td>
+                <td>{{ avistamento.cond_ventos }}</td>
+                <td>{{ avistamento.observacoes }}</td>
+                <td>{{ avistamento.fk_id_especie }}</td>
             </tr>
             {% endfor %}
         </tbody>
