@@ -14,7 +14,7 @@ class Usuario(db.Model, UserMixin):
     username = db.Column(db.String(255), nullable=False)
     # idade = db.Column(db.Integer)
     papel = db.Column(db.String(100))
-    # foto_perfil = db.Column(db.String(500), unique=True)
+    foto_perfil = db.Column(db.String(500), unique=True)
 
     def __init__(self, nome, email, senha_text, idade, username, papel):
         self.nome = nome

@@ -1,8 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from models import Usuario
 from utils import db, lm
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.utils import secure_filename
+import os, uuid
+
+EXTENSOES = {'png', 'jpg', 'jpeg', 'webp'}
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
@@ -50,6 +53,29 @@ def update(id):
 	elif request.method=="POST":
 		user.nome = request.form.get('nome')
 		user.email = request.form.get('email')
+		
+		# user.foto_perfil = request.files.get('foto_perfil')
+		foto_perfil = request.files.get('foto_perfil')
+		caminho = user.foto_perfil
+
+		if foto_perfil and foto_perfil.filename:
+			nome = secure_filename(foto_perfil.filename)
+			extensao = nome.rsplit('.', 1)[-1].lower()
+			
+			if extensao not in EXTENSOES:
+				return 'Formato sem permissão', 400
+
+			new_name = f"{uuid.uuid4().hex}.{extensao}"
+			caminho = os.path.join(
+				current_app.config['UPLOAD_FOLDER'],
+				new_name
+			)
+
+			foto_perfil.save(caminho)
+			caminho = f"uploads/usuarios/{new_name}"
+
+		user.foto_perfil = caminho
+		
 		db.session.add(user)
 		db.session.commit()
 		flash('Atualização realizada!', 'success')
