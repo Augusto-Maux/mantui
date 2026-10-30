@@ -13,7 +13,7 @@ bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 @login_required
 def recovery():
 	usuarios = Usuario.query.all()
-	return render_template('usuario/usuario_recovery.html', usuarios=usuarios)
+	return render_template('home.html', usuarios=usuarios)
 
 @bp_usuario.route('/add', methods=['GET', 'POST'])
 def add():

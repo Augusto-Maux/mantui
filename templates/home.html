@@ -1,21 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <title>{% block title %}Mantuí{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <title>{% block title %}Mantuí{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
 
 <body>
 
-    <header class="bg-neutro-mantui-100 h-[76px] w-full flex justify-between items-center mx-auto px-[32px]">
-    <div>
-        <a href="#">
-            <img class="w-auto h-auto" src="static/img/logo-header-a.png" alt="Logo">
-        </a>
-    </div>
-</header>
+    <header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center mx-auto px-[32px]">
+        <div class="flex gap-[16px]">
+            <div>
+                <a href="#">
+                    <img class="w-auto h-auto" src="/static/img/logo-header-a.png" alt="Logo">
+                </a>
+            </div>
+            <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
 
-    Olá, {{ current_user.name }}
+                <!-- Campo de pesquisa -->
+                <div class="w-[510px]">
+                    <form id="searchForm"
+                        class="flex items-center h-[44px] w-[465px] border-[1px] border-neutro-mantui-900 rounded-[5px] overflow-hidden">
+
+                        <!-- Icon search  -->
+                        <button type="submit"
+                            class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center"
+                            aria-label="Pesquisar">
+                            <img src="/static/img/icon-search.svg" alt="Pesquisar" class="w-5 h-5" />
+                        </button>
+
+                        <!-- Campo do input -->
+                        <input type="text" id="searchInput"
+                            class="flex-1 bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato font-medium"
+                            placeholder="Pesquisar por: Espécies, Grupos, Projetos..." autocomplete="off" />
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Links Nav (Incompleto) -->
+        <div class="flex gap-[16px]">
+            <div>
+                <a href="">
+                    <img src="/static/img/icon avistamentos.svg" alt="">
+                </a>
+            </div>
+            <div>
+                <a href="">
+                    <img src="/static/img/icon groups.svg" alt="">
+                </a>
+            </div>
+            <div>
+                <a href="">
+                    <img src="/static/img/icon projects.svg" alt="">
+                </a>
+            </div>
+        </div>
+
+        <!-- User e Noticações -->
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+
+    </header>
+
+    Olá, {{ current_user.nome }}
 </body>
+
 </html>
