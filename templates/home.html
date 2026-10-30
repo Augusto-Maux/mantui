@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>{% block title %}Mantuí{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
+
 <body>
+
+    <header class="bg-neutro-mantui-100 h-[76px] w-full flex justify-between items-center mx-auto px-[32px]">
+    <div>
+        <a href="#">
+            <img class="w-auto h-auto" src="static/img/logo-header-a.png" alt="Logo">
+        </a>
+    </div>
+</header>
+
     Olá, {{ current_user.name }}
 </body>
 </html>
