@@ -2,8 +2,54 @@
 
 {% block content %}
 
-<div class="bg-laranja-mantui-50 h-screen">
-    <h1 class="text-amareloMantui-400 text-2xl font-bold">Nós trabalhamos em prol da preservação das aves brasileiras!</h1>
-</div>
+<main>
+
+    <section class="relative w-full h-screen min-h-[600px] flex itenms-center justify-center overflow-hidden">
+
+    <video autoplay loop muted playsinline
+        class="absolute top-0 left-0 w-full object-cover -z-20">
+        <source src="{{ url_for('static', filename='vid/hero-bg.mp4') }}" type="video/mp4">
+        Seu navegador não suporta vídeos em HTML5.
+    </video>
+
+    <div class="absolute inset-0 bg-neutro-mantui-950/40 -z-10"></div>
+
+    <div class="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-4xl mx-auto gap-6">
+
+        <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="logo do Mantuí"
+        class="w-52 tablet:w-72 desktop:w-96 object-contain">
+
+        <p class="font-lato font-medium text-neutro-mantui-50 text-lg tablet:text-2xl desktop:text-3xl max-w-2xl">
+            Sistema de Conservação de Aves Brasileiras
+        </p>
+
+        <button class="flex justify-center items-center gap-2 mt-2 bg-amarelo-mantui-500 hover:bg-amarelo-mantui-600 text-neutro-mantui-50 font-sans font-medium py-3 px-12 rounded-sm hover:scale-105 transition duration-300">
+            <span>Começar Avistamentos</span>
+            <img src="{{ url_for('static', filename='img/seta-hero.svg') }}" alt="Seta" class="w-5 h-5 object-contain">
+        </button>
+
+    </div>
+
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <svg class="w-6 h-6 text-amarelo-mantui-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+    </div>
+
+    </section>
+
+    <section class="w-full px-12 py-6 bg-cover bg-center bg-[image:var(--bg-img)]"
+         style="--bg-img: url('{{ url_for('static', filename='img/bg-parceiros.png') }}');">
+
+    <div class="w-full">
+        <h1>Parceiros</h1>
+        <p>O Mantuí conta com o apoio de instituições e projetos que acreditam no poder da tecnologia para a conservação: 
+        IFRN, Vetor, Flyways Brasil e Neonergia. Juntos, fortalecemos uma iniciativa feita com propósito, colaboração e cuidado pelo meio ambiente.
+        </p>
+    </div>
+
+    </section>
+
+</main>
 
 {% endblock %}
