@@ -9,58 +9,57 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
 
-<body>
+<header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center mx-auto px-[32px]">
 
-    <header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center mx-auto px-[32px]">
-        <div class="flex gap-[16px]">
-            <div>
-                <a href="#">
-                    <img class="w-auto h-auto" src="/static/img/logo-header-a.png" alt="Logo">
-                </a>
-            </div>
-            <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <!-- Primeiro bloco do nav -->
+    <div class="flex gap-[16px]">
 
-                <!-- Campo de pesquisa -->
-                <div class="w-[510px]">
-                    <form id="searchForm"
-                        class="flex items-center h-[44px] w-[465px] border-[1px] border-neutro-mantui-900 rounded-[5px] overflow-hidden">
-
-                        <!-- Icon search  -->
-                        <button type="submit"
-                            class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center"
-                            aria-label="Pesquisar">
-                            <img src="/static/img/icon-search.svg" alt="Pesquisar" class="w-5 h-5" />
-                        </button>
-
-                        <!-- Campo do input -->
-                        <input type="text" id="searchInput"
-                            class="flex-1 bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato font-medium"
-                            placeholder="Pesquisar por: Espécies, Grupos, Projetos..." autocomplete="off" />
-
-                    </form>
-                </div>
-
-            </div>
+        <!-- Logo -->
+        <div>
+            <a href="#">
+                <img class="w-auto h-auto" src="/static/img/logo-header-a.png" alt="Logo">
+            </a>
         </div>
 
-        <!-- Segundo bloco do nav -->
-        <div class="flex items-center gap-[24px]">
-            <div class="flex gap-[16px]">
-            <div>
-                <a href="">
-                    <img src="/static/img/icon avistamentos.svg" alt="">
-                </a>
+        <!-- Seach Bar -->
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+
+            <!-- Campo de pesquisa -->
+            <div class="w-[510px]">
+                <form id="searchForm"
+                    class="flex items-center h-[44px] w-[465px] border-[1px] border-neutro-mantui-900 rounded-[5px] overflow-hidden">
+
+                    <!-- Icon search  -->
+                    <button type="submit"
+                        class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center"
+                        aria-label="Pesquisar">
+                        <img src="/static/img/icon-search.svg" alt="Pesquisar" class="w-5 h-5" />
+                    </button>
+
+                    <!-- Campo do input -->
+                    <input type="text" id="searchInput"
+                        class="flex-1 bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato font-medium"
+                        placeholder="Pesquisar por: Espécies, Grupos, Projetos..." autocomplete="off" />
+                </form>
             </div>
-            <div>
-                <a href="">
-                    <img src="/static/img/icon groups.svg" alt="">
-                </a>
-            </div>
-            <div>
-                <a href="">
-                    <img src="/static/img/icon projects.svg" alt="">
-                </a>
-            </div>
+
+        </div>
+    </div>
+
+    <!-- Segundo bloco do nav -->
+    <div class="flex items-center gap-[24px]">
+
+        <!-- Links Principais -->
+        <div class="flex gap-[16px]">
+            <a href="{{ url_for('avistamento.recovery') }}">
+                <img src="/static/img/icon avistamentos.svg" alt="Avistamentos">
+            </a>
+            <a href="{{ url_for('equipe.recovery') }}">
+                <img src="/static/img/icon groups.svg" alt="Grupos">
+            </a>
+            <a href="{{ url_for('projeto.recovery') }}">
+                <img src="/static/img/icon projects.svg" alt="Projetos">
+            </a>
         </div>
 
         <!-- User e Noticações -->
@@ -69,24 +68,56 @@
                 <div>
                     Olá, <span class="font-lato font-medium text-laranja-mantui-600">{{ current_user.nome }}!</span>
                 </div>
+
+                <!-- Falta Link para página do perfil -->
                 <div>
                     {% for u in usuarios %}
 
-                        {% if u.foto_perfil %}
-                        <a href=""><img src="{{ url_for('static', filename=u.foto_perfil) }}" alt="{{ u.nome }}" width="36" height="36"></a>
-                        {% endif %}
-        
+                    {% if u.foto_perfil %}
+                    <a href=""><img src="{{ url_for('static', filename=u.foto_perfil) }}" alt="{{ u.nome }}" width="36"
+                            height="36"></a>
+                    {% endif %}
+
                     {% endfor %}
                 </div>
             </div>
-            <div><a href=""><img src="/static/img/icon-notifications.svg" alt=""></a></div>
-        </div>
-        </div>
-        
 
-    </header>
+            <!-- Icon Notificações -->
+            <div>
+                <a href=""><img src="/static/img/icon-notifications.svg" alt="Noticações"></a>
+            </div>
+        </div>
+    </div>
 
-    Olá, {{ current_user.nome }}
+
+</header>
+
+<body>
+
+    {% set mensagens = get_flashed_messages(with_categories=True) %}
+    {% if mensagens %}
+    {% for category, message in mensagens %}
+    <div class="flash-message font-bold p-4 mb-2 flex justify-between items-center rounded transition-opacity duration-500
+                {% if category == 'success' %} bg-green-50 text-green-800
+                {% elif category == 'danger' %} bg-red-50 text-red-800
+                {% else %} bg-blue-50 text-blue-800 {% endif %}">
+        <span>{{ message }}</span>
+        <button onclick="this.parentElement.remove()"
+            class="ml-4 font-bold text-xl leading-none hover:opacity-75">&times;</button>
+    </div>
+    {% endfor %}
+
+    <!-- Animação em JS para a flash message sumir -->
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.flash-message').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 500);
+            });
+        }, 4000);
+    </script>
+    {% endif %}
+
 </body>
 
 </html>
