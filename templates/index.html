@@ -75,33 +75,54 @@
 
 
     <!-- Avistamentos -->
-     <section class="w-full h-full px-16 py-8 space-y-4">
+     <section class="w-full h-full px-4 py-8 tablet:px-12 desktop:px-16 space-y-8">
 
-        <div class="w-full p-2 text-center space-y-2">
-            <h1 class="text-2xl text-verde-mantui-700 font-sans font-medium">Avistamentos</h1>
-            <p class="text-neutro-mantui-950 font-lato text-base">
-                Registre suas observações de forma simples e organizada. 
-                No avistamento, você pode anotar informações importantes sobre as aves, como espécie, local, data e condições do ambiente. 
-                Cada registro ajuda a construir uma base de dados mais completa, apoiando o monitoramento dessas espécies e contribuindo para ações de conservação.
-            </p>
-        </div>
+    <div class="w-full p-2 text-center space-y-2 max-w-4xl mx-auto">
+        <h1 class="text-2xl text-verde-mantui-700 font-sans font-medium">Avistamentos</h1>
+        <p class="text-neutro-mantui-950 font-lato text-base">
+            Registre suas observações de forma simples e organizada. 
+            No avistamento, você pode anotar informações importantes sobre as aves, como espécie, local, data e condições do ambiente. 
+            Cada registro ajuda a construir uma base de dados mais completa, apoiando o monitoramento dessas espécies e contribuindo para ações de conservação.
+        </p>
+    </div>
 
-        <div class="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-4 gap-6 items-center justify-items-center w-full max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-8 items-center justify-items-center w-full max-w-7xl mx-auto">
 
-            <div class="w-[380px] h-[545px] flex flex-col justify-end items-center px-4 pb-8 bg-cover bg-center rounded-xl shadow-lg bg-[image:var(--card-bg)]"
-                style="--card-bg: url('{{ url_for('static', filename='img/bg-macarico.jpg') }}');">
+        <div class="w-full max-w-[360px] h-[520px] flex flex-col justify-end items-center px-4 pb-8 bg-cover bg-center rounded-xl shadow-lg bg-[image:var(--card-bg)]"
+            style="--card-bg: url('{{ url_for('static', filename='img/bg-macarico.jpg') }}');">
 
-            
-                <button class="w-full max-w-[280px] py-3.5 px-6 font-sans font-bold text-neutro-mantui-50 text-center rounded-lg shadow-md hover:scale-105 transition duration-300 bg-cover bg-center bg-no-repeat bg-[image:var(--btn-bg)]"
-                        style="--btn-bg: url('{{ url_for('static', filename='img/bg-botao.png') }}');">
-                    <img src="{{ url_for('static', filename='img/seta-botao-preto.svg') }}" alt="Ir">
-                </button>
-
-            </div>
+            <button class="flex items-center justify-center w-[140px] h-[140px] tablet:w-[164px] tablet:h-[164px] font-sans font-bold text-neutro-mantui-50 hover:scale-105 transition duration-300 bg-cover bg-center bg-no-repeat bg-[image:var(--btn-bg)]"
+                    style="--btn-bg: url('{{ url_for('static', filename='img/bg-botao.png') }}');">
+                <img src="{{ url_for('static', filename='img/seta-botao-preto.svg') }}" alt="Ir" class="w-12 h-12">
+            </button>
 
         </div>
 
-     </section>
+        
+        <div class="w-full max-w-[360px] h-[520px] flex flex-col justify-end items-center px-4 pb-8 bg-cover bg-center rounded-xl shadow-lg bg-[image:var(--card-bg)]"
+            style="--card-bg: url('{{ url_for('static', filename='img/bg-rasteirinho.jpg') }}');">
+
+            <button class="flex items-center justify-center w-[140px] h-[140px] tablet:w-[164px] tablet:h-[164px] font-sans font-bold text-neutro-mantui-50 hover:scale-105 transition duration-300 bg-cover bg-center bg-no-repeat bg-[image:var(--btn-bg)]"
+                    style="--btn-bg: url('{{ url_for('static', filename='img/bg-botao.png') }}');">
+                <img src="{{ url_for('static', filename='img/seta-botao-verde.svg') }}" alt="Ir" class="w-12 h-12">
+            </button>
+
+        </div>
+
+       
+        <div class="w-full max-w-[360px] h-[520px] flex flex-col justify-end items-center px-4 pb-8 bg-cover bg-center rounded-xl shadow-lg bg-[image:var(--card-bg)]"
+            style="--card-bg: url('{{ url_for('static', filename='img/bg-garca.jpg') }}');">
+
+            <button class="flex items-center justify-center w-[140px] h-[140px] tablet:w-[164px] tablet:h-[164px] font-sans font-bold text-neutro-mantui-50 hover:scale-105 transition duration-300 bg-cover bg-center bg-no-repeat bg-[image:var(--btn-bg)]"
+                    style="--btn-bg: url('{{ url_for('static', filename='img/bg-botao.png') }}');">
+                <img src="{{ url_for('static', filename='img/seta-botao-laranja.svg') }}" alt="Ir" class="w-12 h-12">
+            </button>
+
+        </div>
+
+        </div>
+
+    </section>
 
 </main>
 
