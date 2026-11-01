@@ -45,7 +45,7 @@
          style="--bg-img: url('{{ url_for('static', filename='img/bg-parceiros.png') }}');">
 
     <div class="w-full text-center space-y-1.5">
-        <h1 class="text-amarelo-mantui-500 font-sans text-3xl">Parceiros</h1>
+        <h1 class="text-amarelo-mantui-500 font-sans text-2xl">Parceiros</h1>
         <p class="text-laranja-mantui-50 font-lato font-base">O Mantuí conta com o apoio de instituições e projetos que acreditam no poder da tecnologia para a conservação: 
         IFRN, Vetor, Flyways Brasil e Neonergia. Juntos, fortalecemos uma iniciativa feita com propósito, colaboração e cuidado pelo meio ambiente.
         </p>
@@ -123,6 +123,199 @@
         </div>
 
     </section>
+
+    <!-- Sobre Nós -->
+    <section class="w-full px-4 py-8 tablet:px-12 desktop:px-16 space-y-8 bg-neutro-mantui-950 bg-[image:var(--bg-img)]"
+         style="--bg-img: url('{{ url_for('static', filename='img/bg-membros.png') }}');">
+
+    <div class="w-full space-y-2 max-w-7xl mx-auto">
+        <h2 class="text-3xl tablet:text-2xl text-amarelo-mantui-300 font-sans font-bold">
+            Sobre Nós
+        </h2>
+        <p class="text-neutro-mantui-50 font-lato text-base tablet:text-lg max-w-4xl leading-relaxed">
+            Somos uma equipe movida por tecnologia, curiosidade e pelo desejo de contribuir com a conservação da biodiversidade. Desenvolvemos o Mantuí unindo desenvolvimento, design, pesquisa e trabalho em equipe para criar uma ferramenta que apoie o monitoramento das aves.
+        </p>
+    </div>
+
+    <div class="flex desktop:grid desktop:grid-cols-3 gap-6 overflow-x-auto desktop:overflow-x-visible snap-x snap-mandatory pb-4 w-full max-w-7xl mx-auto scrollbar-none">
+
+    
+        <div class="min-w-[85%] tablet:min-w-[45%] desktop:min-w-full flex-shrink-0 snap-center flex flex-col rounded-b-lg overflow-hidden shadow-lg bg-neutro-mantui-50">
+        
+            <div class="w-full h-[320px] bg-cover bg-center bg-[image:var(--membro-img)]"
+                 style="--membro-img: url('{{ url_for('static', filename='img/augusto.jpg') }}');">
+            </div>
+            
+    
+            <div class="p-6 flex flex-col gap-2 bg-neutro-mantui-50 text-neutro-mantui-950">
+                <h3 class="text-2xl font-sans font-bold text-laranja-mantui-500">Augusto Maux</h3>
+                <p class="text-sm font-lato font-semibold text-neutro-mantui-700">Programador Backend</p>
+                
+                <div class="flex items-center justify-between pt-4 mt-2 border-t border-neutro-mantui-200">
+                    <span class="text-xs font-lato text-neutro-mantui-800">@Augusto-Maux</span>
+                    <div class="flex items-center gap-2">
+                        <a href="https://github.com/Augusto-Maux" target="_blank" class="hover:opacity-80 transition bg-neutro-mantui-950 rounded-full p-1.5">
+                            <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="GitHub" class="w-6 h-6">
+                        </a>
+                        <a href="#" class="hover:opacity-80 transition bg-neutro-mantui-950 rounded-full p-1.5">
+                            <img src="{{ url_for('static', filename='img/gitlab-icone.svg') }}" alt="Social" class="w-6 h-6">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="min-w-[85%] tablet:min-w-[45%] desktop:min-w-full flex-shrink-0 snap-center flex flex-col rounded-b-lg overflow-hidden shadow-lg bg-neutro-mantui-50">
+        
+            <div class="w-full h-[320px] bg-cover bg-center bg-[image:var(--membro-img)]"
+                 style="--membro-img: url('{{ url_for('static', filename='img/eduardo.jpg') }}');">
+            </div>
+            
+            <div class="p-6 flex flex-col gap-2 bg-neutro-mantui-50 text-neutro-mantui-950">
+                <h3 class="text-2xl font-sans font-bold text-laranja-mantui-500">Eduardo Felipe</h3>
+                <p class="text-sm font-lato font-semibold text-neutro-mantui-700">Programador Frontend e Designer</p>
+                
+                <div class="flex items-center justify-between pt-4 mt-2 border-t border-neutro-mantui-200">
+                    <span class="text-xs font-lato text-neutro-mantui-800">@Eduardo_Felipe</span>
+                    <div class="flex items-center gap-2">
+                        <a href="https://github.com/Augusto-Maux" target="_blank" class="hover:opacity-80 transition bg-neutro-mantui-950 rounded-full p-1.5">
+                            <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="GitHub" class="w-6 h-6">
+                        </a>
+                        <a href="#" class="hover:opacity-80 transition bg-neutro-mantui-950 rounded-full p-1.5">
+                            <img src="{{ url_for('static', filename='img/gitlab-icone.svg') }}" alt="Social" class="w-6 h-6">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="min-w-[85%] tablet:min-w-[45%] desktop:min-w-full flex-shrink-0 snap-center flex flex-col rounded-b-lg overflow-hidden shadow-lg bg-neutro-mantui-50">
+
+            <div class="w-full h-[320px] bg-cover bg-center bg-[image:var(--membro-img)]"
+                 style="--membro-img: url('{{ url_for('static', filename='img/pedro.jpg') }}');">
+            </div>
+            
+            <div class="p-6 flex flex-col gap-2 bg-neutro-mantui-50 text-neutro-mantui-950">
+                <h3 class="text-2xl font-sans font-bold text-laranja-mantui-500">Pedro Vinícios</h3>
+                <p class="text-sm font-lato font-semibold text-neutro-mantui-700">Programador Frontend e Designer</p>
+                
+                <div class="flex items-center justify-between pt-4 mt-2 border-t border-neutro-mantui-200">
+                    <span class="text-xs font-lato text-neutro-mantui-800">@p3dr0-m4rtins</span>
+                    <div class="flex items-center gap-2">
+                        <a href="https://github.com/Augusto-Maux" target="_blank" class="hover:opacity-80 transition bg-neutro-mantui-950 rounded-full p-1.5">
+                            <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="GitHub" class="w-6 h-6">
+                        </a>
+                        <a href="#" class="hover:opacity-80 transition bg-neutro-mantui-950 rounded-full p-1.5">
+                            <img src="{{ url_for('static', filename='img/gitlab-icone.svg') }}" alt="Social" class="w-6 h-6">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FAQ -->
+<section class="w-full px-4 py-12 tablet:px-12 desktop:px-16 bg-neutro-mantui-50">
+
+    <div class="w-full text-center space-y-3 max-w-4xl mx-auto mb-10">
+        <h2 class="text-2xl tablet:text-2xl text-verde-mantui-950 font-sans font-bold">
+            Perguntas frequentes (FAQ)
+        </h2>
+        <p class="text-neutro-mantui-950 font-lato text-base tablet:text-lg leading-relaxed">
+            Separamos aqui as dúvidas mais comuns sobre o projeto, o sistema e como ele ajuda no monitoramento e na conservação das aves limícolas migratórias. Se você não encontrar o que procura, fique à vontade para entrar em contato.
+        </p>
+    </div>
+
+    <div class="w-full max-w-4xl mx-auto space-y-3">
+
+        <details class="group bg-laranja-mantui-500 rounded-sm transition-all duration-300">
+            <summary class="flex justify-between items-center cursor-pointer p-4 tablet:p-5 font-sans font-medium text-white text-lg tablet:text-xl list-none select-none">
+                <span>O que é o Mantuí e qual é o seu objetivo?</span>
+    
+                <svg class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </summary>
+            
+            <div class="p-5 tablet:p-6 bg-neutro-mantui-50 border-l-4 border-laranja-mantui-500 space-y-3 font-lato text-neutro-mantui-950 text-base leading-relaxed">
+                <p>
+                    O Mantuí é um sistema web desenvolvido para auxiliar no monitoramento e na conservação de aves limícolas migratórias, especialmente no litoral do Rio Grande do Norte. Seu objetivo é facilitar o trabalho de pesquisadores e colaboradores, oferecendo uma ferramenta centralizada para registrar, organizar e gerenciar informações coletadas durante atividades de campo.
+                </p>
+                <p>
+                    Por meio da tecnologia, o projeto busca contribuir para a preservação dessas espécies e de seus habitats, transformando dados de monitoramento em informações importantes para a pesquisa científica e a conservação ambiental.
+                </p>
+            </div>
+        </details>
+
+        <details class="group bg-laranja-mantui-500 rounded-sm transition-all duration-300">
+            <summary class="flex justify-between items-center cursor-pointer p-4 tablet:p-5 font-sans font-medium text-white text-lg tablet:text-xl list-none select-none">
+                <span>É necessário ter acesso à internet para utilizar o sistema?</span>
+                <svg class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </summary>
+            <div class="space-y-3 p-5 tablet:p-6 bg-neutro-mantui-50 border-l-4 border-laranja-mantui-500 font-lato text-neutro-mantui-950 text-base leading-relaxed">
+                <p>
+                    Não! Um dos principais diferenciais do Mantuí é seu funcionamento offline-first, permitindo que os pesquisadores acessem os recursos do sistema e realizem registros mesmo em locais sem conexão com a internet.
+                </p>
+                <p>
+                    Quando a conexão estiver disponível novamente, os dados poderão ser sincronizados, reduzindo o risco de perda de informações e garantindo maior praticidade durante as atividades de campo.
+                </p>
+            </div>
+        </details>
+
+        <details class="group bg-laranja-mantui-500 rounded-sm transition-all duration-300">
+            <summary class="flex justify-between items-center cursor-pointer p-4 tablet:p-5 font-sans font-medium text-white text-lg tablet:text-xl list-none select-none">
+                <span>Quem pode utilizar o Mantuí?</span>
+                <svg class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </summary>
+            <div class="p-5 tablet:p-6 bg-neutro-mantui-50 border-l-4 border-laranja-mantui-500 font-lato text-neutro-mantui-950 text-base leading-relaxed">
+                <p>
+                    O sistema foi desenvolvido principalmente para pesquisadores, integrantes de equipes de monitoramento e colaboradores envolvidos em iniciativas de conservação de aves limícolas. Sua proposta também considera a participação de cidadãos-cientistas, ampliando as possibilidades de colaboração na coleta de informações e no acompanhamento das espécies em diferentes regiões. Além do sistema poder ser utilizado para fazer o avistamento de qualquer ave brasileira.
+                </p>
+            </div>
+        </details>
+
+        <details class="group bg-laranja-mantui-500 rounded-sm transition-all duration-300">
+            <summary class="flex justify-between items-center cursor-pointer p-4 tablet:p-5 font-sans font-medium text-white text-lg tablet:text-xl list-none select-none">
+                <span>Quais informações podem ser registradas no Mantuí?</span>
+                <svg class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </summary>
+            <div class="space-y-3 p-5 tablet:p-6 bg-neutro-mantui-50 border-l-4 border-laranja-mantui-500 font-lato text-neutro-mantui-950 text-base leading-relaxed">
+                <p>
+                    O Mantuí permite registrar informações relacionadas aos avistamentos de aves, contribuindo para a construção de um banco de dados organizado sobre as espécies observadas e suas ocorrências.
+                </p>
+                <p>
+                    Esses registros auxiliam no acompanhamento das populações, na identificação de padrões de distribuição e na compreensão de como as aves utilizam diferentes áreas ao longo de suas rotas migratórias.
+                </p>
+            </div>
+        </details>
+
+        <details class="group bg-laranja-mantui-500 rounded-sm transition-all duration-300">
+            <summary class="flex justify-between items-center cursor-pointer p-4 tablet:p-5 font-sans font-medium text-white text-lg tablet:text-xl list-none select-none">
+                <span>Como o Mantuí contribui para a conservação das aves?</span>
+                <svg class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </summary>
+            <div class="p-5 tablet:p-6 bg-neutro-mantui-50 border-l-4 border-laranja-mantui-500 font-lato text-neutro-mantui-950 text-base leading-relaxed">
+                <p>
+                    Ao centralizar e organizar os dados coletados em campo, o Mantuí facilita o acesso às informações necessárias para pesquisas e ações de monitoramento ambiental. Esses dados ajudam a compreender melhor a presença das espécies, seus deslocamentos e as condições dos ambientes que utilizam.
+                </p>
+            </div>
+        </details>
+
+    </div>
+
+</section>
 
 </main>
 
