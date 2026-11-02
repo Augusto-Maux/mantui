@@ -1,11 +1,11 @@
 <div class="relative w-full">
-    <!-- Checkbox oculta -->
+    <!-- Checkbox oculta p/ menu -->
     <input type="checkbox" id="controle-menu" class="peer hidden" />
 
-    <header class="bg-verde-mantui-500 h-[76px] w-full flex justify-between items-center mx-auto px-[20px] md:px-[40px] xl:px-[72px] py-[12px] relative z-40">
+    <header class="sticky top-0 z-50 bg-verde-mantui-500 h-[76px] w-full flex justify-between items-center mx-auto px-[20px] md:px-[40px] xl:px-[72px] py-[12px] relative z-40">
         <div>
             <a href="{{ url_for('first_page') }}">
-                <img class="w-auto h-auto" src="static/img/logo-header.png" alt="Logo">
+                <img class="w-auto h-auto" src="{{ url_for('static', filename='img/logo-header.png') }}" alt="Logo">
             </a>
         </div>
 
@@ -14,10 +14,10 @@
             <!-- Nav Desktop -->
             <nav class="hidden lg:block text-amarelo-mantui-100 font-lato font-medium">
                 <ul class="flex gap-[24px]">
-                    <li><a href="#" class="hover:text-amarelo-mantui-600">Parceiros</a></li>
-                    <li><a href="#" class="hover:text-amarelo-mantui-600">Avistamentos</a></li>
-                    <li><a href="#" class="hover:text-amarelo-mantui-600">Sobre Nós</a></li>
-                    <li><a href="#" class="hover:text-amarelo-mantui-600">FAQ</a></li>
+                    <li><a href="{{ url_for('first_page') }}#parceiros" class="hover:text-amarelo-mantui-600">Parceiros</a></li>
+                    <li><a href="{{ url_for('first_page') }}#avistamentos" class="hover:text-amarelo-mantui-600">Avistamentos</a></li>
+                    <li><a href="{{ url_for('first_page') }}#sobre-nos" class="hover:text-amarelo-mantui-600">Sobre Nós</a></li>
+                    <li><a href="{{ url_for('first_page') }}#faq" class="hover:text-amarelo-mantui-600">FAQ</a></li>
                 </ul>
             </nav>
 
@@ -28,10 +28,8 @@
             </div>
 
             <!-- Icon Hamburger -->
-            <label for="controle-menu" class="block lg:hidden text-amarelo-mantui-100 focus:outline-none cursor-pointer select-none" aria-label="Abrir Menu">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
+            <label for="controle-menu" class="flex items-center lg:hidden focus:outline-none cursor-pointer select-none h-[49px] w-[35px]" aria-label="Abrir Menu">
+                <img src="{{ url_for('static', filename='img/icon-menu-public.svg') }}" alt="">
             </label>
         </div>
     </header>
@@ -43,10 +41,10 @@
 
         <nav class="font-lato font-medium text-base text-amarelo-mantui-100">
             <ul class="flex flex-col gap-4">
-                <li><a href="#parceiros" class="hover:text-amarelo-mantui-600 block">Parceiros</a></li>
-                <li><a href="#avistamentos" class="hover:text-amarelo-mantui-600 block">Avistamentos</a></li>
-                <li><a href="#sobre" class="hover:text-amarelo-mantui-600 block">Sobre Nós</a></li>
-                <li><a href="#faq" class="hover:text-amarelo-mantui-600 block">FAQ</a></li>
+                <li><a href="{{ url_for('first_page') }}#parceiros" class="hover:text-amarelo-mantui-600 block">Parceiros</a></li>
+                <li><a href="{{ url_for('first_page') }}#avistamentos" class="hover:text-amarelo-mantui-600 block">Avistamentos</a></li>
+                <li><a href="{{ url_for('first_page') }}#sobre-nos" class="hover:text-amarelo-mantui-600 block">Sobre Nós</a></li>
+                <li><a href="{{ url_for('first_page') }}#faq" class="hover:text-amarelo-mantui-600 block">FAQ</a></li>
             </ul>
         </nav>
 

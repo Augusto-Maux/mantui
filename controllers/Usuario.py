@@ -9,155 +9,167 @@ EXTENSOES = {'png', 'jpg', 'jpeg', 'webp'}
 
 bp_usuario = Blueprint("usuario", __name__, template_folder='templates')
 
-@bp_usuario.route('/recovery')
+@bp_usuario.route('/home')
 @login_required
-def recovery():
-	usuarios = Usuario.query.all()
-	return render_template('home.html', usuarios=usuarios)
+def home():
+    usuarios = Usuario.query.all()
+    return render_template('home.html', usuarios=usuarios)
+
+@bp_usuario.route('/notificacoes')
+@login_required
+def notificacoes():
+    return render_template('notificacoes.html', user=current_user)
+
+@bp_usuario.route('/perfil')
+@login_required
+def perfil():
+    return render_template('usuario/perfil.html', user=current_user)
 
 @bp_usuario.route('/add', methods=['GET', 'POST'])
 def add():
-	if request.method=="GET":
-		return render_template('usuario/usuario_add.html')
-	
-	elif request.method=="POST":
-		nome = request.form.get('nome')
-		email = request.form.get('email')
-		senha = request.form.get('senha')
-		idade = request.form.get('idade')
-		username = request.form.get('username')
-		# criar entidade para CidadaoCientista, Administrador e Moderador
-		papel = "Cidadão Cientista"
-		# foto_perfil = request.files.get('foto_perfil')
+    if request.method == "GET":
+        return render_template('usuario/cadastro.html')
+    
+    elif request.method == "POST":
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        idade = request.form.get('idade')
+        username = request.form.get('username')
+        papel = "Cidadão Cientista"
 
-		u = Usuario(nome, email, senha, idade, username, papel)
-		db.session.add(u)
-		db.session.commit()
-		login_user(u)
+        u = Usuario(nome, email, senha, idade, username, papel)
+        db.session.add(u)
+        db.session.commit()
+        login_user(u)
 
-		flash('Cadastro Realizado!', 'success')
-		return redirect(url_for('usuario.recovery'))
-	
-	else:
-		flash('Problema no Cadastro', 'danger')
-		return redirect(url_for('usuario.add'))
+        flash('Cadastro Realizado!', 'success')
+        return redirect(url_for('usuario.home'))
+    
+    else:
+        flash('Problema no Cadastro', 'danger')
+        return redirect(url_for('usuario.add'))
 
-# falta redefinição de senha (16/10 - 17h55)
 @bp_usuario.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update(id):
-	user = Usuario.query.get(id)
-	if request.method=="GET":
-		return render_template('usuario/usuario_update.html', user=user)
-	
-	elif request.method=="POST":
-		user.nome = request.form.get('nome')
-		user.email = request.form.get('email')
-		
-		# user.foto_perfil = request.files.get('foto_perfil')
-		foto_perfil = request.files.get('foto_perfil')
-		caminho = user.foto_perfil
+    user = Usuario.query.get(id)
+    if not user:
+        flash('Usuário não encontrado.', 'danger')
+        return redirect(url_for('usuario.home'))
 
-		if foto_perfil and foto_perfil.filename:
-			nome = secure_filename(foto_perfil.filename)
-			extensao = nome.rsplit('.', 1)[-1].lower()
-			
-			if extensao not in EXTENSOES:
-				return 'Formato sem permissão', 400
+    if request.method == "GET":
+        return render_template('usuario/usuario_update.html', user=user)
+    
+    elif request.method == "POST":
+        user.nome = request.form.get('nome')
+        user.email = request.form.get('email')
+        
+        foto_perfil = request.files.get('foto_perfil')
+        caminho = user.foto_perfil
 
-			new_name = f"{uuid.uuid4().hex}.{extensao}"
-			caminho = os.path.join(
-				current_app.config['UPLOAD_FOLDER'],
-				new_name
-			)
+        if foto_perfil and foto_perfil.filename:
+            nome = secure_filename(foto_perfil.filename)
+            extensao = nome.rsplit('.', 1)[-1].lower()
+            
+            if extensao not in EXTENSOES:
+                flash('Formato de imagem inválido.', 'danger')
+                return redirect(url_for('usuario.update', id=id))
 
-			foto_perfil.save(caminho)
-			caminho = f"uploads/usuarios/{new_name}"
+            new_name = f"{uuid.uuid4().hex}.{extensao}"
+            caminho_salvar = os.path.join(
+                current_app.config['UPLOAD_FOLDER'],
+                new_name
+            )
 
-		user.foto_perfil = caminho
-		
-		db.session.add(user)
-		db.session.commit()
-		flash('Atualização realizada!', 'success')
-		return redirect(url_for('usuario.recovery'))
-	
-	else:
-		flash('Problema na atualização', 'danger')
-		return redirect(url_for('usuario.recovery'))
+            foto_perfil.save(caminho_salvar)
+            caminho = f"uploads/usuarios/{new_name}"
+
+        user.foto_perfil = caminho
+        db.session.commit()
+        
+        flash('Atualização realizada!', 'success')
+        return redirect(url_for('usuario.home'))
+    
+    else:
+        flash('Problema na atualização', 'danger')
+        return redirect(url_for('usuario.home'))
 
 @bp_usuario.route('/delete/<int:id>')
 @login_required
 def delete(id):
-	if current_user.papel not in ['Administrador', 'Moderador']:
-		flash("Sem acesso", "danger")
-		return redirect(url_for('usuario.recovery'))
+    if current_user.papel not in ['Administrador', 'Moderador']:
+        flash("Sem acesso", "danger")
+        return redirect(url_for('usuario.home'))
 
-	try:
-		usuario = Usuario.query.get(id)
-		db.session.delete(usuario)
-		db.session.commit()
-		flash("Dados excluídos!", "success")
-		
-	except Exception as e:
-		flash("Não foi possível excluir usuário", "danger")
-	return redirect(url_for('usuario.recovery'))
+    try:
+        usuario = Usuario.query.get(id)
+        if usuario:
+            db.session.delete(usuario)
+            db.session.commit()
+            flash("Dados excluídos!", "success")
+        else:
+            flash("Usuário não encontrado", "warning")
+    except Exception as e:
+        db.session.rollback()
+        flash("Não foi possível excluir usuário", "danger")
+        
+    return redirect(url_for('usuario.home'))
 
 @bp_usuario.route('/tornar_moderador', methods=['GET', 'POST'])
 @login_required
 def tornar_moderador():
-	if current_user.papel not in ['Administrador', 'Moderador']:
-		flash("Sem acesso", "danger")
-		return redirect(url_for('usuario.recovery'))
+    if current_user.papel not in ['Administrador', 'Moderador']:
+        flash("Sem acesso", "danger")
+        return redirect(url_for('usuario.home'))
 
-	if request.method == "GET":
-		usuarios = Usuario.query.all()
-		return render_template('usuario/tornar_moderador.html', usuarios=usuarios)
+    if request.method == "GET":
+        usuarios = Usuario.query.all()
+        return render_template('usuario/tornar_moderador.html', usuarios=usuarios)
 
-	elif request.method == "POST":
-		id = request.form.get('id')
-		usuario = Usuario.query.filter_by(id=id).first()
+    elif request.method == "POST":
+        id = request.form.get('id')
+        usuario = Usuario.query.filter_by(id=id).first()
 
-		if usuario:
-			flash('Dados Atualizados', 'success')
-			usuario.papel = 'Moderador'
-			return redirect(url_for('usuario.recovery'))
-			
-		else:
-			flash('Dados não encontrados.', 'danger')
-			return redirect(url_for('usuario.tornar_moderador'))
-		
+        if usuario:
+            usuario.papel = 'Moderador'
+            db.session.commit()
+            flash('Usuário atualizado para Moderador!', 'success')
+            return redirect(url_for('usuario.home'))
+        else:
+            flash('Dados não encontrados.', 'danger')
+            return redirect(url_for('usuario.tornar_moderador'))
 
-	else:
-		flash('Problema ao tornar moderador', 'danger')
-		return redirect(url_for('usuario.recovery'))
+    else:
+        flash('Problema ao tornar moderador', 'danger')
+        return redirect(url_for('usuario.home'))
 
 # AUTH
 @lm.user_loader
 def load_user(id):
-	usuario = Usuario.query.filter_by(id=id).first()
-	return usuario
+    return Usuario.query.get(int(id))
 
 @bp_usuario.route('/login', methods=['GET', 'POST'])
 def login():
-	if request.method == 'GET':
-		return render_template('usuario/login.html')
+    if request.method == 'GET':
+        return render_template('usuario/login.html')
 
-	email = request.form.get('email')
-	senha = request.form.get('senha')
+    email = request.form.get('email')
+    senha = request.form.get('senha')
 
-	usuario = Usuario.query.filter_by(email = email).first()
+    usuario = Usuario.query.filter_by(email=email).first()
 
-	if usuario and usuario._verificar_senha(senha):
-		login_user(usuario)
-		flash('Login realizado!', 'success')
-		return redirect(url_for('usuario.recovery'))
-	
-	else:
-		flash('Dados não encontrados.', 'danger')
-		return redirect(url_for('usuario.login'))
+    if usuario and usuario._verificar_senha(senha):
+        login_user(usuario)
+        flash('Login realizado!', 'success')
+        # Redireciona para usuario.home, renderizando home.html com a URL /usuario/home
+        return redirect(url_for('usuario.home'))
+    else:
+        flash('Dados não encontrados.', 'danger')
+        return redirect(url_for('usuario.login'))
 
 @bp_usuario.route('/logout', methods=['GET', 'POST'])
 def logout():
-	logout_user()
-	flash('Sessão encerrada', 'info')
-	return redirect(url_for('usuario.login'))
+    logout_user()
+    flash('Sessão encerrada', 'info')
+    return redirect(url_for('usuario.login'))

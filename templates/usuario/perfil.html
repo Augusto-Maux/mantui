@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+  <title>{% block title %}Mantuí{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+</head>
+<body>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Foto de Perfil</th>
+            </tr>
+        </thead>
+        <tbody>         
+            <tr>
+                <td>{{ current_user.id }}</td>
+                <td>{{ current_user.nome }}</td>
+                <td>{{ current_user.email }}</td>
+                <td>
+                    {% if current_user.foto_perfil %}
+                        <img src="{{ url_for('static', filename=current_user.foto_perfil) }}" alt="{{ current_user.nome }}" width="40" height="40">
+                    {% else %}
+                        <span>Sem foto</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
