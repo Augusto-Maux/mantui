@@ -3,8 +3,8 @@ from models import Avistamento, Especie
 from utils import db
 from weasyprint import HTML
 from flask_login import login_required, current_user
-from werkzeug.utils import secure_filename
-import os, uuid
+# from werkzeug.utils import secure_filename
+# import os, uuid
 
 EXTENSOES = {'png', 'jpg', 'jpeg', 'webp', 'audio/*'}
 
@@ -25,40 +25,17 @@ def add():
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')
-		latitude = request.form.get('latitude')
-		longitude = request.form.get('longitude')
 		bioma = request.form.get('bioma')
 		tipo_registro = request.form.get('tipo_registro')
 		cond_clima = request.form.get('cond_clima')
 		cond_ventos = request.form.get('cond_ventos')
 		observacoes = request.form.get('observacoes')
-		data_hora = request.form.get('data_hora') # Falta colocar no html
-		# Uploads - Falta Testar - Simplificar (Mídias)
-		imagem = request.files.get('imagem')
-		audio = request.files.get('audio')
+		data_hora = request.form.get('data_hora')
 		
-		if imagem and imagem.filename:
-			nome = secure_filename(imagem.filename)
-			extensao = nome.rsplit('.', 1)[-1].lower()
-					
-			if extensao not in EXTENSOES:
-				flash('Formato de imagem inválido.', 'danger')
-				return redirect(url_for('avistamento.add'))
-		
-			new_name = f"{uuid.uuid4().hex}.{extensao}"
-			caminho_salvar = os.path.join(
-				current_app.config['UPLOAD_FOLDER'],
-				new_name
-			)
-		
-			imagem.save(caminho_salvar)
-			caminho_imagem = f"uploads/avistamentos/{new_name}"
-
-		midias = caminhos
 		fk_id_user = current_user.id
 		fk_id_especie = request.form.get('fk_id_especie')
 		
-		avistamento = Avistamento(nome, latitude, longitude, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, imagem, audio, fk_id_user, fk_id_especie)
+		avistamento = Avistamento(nome, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie)
 		db.session.add(avistamento)
 		db.session.commit()
 
