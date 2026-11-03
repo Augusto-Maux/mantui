@@ -16,6 +16,8 @@
         Condição Climática: <input type="text" name="cond_clima"><br/>
         Condição Ventos: <input type="text" name="cond_ventos"><br/>
         Observações:  <input type="text" name="observacoes"><br/>
+        Imagem: <input type="file" name="imagem" accept="image/png,image/jpeg,image/webp">
+        Áudio: <input type="file" name="audio" accept="audio/*">
         ID Espécie: <select name="fk_id_especie" id="">
             <option value="">Selecione uma espécie</option>
             {% for especie in especies %}
