@@ -135,7 +135,7 @@
             <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
             </div>
             <!-- Botão Principal: Realizar Avistamento -->
-            <a href="{{ url_for('avistamento.add') if 'avistamento.add' in endpoints else '#' }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+            <a href="{{ url_for('avistamento.add') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
                 <span>Realizar Avistamento</span>
                 <span class="text-xl leading-none">+</span>
             </a>

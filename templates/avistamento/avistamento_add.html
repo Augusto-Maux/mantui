@@ -1,32 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>{% block title %}Novo Avistamento{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
-<body>
-    <form action="{{url_for('avistamento.add')}}" method="POST">
+<body class="bg-neutro-mantui-50 min-h-screen">
 
-        Nome: <input type="text" name="nome"><br/>
-        Latitude: <input type="number" name="latitude"><br/>
-        Longitude: <input type="number" name="longitude"><br/>
-        Bioma: <input type="text" name="bioma"><br/>
-        Tipo Registro: <input type="text" name="tipo_registro"><br/>
-        Condição Climática: <input type="text" name="cond_clima"><br/>
-        Condição Ventos: <input type="text" name="cond_ventos"><br/>
-        Observações:  <input type="text" name="observacoes"><br/>
-        Imagem: <input type="file" name="imagem" accept="image/png,image/jpeg,image/webp">
-        Áudio: <input type="file" name="audio" accept="audio/*">
-        ID Espécie: <select name="fk_id_especie" id="">
-            <option value="">Selecione uma espécie</option>
-            {% for especie in especies %}
-                <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
-            {% endfor %}
-        </select>
+    <main class="w-full my-auto flex justify-center desktop:justify-center p-3 mb-3">
 
-        <input type="submit" name="cadastrar">
+    <div class="w-full text-neutro-mantui-950 p-6 flex flex-col justify-center items-center">
+
+    <form class="w-full flex flex-col gap-4 max-w-xl p-2" action="{{url_for('avistamento.add')}}" method="POST">
+
+        <!-- Falta os dois botões da parte de cima -->
+
+            <div class="text-center space-y-3 py-center mb-2 mt-4">
+                <h2 class="font-sans font-medium text-neutro-mantui-950 text-2xl leading-none">Avistamento</h2>
+                <p class="font-lato text-neutro-mantui-700">Preencha os dados e registre o seu novo avistamento.</p>
+            </div>
+        
+
+            <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200 border-t">
+
+            <div class="flex flex-col gap-1">
+                <p>
+                <label class="font-lato font-medium text-neutro-mantui-950">Título</label>
+                </p>
+                <input type="text" placeholder="Ex: 'Garça-branca-grande em área alagada'" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="nome">
+            </div>
+
+            <div class="relative border-3 border-dashed border-neutro-mantui-600 rounded-2xl p-8 flex flex-col items-center justify-center text-center group hover:border-orange-500 transition-colors cursor-pointer bg-laranja-mantui-50/50">
+    
+            <input type="file" name="midia" accept="image/*,audio/*,video/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+
+            <div class="mb-3 text-neutro-mantui-950">
+                <svg class="w-12 h-12 stroke-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="3" ry="3" stroke-width="2"/>
+                    <path d="M8.5 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" stroke-width="2"/>
+                    <path d="M21 15l-5-5L5 21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            
+                <h3 class="text-base font-lato font-bold text-neutro-mantui-950 mb-1">Baixar Mídia</h3>
+                <p class="text-xs text-neutro-mantui-950 max-w-xs leading-relaxed mb-4">
+                    Faça Upload de Imagens, Vídeos e Áudios<br> 
+                    das espécies que você Avistou  
+                </p>
+
+                <!-- Botão Visual de Upload -->
+                <button type="button" class="bg-orange-600 hover:bg-orange-500 text-white font-medium px-8 py-2.5 rounded-md text-sm transition-colors pointer-events-none">
+                    Baixar
+                </button>
+            </div>
+
+            </section>
+
+            <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200">
+
+                <div class="flex flex-col gap-1">
+                    <p>
+                    <label class="font-lato font-medium text-neutro-mantui-950">Descrição</label>
+                    </p>
+                    <input type="text" placeholder="Adicionar Descrição" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="observacoes">
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <p>
+                        <label class="text-lato font-medium text-neutro-mantui-950">Espécie</label>
+                    </p>
+                        <!-- Como o Id já tava vazio deixei assim mesmo -->
+                        <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="fk_id_especie" id="">
+                            <option class="font-lato text-neutro-mantui-950" value="">Espécie não Identificada</option>
+                            {% for especie in especies %}
+                                <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
+                            {% endfor %}
+                        </select>
+
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <p>
+                        <label class="font-lato font-medium text-neutro-mantui-950">Bioma</label>
+                    </p>
+                    <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="bioma" id="">
+                        <option class="font-lato text-neutro-mantui-950" value="">Bioma não Identificado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Amazônia</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Cerrado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Caatinga</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Mata Atlântica</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Pantanal</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Pampa</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col">
+                    <p>
+                            <!-- Era pra ser estado, com uma lista: -->
+                    <label class="font-lato font-medium text-neutro-mantui-950">Latitude</label>
+                    </p>
+                    <input type="number" placeholder="Latitude" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="latitude">
+                </div>
+
+                <div class="flex flex-col">
+                    <p>
+                            <!-- Era pra ser município, com uma lista: -->
+                    <label class="font-lato font-medium text-neutro-mantui-950">Longitude</label>
+                    </p>
+                    <input type="number" placeholder="Longitude" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="longitude">
+                </div>
+
+                <div class="grid grid-cols-1 tablet:grid-cols-2 gap-1.5 w-full">
+
+                    <div class="flex flex-col">
+                    <p>
+                    <label class="font-lato font-medium text-neutro-mantui-950">Condição Climática</label>
+                    </p>
+                    <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="cond_clima" id="">
+                        <option class="font-lato text-neutro-mantui-950" value="">Clima não Identificado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Ensolarado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Nublado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Parcialmente Nublado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Chuva Leve</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Chuva Forte</option>
+                    </select>
+                    </div>
+
+                <div class="flex flex-col">
+                    <p>
+                    <label class="font-lato font-medium text-neutro-mantui-950">Condição do Vento</label>
+                    </p>
+                    <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="cond_ventos" id="">
+                        <option class="font-lato text-neutro-mantui-950" value="">Vento não Identificada</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Calmo</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Vento Leve</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Vento Moderado</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Vento Forte</option>
+                        <option class="font-lato text-neutro-mantui-950" value="">Vento Muito Forte</option>
+                    </select>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200">
+
+                <div class="flex flex-col">
+                    <p>
+                    <label class="font-lato font-medium text-neutro-mantui-950">Data e Hora</label>
+                    </p>
+                    <input type="datetime-local" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="data_hora">
+                </div>
+
+
+                <div class="flex flex-col">
+                    <p>
+                    <label class="font-lato font-medium text-neutro-mantui-950">Pesquisador(es)</label>
+                    </p>
+                    <!-- Tá bem estranho, mas é só pra passar a ideia de aparecer foto e nome do pesquisador e ele poder colocar outros no avistamento -->
+                    <input placeholder="{{ current_user.foto_perfil if current_user else 'imagem' }} {{ current_user.nome if current_user else 'Utilizador' }}" type="text" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="current_user">
+                </div>
+
+            </section>
+
+            <!-- Não sei bem o que fazer com isso: -->
+        <!-- Tipo Registro: <input type="text" name="tipo_registro"><br/> -->
+
+                <div class="flex flex-col">
+                    <!-- Tá bem estranho, mas é só pra passar a ideia de aparecer foto e nome do pesquisador e ele poder colocar outros no avistamento -->
+                    <input type="submit" class="px-4 py-2 rounded text-neutro-mantui-50 border-3 hover:bg-laranja-mantui-500 to bg-neutro-mantui-950" name="cadastrar" value="Fazer Avistamento">
+                </div>
+
+        <!-- <input type="submit" name="cadastrar"> -->
 
     </form>
+    </div>
+
+    </main>
+
 </body>
 </html>
