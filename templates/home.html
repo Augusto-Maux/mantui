@@ -1,161 +1,249 @@
-<!-- Falta organizar melhor, deixar barra search funcional, ajeitar links -->
-
+<!-- Home / Painel do Utilizador -->
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mantuí{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
+<body class="bg-neutro-mantui-50 min-h-screen">
 
-<div class="relative w-full">
-    <!-- Checkbox oculta p/ menu -->
-    <input type="checkbox" id="controle-menu-privado" class="peer hidden" />
+    <div class="relative w-full">
+        <!-- Checkbox oculta p/ menu mobile/tablet -->
+        <input type="checkbox" id="controle-menu-privado" class="peer hidden" />
 
-    <header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center px-[20px] sm:px-[32px] border-b-[1px] border-neutro-mantui-950 relative z-40">
-
-        <!-- Bloco 1 do header -->
-        <div class="flex items-center gap-[12px] sm:gap-[16px]">
-            <!-- Logo -->
-            <div>
-                <a href="{{ url_for('usuario.home') }}">
-                    <img class="w-auto h-auto" src="{{ url_for('static', filename='img/logo-header-a.png') }}" alt="Logo Mantui">
-                </a>
-            </div>
-
-            <!-- Campo de Pesquisa -->
-            <div class="hidden sm:block w-full sm:w-[290px] lg:w-[510px]">
-                <form id="searchFormDesktop" role="search" class="flex items-center h-[44px] w-full border-[1px] border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
-                    <button type="submit" class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
-                        <img src="{{ url_for('static', filename='img/icon-search.svg') }}" alt="Pesquisar" class="w-5 h-5" />
-                    </button>
-                    <input type="search" id="searchInputDesktop"
-                        class="w-full bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato font-medium truncate"
-                        placeholder="Pesquisar por: Espécies, Grupos, Projetos..." autocomplete="off" />
-                </form>
-            </div>
-        </div>
-
-        <!-- Bloco 2 do Header -->
-        <div class="flex items-center gap-[12px] sm:gap-[18px]">
-
-            <!-- Nav Desktop -->
-            <nav class="hidden lg:block font-lato font-medium" aria-label="Navegação principal">
-                <ul class="flex items-center gap-[16px]">
-                    <li>
-                        <a href="{{ url_for('avistamento.recovery') }}" title="Avistamentos">
-                            <img src="{{ url_for('static', filename='img/icon avistamentos.svg') }}" alt="Avistamentos">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('equipe.recovery') }}" title="Grupos">
-                            <img src="{{ url_for('static', filename='img/icon groups.svg') }}" alt="Grupos">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('projeto.recovery') }}" title="Projetos">
-                            <img src="{{ url_for('static', filename='img/icon projects.svg') }}" alt="Projetos">
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Área de Perfil -->
-            <div class="hidden sm:flex items-center gap-[18px]">
-                <div class="flex items-center gap-[8px]">
-                    <div class="text-[13px] sm:text-[14px] whitespace-nowrap">
-                        Olá, <span class="font-lato font-semibold text-laranja-mantui-600">{{ current_user.nome }}</span>!
-                    </div>
-
-                    <a href="{{ url_for('usuario.perfil') }}" class="flex-shrink-0" aria-label="Ver Perfil">
-                        {% if current_user.foto_perfil %}
-                            <img src="{{ url_for('static', filename=current_user.foto_perfil) }}" alt="{{ current_user.nome }}" class="w-[36px] h-[36px] rounded-full object-cover">
-                        {% else %}
-                            <div class="w-[36px] h-[36px] bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-[14px]">
-                                {{ current_user.nome[0] if current_user.nome else 'U' }}
-                            </div>
-                        {% endif %}
+        <!-- 1. HEADER (Fixo / Topo - Altura 76px) -->
+        <header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center px-[20px] sm:px-[32px] border-b border-neutro-mantui-950 fixed top-0 left-0 z-50">
+            
+            <!-- Bloco 1 do Header (Logo + Campo de Pesquisa) -->
+            <div class="flex items-center gap-[12px] sm:gap-[16px]">
+                <!-- Logo -->
+                <div>
+                    <a href="{{ url_for('usuario.home') }}">
+                        <img class="w-auto h-10 object-contain" src="{{ url_for('static', filename='img/logo-header-a.png') }}" alt="Logo Mantuí">
                     </a>
                 </div>
 
-                <!-- Notificações -->
-                <a href="{{ url_for('usuario.notificacoes') }}" class="p-1" aria-label="Notificações">
-                    <img src="{{ url_for('static', filename='img/icon-notifications.svg') }}" alt="Notificações" class="w-[36px] h-[36px]">
-                </a>
+                <!-- Campo de Pesquisa Desktop -->
+                <div class="hidden sm:block w-full sm:w-[290px] lg:w-[510px]">
+                    <form action="{{ url_for('usuario.home') }}" method="GET" id="searchFormDesktop" role="search" class="flex items-center h-[44px] w-full border border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
+                        <button type="submit" class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
+                            <img src="{{ url_for('static', filename='img/icon-search.svg') }}" alt="Pesquisar" class="w-5 h-5">
+                        </button>
+                        <input type="search" name="q" id="searchInputDesktop" class="w-full bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato placeholder:font-medium truncate" placeholder="Pesquisar por: Espécies, Grupos, Projetos..." autocomplete="off" value="{{ request.args.get('q', '') }}" />
+                    </form>
+                </div>
             </div>
 
-            <!-- Icon Menu -->
-            <label for="controle-menu-privado" class="flex lg:hidden p-1 cursor-pointer select-none items-center justify-center" aria-label="Abrir Menu">
-                <img src="{{ url_for('static', filename='img/icon-menu-auth.svg') }}" alt="">
-            </label>
-        </div>
-    </header>
+            <!-- Bloco 2 do Header (Navegação, Perfil e Menu) -->
+            <div class="flex items-center gap-[12px] sm:gap-[18px]">
+                
+                <!-- Nav Desktop -->
+                <nav class="hidden lg:block font-lato font-medium" aria-label="Navegação principal">
+                    <ul class="flex items-center gap-[16px]">
+                        <li>
+                            <a href="{{ url_for('avistamento.recovery') }}" title="Avistamentos">
+                                <img src="{{ url_for('static', filename='img/icon-avistamentos.svg') }}" alt="Avistamentos" class="w-6 h-6">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('equipe.recovery') }}" title="Grupos">
+                                <img src="{{ url_for('static', filename='img/icon-groups.svg') }}" alt="Grupos" class="w-6 h-6">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('projeto.recovery') }}" title="Projetos">
+                                <img src="{{ url_for('static', filename='img/icon-projects.svg') }}" alt="Projetos" class="w-6 h-6">
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
 
-    <!-- Menu Suspenso Mobile e Tablet -->
-    <div class="hidden peer-checked:block lg:hidden absolute top-[76px] right-0 w-[260px] sm:w-[280px] bg-amarelo-mantui-50 shadow-lg z-50 p-6">
+                <!-- Área de Perfil -->
+                <div class="hidden sm:flex items-center gap-[18px]">
+                    <div class="flex items-center gap-[8px]">
+                        <div class="text-[13px] sm:text-[14px] whitespace-nowrap">
+                            Olá, <span class="font-lato font-semibold text-laranja-mantui-600">{{ current_user.nome if current_user else 'Utilizador' }}</span>!
+                        </div>
+                        <a href="{{ url_for('usuario.perfil') }}" aria-label="Ver Perfil">
+                            {% if current_user and current_user.foto_perfil %}
+                                <img src="{{ url_for('static', filename=current_user.foto_perfil) }}" alt="{{ current_user.nome }}" class="w-[36px] h-[36px] rounded-full object-cover">
+                            {% else %}
+                                <div class="w-[36px] h-[36px] bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-[14px]">
+                                    {{ current_user.nome[0] if current_user and current_user.nome else 'U' }}
+                                </div>
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <!-- Notificações -->
+                    <a href="{{ url_for('usuario.notificacoes') }}" class="p-1" aria-label="Notificações">
+                        <img src="{{ url_for('static', filename='img/icon-notifications.svg') }}" alt="Notificações" class="w-[36px] h-[36px]">
+                    </a>
+                </div>
+
+                <!-- Ícone do Menu Hamburguer (Mobile/Tablet) -->
+                <label for="controle-menu-privado" class="flex lg:hidden p-1 cursor-pointer select-none items-center justify-center" aria-label="Abrir Menu">
+                    <img src="{{ url_for('static', filename='img/icon-menu-auth.svg') }}" alt="Menu">
+                </label>
+            </div>
+        </header>
+
+        <!-- Menu Suspenso Mobile e Tablet -->
+        <div class="hidden peer-checked:block lg:hidden fixed top-[76px] right-0 w-[260px] sm:w-[280px] bg-amarelo-mantui-50 shadow-lg z-50 p-6 border-b border-l border-neutro-mantui-200">
+            <!-- Campo de Pesquisa Mobile -->
+            <div class="block sm:hidden mb-4">
+                <form action="{{ url_for('usuario.home') }}" method="GET" id="searchFormMobile" role="search" class="flex items-center h-[38px] w-full border border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
+                    <button type="submit" class="w-[36px] h-[38px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
+                        <img src="{{ url_for('static', filename='img/icon-search.svg') }}" alt="Pesquisar" class="w-4 h-4" />
+                    </button>
+                    <input type="search" name="q" class="w-full bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato placeholder:font-medium truncate" placeholder="Pesquisar..." autocomplete="off" value="{{ request.args.get('q', '') }}" />
+                </form>
+            </div>
+
+            <!-- Links de Navegação do Menu Suspenso -->
+            <nav class="font-lato font-medium text-[15px]" aria-label="Navegação secundária móvel">
+                <ul class="flex flex-col gap-4 text-neutro-mantui-950">
+                    <li class="block sm:hidden">
+                        <a href="{{ url_for('usuario.perfil') }}" class="hover:text-laranja-mantui-600 block transition-colors">Perfil</a>
+                    </li>
+                    <li class="block sm:hidden">
+                        <a href="{{ url_for('usuario.notificacoes') }}" class="hover:text-laranja-mantui-600 block transition-colors">Notificações</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('avistamento.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Avistamentos</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('equipe.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Grupos</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('projeto.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Projetos</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 2. SIDEBAR LATERAL (Apenas Desktop - Inicia abaixo do Header com top-[76px]) -->
+    <aside class="hidden desktop:flex flex-col justify-between w-64 h-[calc(100vh-76px)] fixed left-0 top-[76px] bg-neutro-mantui-950 p-6 z-40 border-r border-neutro-mantui-800">
+        <!-- Topo da Sidebar -->
+        <div class="flex flex-col gap-8 w-full">
+
+            <div class="flex justify-center pt-2">
+            <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
+            </div>
+            <!-- Botão Principal: Realizar Avistamento -->
+            <a href="{{ url_for('avistamento.add') if 'avistamento.add' in endpoints else '#' }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                <span>Realizar Avistamento</span>
+                <span class="text-xl leading-none">+</span>
+            </a>
+
+            <!-- Links de Navegação Principal -->
+            <nav class="flex flex-col gap-4 font-lato text-base">
+                <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                    <span class="text-xs">▶</span>
+                    <span>Meus Avistamentos</span>
+                </a>
+                <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                    <span class="text-xs">▶</span>
+                    <span>Meus Grupos</span>
+                </a>
+                <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                    <span class="text-xs">▶</span>
+                    <span>Meus Projetos</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Rodapé da Sidebar (Botão Sair) -->
+        <div class="w-full">
+            <a href="{{ url_for('usuario.logout') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-laranja-mantui-600 hover:bg-laranja-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                <span>✖</span>
+                <span>Sair do Sistema</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 3. BARRA DE NAVEGAÇÃO INFERIOR (Mobile/Tablet) -->
+    <nav class="flex desktop:hidden fixed bottom-0 left-0 w-full bg-neutro-mantui-950 border-t border-neutro-mantui-800 px-4 py-2 z-40 justify-around items-center">
+        <!-- Item: Avistamentos -->
+        <a href="{{ url_for('avistamento.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
+                <img src="{{ url_for('static', filename='img/icon-avistamentos-neutro.svg') }}" alt="Avistamentos" class="w-6 h-6">
+            </div>
+            <span>Avistamentos</span>
+        </a>
+
+        <!-- Item: Grupos -->
+        <a href="{{ url_for('equipe.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
+                <img src="{{ url_for('static', filename='img/icon-groups-neutro.svg') }}" alt="Grupos" class="w-6 h-6 opacity-70">
+            </div>
+            <span>Grupos</span>
+        </a>
+
+        <!-- Botão Central (+) -->
+        <a href="#" class="flex items-center justify-center w-12 h-12 bg-verde-mantui-600 rounded-xl text-white text-2xl font-bold shadow-lg hover:scale-105 transition -mt-4">
+            +
+        </a>
+
+        <!-- Item: Projetos -->
+        <a href="{{ url_for('projeto.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
+                <img src="{{ url_for('static', filename='img/icon-projects-neutro.svg') }}" alt="Projetos" class="w-6 h-6 opacity-70">
+            </div>
+            <span>Projetos</span>
+        </a>
+
+        <!-- Item: Sair -->
+        <a href="{{ url_for('usuario.logout') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-laranja-mantui-600 text-white font-bold">
+                ✖
+            </div>
+            <span>Sair</span>
+        </a>
+    </nav>
+
+    <!-- 4. CONTEÚDO PRINCIPAL (Main) -->
+    <main class="w-full min-h-screen pt-[96px] pb-24 desktop:pb-8 desktop:ml-64 p-6 bg-neutro-mantui-50">
         
-        <!-- Campo de Pesquisa Mobile -->
-        <div class="block sm:hidden mb-4">
-            <form id="searchFormMobile" role="search" class="flex items-center h-[38px] w-[211px] border-[1px] border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
-                <button type="submit" class="w-[36px] h-[38px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
-                    <img src="{{ url_for('static', filename='img/icon-search.svg') }}" alt="Pesquisar" class="w-4 h-4" />
-                </button>
-                <input type="search"
-                    class="w-full bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato font-medium truncate"
-                    placeholder="Pesquisar..." autocomplete="off" />
-            </form>
-        </div>
+        <!-- BLOCO DE MENSAGENS FLASH -->
+        {% set mensagens = get_flashed_messages(with_categories=True) %}
+        {% if mensagens %}
+            <div class="w-full max-w-4xl mx-auto mb-6 space-y-2">
+                {% for category, message in mensagens %}
+                <div class="flash-message font-bold p-4 flex justify-between items-center rounded-lg shadow-sm transition-opacity duration-500
+                            {% if category == 'success' %} bg-green-100 text-green-800 border border-green-200
+                            {% elif category == 'danger' %} bg-red-100 text-red-800 border border-red-200
+                            {% else %} bg-blue-100 text-blue-800 border border-blue-200 {% endif %}">
+                    <span>{{ message }}</span>
+                    <button onclick="this.parentElement.remove()" class="ml-4 font-bold text-xl leading-none hover:opacity-75">&times;</button>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-        <!-- Links de Navegação do Menu Suspenso -->
-        <nav class="font-lato font-medium text-[15px]" aria-label="Navegação secundária móvel">
-            <ul class="flex flex-col gap-4 text-neutro-mantui-950">
+        <!-- CONTEÚDO DAS SEÇÕES DO SISTEMA -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold font-sans text-verde-mantui-700 mb-4">Avistamentos</h2>
+            <!-- Inserir cards de avistamentos aqui -->
+        </section>
 
-                <!-- Perfil e Notificações no Menu Mobile  -->
-                <li class="block sm:hidden">
-                    <a href="{{ url_for('usuario.perfil') }}" class="hover:text-laranja-mantui-600 block transition-colors">Perfil</a>
-                </li>
-                <li class="block sm:hidden">
-                    <a href="#" class="hover:text-laranja-mantui-600 block transition-colors">Notificações</a>
-                </li>
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold font-sans text-verde-mantui-700 mb-4">Equipes</h2>
+            <!-- Inserir cards de equipes aqui -->
+        </section>
 
-                <!-- Demais Itens do Menu no Mobile e Tablet -->
-                <li>
-                    <a href="{{ url_for('avistamento.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Avistamentos</a>
-                </li>
-                <li>
-                    <a href="{{ url_for('equipe.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Grupos</a>
-                </li>
-                <li>
-                    <a href="{{ url_for('projeto.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Projetos</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold font-sans text-verde-mantui-700 mb-4">Projetos</h2>
+            <!-- Inserir cards de projetos aqui -->
+        </section>
 
-<body>
+    </main>
 
-    {% set mensagens = get_flashed_messages(with_categories=True) %}
-    {% if mensagens %}
-    {% for category, message in mensagens %}
-    <div class="flash-message font-bold p-4 mb-2 flex justify-between items-center rounded transition-opacity duration-500
-                {% if category == 'success' %} bg-green-50 text-green-800
-                {% elif category == 'danger' %} bg-red-50 text-red-800
-                {% else %} bg-blue-50 text-blue-800 {% endif %}">
-        <span>{{ message }}</span>
-        <button onclick="this.parentElement.remove()"
-            class="ml-4 font-bold text-xl leading-none hover:opacity-75">&times;</button>
-    </div>
-    {% endfor %}
-
-    <!-- AVISTAMENTOS -->
-     
-
-    <!-- EQUIPES -->
-
-    <!-- PROJETOS -->
-    <!-- Animação em JS para a flash message sumir -->
+    <!-- JavaScript para ocultar as Flash Messages -->
     <script>
         setTimeout(() => {
             document.querySelectorAll('.flash-message').forEach(el => {
@@ -164,8 +252,6 @@
             });
         }, 4000);
     </script>
-    {% endif %}
 
 </body>
-
 </html>
