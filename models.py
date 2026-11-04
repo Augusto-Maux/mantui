@@ -18,7 +18,6 @@ class Usuario(db.Model, UserMixin):
     # pode-se calcular idade a partir da data que o usuário adiciona
     idade = db.Column(db.Date)
     username = db.Column(db.String(255), nullable=False)
-    # idade = db.Column(db.Integer)
     papel = db.Column(db.String(100))
     foto_perfil = db.Column(db.String(500), unique=True)
 
@@ -29,7 +28,6 @@ class Usuario(db.Model, UserMixin):
         self.idade = idade
         self.username = username
         self.papel = papel
-        # self.foto_perfil = foto_perfil
 
     def _def_senha(self, senha_without_hash):
         return generate_password_hash(senha_without_hash)

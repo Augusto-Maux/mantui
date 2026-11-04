@@ -69,6 +69,9 @@ def update(id):
         caminho = user.foto_perfil
 
         if foto_perfil and foto_perfil.filename:
+            pasta = os.path.join(current_app.static_folder, 'uploads', 'usuarios')
+            os.makedirs(pasta, exist_ok=True)
+
             nome = secure_filename(foto_perfil.filename)
             extensao = nome.rsplit('.', 1)[-1].lower()
             
@@ -78,7 +81,7 @@ def update(id):
 
             new_name = f"{uuid.uuid4().hex}.{extensao}"
             caminho_salvar = os.path.join(
-                current_app.config['UPLOAD_FOLDER'],
+                pasta,
                 new_name
             )
 
