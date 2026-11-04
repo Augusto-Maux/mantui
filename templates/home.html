@@ -11,13 +11,12 @@
 <body class="bg-neutro-mantui-50 min-h-screen">
 
     <div class="relative w-full">
-        <!-- Checkbox oculta p/ menu mobile/tablet -->
+        <!-- Checkbox oculta p/ menu -->
         <input type="checkbox" id="controle-menu-privado" class="peer hidden" />
-
-        <!-- 1. HEADER (Fixo / Topo - Altura 76px) -->
+ -->
         <header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center px-[20px] sm:px-[32px] border-b border-neutro-mantui-950 fixed top-0 left-0 z-50">
             
-            <!-- Bloco 1 do Header (Logo + Campo de Pesquisa) -->
+            <!-- Bloco 1 do Header -->
             <div class="flex items-center gap-[12px] sm:gap-[16px]">
                 <!-- Logo -->
                 <div>
@@ -26,7 +25,7 @@
                     </a>
                 </div>
 
-                <!-- Campo de Pesquisa Desktop -->
+                <!-- Campo de Pesquisa do search bar -->
                 <div class="hidden sm:block w-full sm:w-[290px] lg:w-[510px]">
                     <form action="{{ url_for('usuario.home') }}" method="GET" id="searchFormDesktop" role="search" class="flex items-center h-[44px] w-full border border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
                         <button type="submit" class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
@@ -45,17 +44,17 @@
                     <ul class="flex items-center gap-[16px]">
                         <li>
                             <a href="{{ url_for('avistamento.recovery') }}" title="Avistamentos">
-                                <img src="{{ url_for('static', filename='img/icon-avistamentos.svg') }}" alt="Avistamentos" class="w-6 h-6">
+                                <img src="{{ url_for('static', filename='img/icon-avistamentos.svg') }}" alt="Avistamentos" class="w-[36px] h-[36px]">
                             </a>
                         </li>
                         <li>
                             <a href="{{ url_for('equipe.recovery') }}" title="Grupos">
-                                <img src="{{ url_for('static', filename='img/icon-groups.svg') }}" alt="Grupos" class="w-6 h-6">
+                                <img src="{{ url_for('static', filename='img/icon-groups.svg') }}" alt="Grupos" class="w-[36px] h-[36px]">
                             </a>
                         </li>
                         <li>
                             <a href="{{ url_for('projeto.recovery') }}" title="Projetos">
-                                <img src="{{ url_for('static', filename='img/icon-projects.svg') }}" alt="Projetos" class="w-6 h-6">
+                                <img src="{{ url_for('static', filename='img/icon-projects.svg') }}" alt="Projetos" class="w-[36px] h-[36px]">
                             </a>
                         </li>
                     </ul>
@@ -242,16 +241,6 @@
         </section>
 
     </main>
-
-    <!-- JavaScript para ocultar as Flash Messages -->
-    <script>
-        setTimeout(() => {
-            document.querySelectorAll('.flash-message').forEach(el => {
-                el.style.opacity = '0';
-                setTimeout(() => el.remove(), 500);
-            });
-        }, 4000);
-    </script>
 
 </body>
 </html>
