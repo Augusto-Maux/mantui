@@ -3,6 +3,12 @@ from datetime import date, datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+# Avistamento <-> Pesquisadores
+avistamento_pesquisador = db.Table('Avistamento_Pesquisador',
+    db.Column('id_avistamento', db.Integer, db.ForeignKey('avistamento.id'), primary_key=True),
+    db.Column('id_usuario', db.Integer, db.ForeignKey('usuario.id'), primary_key=True)
+)
+
 class Usuario(db.Model, UserMixin):
     __tablename__= "usuario"
     id = db.Column(db.Integer, primary_key=True)
@@ -75,24 +81,30 @@ class Avistamento(db.Model):
     __tablename__= "avistamento"
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
-    latitude = db.Column(db.Integer)
-    longitude = db.Column(db.Integer)
+    latitude = db.Column(db.String(200))
+    longitude = db.Column(db.String(200))
     bioma = db.Column(db.String(200))
     tipo_registro = db.Column(db.String(200))
     cond_clima = db.Column(db.String(200))
     cond_ventos = db.Column(db.String(200))
     observacoes = db.Column(db.String(300))
-    data_hora = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.now(timezone.utc))
     data_hora = db.Column(db.DateTime(timezone=True), default=datetime.now(timezone.utc))
-    midias = db.Column(db.String(500))
-    
+
+    # relacionamento usuário (principal pesquisador)
     fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
+
+    # relacionamento espécie
     fk_id_especie = db.Column(db.Integer, db.ForeignKey('especie.id'))
     especie = db.relationship('Especie', foreign_keys=fk_id_especie)
-    
 
-    def __init__(self, nome, bioma, tipo_registro, cond_clima, cond_ventos, observacoes, fk_id_user, fk_id_especie):
+    # relacionamento para pesquisador adicional
+    pesquisadores_adicionais = db.relationship('Usuario', secondary=avistamento_pesquisador, backref='avistamentos_compartilhados')
+
+    # relacionamento com mídias
+    midias = db.relationship('Midia', back_populates='avistamento')
+
+    def __init__(self, nome, bioma, tipo_registro, cond_clima, cond_ventos, observacoes, fk_id_user, fk_id_especie, latitude, longitude, data_hora):
         self.nome = nome
         self.bioma = bioma
         self.tipo_registro = tipo_registro
@@ -101,9 +113,32 @@ class Avistamento(db.Model):
         self.observacoes = observacoes
         self.fk_id_user = fk_id_user
         self.fk_id_especie = fk_id_especie
+        self.latitude = latitude
+        self.longitude = longitude
+        if data_hora:
+            self.data_hora = data_hora
 
     def __repr__(self):
         return f"<Avistamento {self.nome}>"
+
+# aprimorar Midia (atributos) posteriormente
+class Midia(db.Model):
+    __tablename__ = "midia"
+    id = db.Column(db.Integer, primary_key=True)
+    caminho = db.Column(db.String(300), nullable=False)
+    data_upload = db.Column(db.DateTime(timezone=True), default=datetime.now(timezone.utc))
+
+    # relacionamento com avistamentos
+    fk_id_avistamento = db.Column(db.Integer, db.ForeignKey('avistamento.id'), nullable=False)
+    avistamento = db.relationship('Avistamento', back_populates='midias')
+
+    def __init__(self, caminho, tipo, fk_id_avistamento):
+        self.caminho = caminho
+        self.tipo = tipo
+        self.fk_id_avistamento = fk_id_avistamento
+
+    def __repr__(self):
+        return f"<Mídia {self.caminho}>"
 
 class Especie(db.Model):
     __tablename__ = "especie"

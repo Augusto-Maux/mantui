@@ -1,14 +1,37 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response, current_app
-from models import Avistamento, Especie
+from models import Avistamento, Especie, Midia, Usuario
 from utils import db
 from weasyprint import HTML
 from flask_login import login_required, current_user
-# from werkzeug.utils import secure_filename
-# import os, uuid
+from datetime import datetime
+from werkzeug.utils import secure_filename
+import os, uuid
 
-EXTENSOES = {'png', 'jpg', 'jpeg', 'webp', 'audio/*'}
+# aumentar quantidade de extensões
+EXTENSOES = {'png', 'jpg', 'jpeg', 'webp', 'mp4', 'mp3', 'wav'}
 
 bp_avistamento = Blueprint("avistamento", __name__, template_folder='templates')
+
+def salvar_midias_uploads(arquivos, id_avistamento):
+	# realizar pasta de uploads para usuarios em Usuario.py
+
+	pasta = os.path.join(current_app.static_folder, 'uploads', 'midias')
+	os.makedirs(pasta, exist_ok=True)
+
+	for a in arquivos:
+		if a and a.filename:
+			nome_arquivo = secure_filename(a.filename)
+			extensao = nome_arquivo.rsplit('.', 1)[-1].lower()
+			nome = f"{uuid.uuid4()}.{extensao}"
+			caminho = os.path.join(pasta, nome)
+
+			a.save(caminho)
+
+			caminho_relativo = f"uploads/midias/{nome}"
+
+			midia = Midia(caminho_relativo, id_avistamento)
+
+			db.session.add(midia)
 
 @bp_avistamento.route('/recovery')
 @login_required
@@ -30,13 +53,38 @@ def add():
 		cond_clima = request.form.get('cond_clima')
 		cond_ventos = request.form.get('cond_ventos')
 		observacoes = request.form.get('observacoes')
-		data_hora = request.form.get('data_hora')
-		
+		longitude = request.form.get('longitude')
+		latitude = request.form.get('latitude')
 		fk_id_user = current_user.id
+
 		fk_id_especie = request.form.get('fk_id_especie') or None
+
+		data_hora_string = request.form.get('data_hora')
+		data_hora_formatado = None
+		if data_hora_string:
+			try:
+				data_hora_formatado = datetime.strptime(data_hora_string, '%Y-%m-%dT%H:%M')
+			except Exception:
+				data_hora_formatado = datetime.utcnow()
 		
-		avistamento = Avistamento(nome, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie)
+		avistamento = Avistamento(nome, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie, latitude, longitude, data_hora_formatado)
+		
+
+		# pesquisadores adicionais (Table) - falta adicionar essa lista no HTML
+		id_pesquisadores = request.form.getlist('pesquisadores_adicionais')
+		if id_pesquisadores:
+			for id_pesquisador in id_pesquisadores:
+				pesquisador = Usuario.query.get(id_pesquisador)
+				if pesquisador:
+					avistamento.pesquisadores_adicionais.append(pesquisador)
+
 		db.session.add(avistamento)
+		db.session.flush()
+
+		# falta colocar isso no HTML
+		arquivos = request.files.getlist('midia')
+		salvar_midias_uploads(arquivos, avistamento.id)
+
 		db.session.commit()
 
 		flash('Avistamento Realizado!', 'success')

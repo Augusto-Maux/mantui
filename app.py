@@ -27,15 +27,8 @@ app.register_blueprint(bp_status, url_prefix='/status_conservacao')
 def first_page():
     return render_template('index.html')
 
-app.config['UPLOAD_FOLDER'] = os.path.join(
-    app.static_folder,
-    'uploads',
-    'usuarios' # excluir depois para 'if not dirs, make ...'
-)
-
 app.config["EBIRD_API_KEY"] = os.getenv("EBIRD_API_KEY")
 
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')

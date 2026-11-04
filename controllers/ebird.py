@@ -1,8 +1,4 @@
 import requests
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from models import Avistamento, Especie
-from utils import db
-from flask_login import login_required, current_user
 
 BASE = "https://api.ebird.org/v2"
 _cache = {"especies": None}
