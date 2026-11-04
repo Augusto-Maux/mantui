@@ -33,6 +33,8 @@ app.config['UPLOAD_FOLDER'] = os.path.join(
     'usuarios' # excluir depois para 'if not dirs, make ...'
 )
 
+app.config["EBIRD_API_KEY"] = os.getenv("EBIRD_API_KEY")
+
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 

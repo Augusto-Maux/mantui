@@ -4,6 +4,7 @@
   <title>{% block title %}Novo Avistamento{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
 </head>
 <body class="bg-neutro-mantui-50 min-h-screen">
 
@@ -71,8 +72,8 @@
                         <label class="text-lato font-medium text-neutro-mantui-950">Espécie</label>
                     </p>
                         <!-- Como o Id já tava vazio deixei assim mesmo -->
-                        <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="fk_id_especie" id="">
-                            <option class="font-lato text-neutro-mantui-950" value="">Espécie não Identificada</option>
+                        <select id="select-especie" name="fk_id_especie" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500">
+                            <option value="">Espécie não Identificada</option>
                             {% for especie in especies %}
                                 <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
                             {% endfor %}
@@ -179,6 +180,14 @@
     </div>
 
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        new TomSelect("#select-especie", {
+            placeholder: "Digite para buscar a espécie...",
+            maxOptions: null
+        });
+    </script>
 
 </body>
 </html>

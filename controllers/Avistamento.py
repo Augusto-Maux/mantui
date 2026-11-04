@@ -20,7 +20,7 @@ def recovery():
 @login_required
 def add():
 	if request.method=="GET":
-		especies = Especie.query.all()
+		especies = Especie.query.order_by(Especie.nome_comum).all()
 		return render_template('avistamento/avistamento_add.html', especies=especies)
 	
 	elif request.method=="POST":
@@ -33,7 +33,7 @@ def add():
 		data_hora = request.form.get('data_hora')
 		
 		fk_id_user = current_user.id
-		fk_id_especie = request.form.get('fk_id_especie')
+		fk_id_especie = request.form.get('fk_id_especie') or None
 		
 		avistamento = Avistamento(nome, bioma, tipo_registro, cond_ventos, cond_clima, observacoes, fk_id_user, fk_id_especie)
 		db.session.add(avistamento)
