@@ -122,26 +122,38 @@ def delete(id):
 @bp_usuario.route('/tornar_moderador', methods=['GET', 'POST'])
 @login_required
 def tornar_moderador():
-    if request.method == "GET":
-        if current_user.papel != 'Moderador':
-            flash("Sem acesso", "danger")
-            return redirect(url_for('usuario.home'))
-
     if request.method == "POST":
-        id = request.form.get('id')
-        usuario = Usuario.query.filter_by(id=id).first()
+        comprovante = request.files.get('comprovante')
 
-        if usuario:
-            usuario.papel = 'Moderador'
-            db.session.commit()
-            flash('Usuário atualizado para Moderador!', 'success')
-            return redirect(url_for('usuario.home'))
-        else:
-            flash('Dados não encontrados.', 'danger')
-            return redirect(url_for('usuario.tornar_moderador'))
+        if comprovante and comprovante.filename:
+            pasta = os.path.join(current_app.static_folder, 'uploads', 'comprovantes')
+            os.makedirs(pasta, exist_ok=True)
+            comprovante_seguro = secure_filename(comprovante.filename)
 
-    usuarios = Usuario.query.all()
-    return render_template('usuario/tornar_moderador.html', usuarios=usuarios)
+            extensao = comprovante_seguro.rsplit('.', 1)[-1].lower()
+                    
+            if extensao not in EXTENSOES:
+                flash('Formato do comprovante inválido.', 'danger')
+                return redirect(url_for('usuario.tornar_moderador'))
+        
+            new_name = f"{uuid.uuid4().hex}.{extensao}"
+            caminho_salvar = os.path.join(
+                pasta,
+                new_name
+            )
+        
+            comprovante_seguro.save(caminho_salvar)
+            caminho = f"uploads/comprovantes/{new_name}"
+
+        # testar isso
+        usuario = current_user.get('id')
+        usuario.comprovante_membro = caminho
+
+    else:
+        flash('Dados não encontrados.', 'danger')
+        return redirect(url_for('usuario.tornar_moderador'))
+
+    return render_template('usuario/tornar_moderador.html')
 
 # AUTH
 @lm.user_loader

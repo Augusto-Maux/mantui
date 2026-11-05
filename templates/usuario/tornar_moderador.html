@@ -23,29 +23,8 @@
             {% endfor %}
         {% endif %}  
 
-    <table class="table">
-
-		<thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>E-mail</th>
-            </tr>
-		</thead>
-
-		<tbody>			
-			{% for u in usuarios %}
-			<tr>
-				<td>{{u.id}}</td>
-				<td>{{u.nome}}</td>
-				<td>{{u.email}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
     <form action="{{ url_for('usuario.tornar_moderador') }}" method="POST">
-        ID Novo Moderador <input type="number" name="id"><br/>
+        <input type="file" name="comprovante" >        
         <input type="submit" name="Tornar Moderador">
     </form>
 
