@@ -1,62 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Avistamentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="p-6 bg-gray-50 space-y-6">
 
-	{% set mensagens = get_flashed_messages(with_categories=True) %} 
-        {% if mensagens %}     
-            {% for category, message in mensagens %}
-                <div class="font-bold p-4 
-                    {% if category == 'success' %}
-                        bg-green-50 text-green-800
-                    {% elif category == 'danger' %}
-                        bg-red-50 text-red-800
-                    {% else %}
-                        bg-blue-50 text-blue-800
-                    {% endif %}">
-                        {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}  
+    <!-- BLOCO DE MENSAGENS FLASH -->
+    {% set mensagens = get_flashed_messages(with_categories=True) %} 
+    {% if mensagens %}     
+        {% for category, message in mensagens %}
+            <div class="font-bold p-4 mb-4 rounded-lg 
+                {% if category == 'success' %} bg-green-50 text-green-800
+                {% elif category == 'danger' %} bg-red-50 text-red-800
+                {% else %} bg-blue-50 text-blue-800 {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}   
 
-        <table class="table">
+    <!-- TABELA COMPLETA DE AVISTAMENTOS -->
+    <div class="overflow-x-auto shadow rounded-lg">
+        <table class="w-full text-left border-collapse bg-white">
+            <thead class="bg-gray-100 border-b">
+                <tr>
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Mídias</th>
+                    <th class="p-3">Nome</th>
+                    <th class="p-3">Latitude</th>
+                    <th class="p-3">Longitude</th>
+                    <th class="p-3">Bioma</th>
+                    <th class="p-3">Tipo Registro</th>
+                    <th class="p-3">Condição do Clima</th>
+                    <th class="p-3">Condição dos Ventos</th>
+                    <th class="p-3">Observações</th>
+                    <th class="p-3">Espécie</th>
+                </tr>
+            </thead>
+            <tbody>        
+                {% for a in avistamento %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="p-3 font-bold">{{ a.id }}</td>
+                    
+                    <!-- RENDERIZAÇÃO DE MÍDIAS (FOTOS E VÍDEOS) -->
+                    <td class="p-3">
+                        {% if a.midias and a.midias|length > 0 %}
+                            <div class="flex flex-wrap gap-2">
+                                {% for m in a.midias %}
+                                    {% set caminho_arquivo = m.caminho if m.caminho is defined else m.caminho_relativo %}
+                                    {% if caminho_arquivo.endswith(('.mp4', '.webm', '.ogg', '.mov', '.avi')) %}
+                                        <video controls class="w-32 h-24 object-cover rounded border shadow-sm">
+                                            <source src="{{ url_for('static', filename=caminho_arquivo) }}">
+                                            Seu navegador não suporta este vídeo.
+                                        </video>
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename=caminho_arquivo) }}" 
+                                             alt="Mídia {{ a.id }}" 
+                                             class="w-24 h-24 object-cover rounded border shadow-sm">
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-gray-400 text-sm italic">Sem mídia</span>
+                        {% endif %}
+                    </td>
 
-		<thead>
-            <tr>
-                <th></th>
-                <th>Nome</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Bioma</th>
-                <th>Tipo Registro</th>
-                <th>Condição do Clima</th>
-                <th>Condição dos Ventos</th>
-                <th>Observações</th>
-				<th>Espécie</th>
-            </tr>
-		</thead>
-
-		<tbody>			
-			{% for a in avistamento%}
-			<tr>
-				<td>{{a.id}}</td>
-				<td>{{a.nome}}</td>
-				<td>{{a.latitude}}</td>
-				<td>{{a.longitude}}</td>
-				<td>{{a.bioma}}</td>
-				<td>{{a.tipo_registro}}</td>
-				<td>{{a.cond_clima}}</td>
-				<td>{{a.cond_ventos}}</td>
-				<td>{{a.observacoes}}</td>
-				<td>{{a.fk_id_especie}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+                    <td class="p-3">{{ a.nome }}</td>
+                    <td class="p-3">{{ a.latitude }}</td>
+                    <td class="p-3">{{ a.longitude }}</td>
+                    <td class="p-3">{{ a.bioma }}</td>
+                    <td class="p-3">{{ a.tipo_registro }}</td>
+                    <td class="p-3">{{ a.cond_clima }}</td>
+                    <td class="p-3">{{ a.cond_ventos }}</td>
+                    <td class="p-3">{{ a.observacoes }}</td>
+                    <td class="p-3">{{ a.fk_id_especie }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>

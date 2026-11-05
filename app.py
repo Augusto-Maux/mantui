@@ -29,7 +29,7 @@ def first_page():
 
 app.config["EBIRD_API_KEY"] = os.getenv("EBIRD_API_KEY")
 
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db_usuario = os.getenv('DB_USERNAME')

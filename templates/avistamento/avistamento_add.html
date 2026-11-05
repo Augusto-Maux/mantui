@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <title>{% block title %}Novo Avistamento{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
@@ -8,120 +8,7 @@
 </head>
 <body class="bg-neutro-mantui-50 min-h-screen">
 
-    <div class="relative w-full">
-        <!-- Checkbox oculta p/ menu -->
-        <input type="checkbox" id="controle-menu-privado" class="peer hidden" />
- -->
-        <header class="bg-amarelo-mantui-50 h-[76px] w-full flex justify-between items-center px-[20px] sm:px-[32px] border-b border-neutro-mantui-950 fixed top-0 left-0 z-50">
-            
-            <!-- Bloco 1 do Header -->
-            <div class="flex items-center gap-[12px] sm:gap-[16px]">
-                <!-- Logo -->
-                <div>
-                    <a href="{{ url_for('usuario.home') }}">
-                        <img class="w-auto h-10 object-contain" src="{{ url_for('static', filename='img/logo-header-a.png') }}" alt="Logo Mantuí">
-                    </a>
-                </div>
-
-                <!-- Campo de Pesquisa do search bar -->
-                <div class="hidden sm:block w-full sm:w-[290px] lg:w-[510px]">
-                    <form action="{{ url_for('usuario.home') }}" method="GET" id="searchFormDesktop" role="search" class="flex items-center h-[44px] w-full border border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
-                        <button type="submit" class="w-[45px] h-[44px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
-                            <img src="{{ url_for('static', filename='img/icon-search.svg') }}" alt="Pesquisar" class="w-5 h-5">
-                        </button>
-                        <input type="search" name="q" id="searchInputDesktop" class="w-full bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato placeholder:font-medium truncate" placeholder="Pesquisar por: Espécies, Grupos, Projetos..." autocomplete="off" value="{{ request.args.get('q', '') }}" />
-                    </form>
-                </div>
-            </div>
-
-            <!-- Bloco 2 do Header (Navegação, Perfil e Menu) -->
-            <div class="flex items-center gap-[12px] sm:gap-[18px]">
-                
-                <!-- Nav Desktop -->
-                <nav class="hidden lg:block font-lato font-medium" aria-label="Navegação principal">
-                    <ul class="flex items-center gap-[16px]">
-                        <li>
-                            <a href="{{ url_for('avistamento.recovery') }}" title="Avistamentos">
-                                <img src="{{ url_for('static', filename='img/icon-avistamentos.svg') }}" alt="Avistamentos" class="w-[36px] h-[36px]">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url_for('equipe.recovery') }}" title="Grupos">
-                                <img src="{{ url_for('static', filename='img/icon-groups.svg') }}" alt="Grupos" class="w-[36px] h-[36px]">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url_for('projeto.recovery') }}" title="Projetos">
-                                <img src="{{ url_for('static', filename='img/icon-projects.svg') }}" alt="Projetos" class="w-[36px] h-[36px]">
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-                <!-- Área de Perfil -->
-                <div class="hidden sm:flex items-center gap-[18px]">
-                    <div class="flex items-center gap-[8px]">
-                        <div class="text-[13px] sm:text-[14px] whitespace-nowrap">
-                            Olá, <span class="font-lato font-semibold text-laranja-mantui-600">{{ current_user.nome if current_user else 'Utilizador' }}</span>!
-                        </div>
-                        <a href="{{ url_for('usuario.perfil') }}" aria-label="Ver Perfil">
-                            {% if current_user and current_user.foto_perfil %}
-                                <img src="{{ url_for('static', filename=current_user.foto_perfil) }}" alt="{{ current_user.nome }}" class="w-[36px] h-[36px] rounded-full object-cover">
-                            {% else %}
-                                <div class="w-[36px] h-[36px] bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-[14px]">
-                                    {{ current_user.nome[0] if current_user and current_user.nome else 'U' }}
-                                </div>
-                            {% endif %}
-                        </a>
-                    </div>
-
-                    <!-- Notificações -->
-                    <a href="{{ url_for('usuario.notificacoes') }}" class="p-1" aria-label="Notificações">
-                        <img src="{{ url_for('static', filename='img/icon-notifications.svg') }}" alt="Notificações" class="w-[36px] h-[36px]">
-                    </a>
-                </div>
-
-                <!-- Ícone do Menu Hamburguer (Mobile/Tablet) -->
-                <label for="controle-menu-privado" class="flex lg:hidden p-1 cursor-pointer select-none items-center justify-center" aria-label="Abrir Menu">
-                    <img src="{{ url_for('static', filename='img/icon-menu-auth.svg') }}" alt="Menu">
-                </label>
-            </div>
-        </header>
-
-        <!-- Menu Suspenso Mobile e Tablet -->
-        <div class="hidden peer-checked:block lg:hidden fixed top-[76px] right-0 w-[260px] sm:w-[280px] bg-amarelo-mantui-50 shadow-lg z-50 p-6 border-b border-l border-neutro-mantui-200">
-            <!-- Campo de Pesquisa Mobile -->
-            <div class="block sm:hidden mb-4">
-                <form action="{{ url_for('usuario.home') }}" method="GET" id="searchFormMobile" role="search" class="flex items-center h-[38px] w-full border border-neutro-mantui-900 rounded-[5px] overflow-hidden bg-white/50">
-                    <button type="submit" class="w-[36px] h-[38px] bg-neutro-mantui-950 flex items-center justify-center flex-shrink-0" aria-label="Pesquisar">
-                        <img src="{{ url_for('static', filename='img/icon-search.svg') }}" alt="Pesquisar" class="w-4 h-4" />
-                    </button>
-                    <input type="search" name="q" class="w-full bg-transparent px-[8px] text-[12px] text-neutro-mantui-800 focus:outline-none placeholder:font-lato placeholder:font-medium truncate" placeholder="Pesquisar..." autocomplete="off" value="{{ request.args.get('q', '') }}" />
-                </form>
-            </div>
-
-            <!-- Links de Navegação do Menu Suspenso -->
-            <nav class="font-lato font-medium text-[15px]" aria-label="Navegação secundária móvel">
-                <ul class="flex flex-col gap-4 text-neutro-mantui-950">
-                    <li class="block sm:hidden">
-                        <a href="{{ url_for('usuario.perfil') }}" class="hover:text-laranja-mantui-600 block transition-colors">Perfil</a>
-                    </li>
-                    <li class="block sm:hidden">
-                        <a href="{{ url_for('usuario.notificacoes') }}" class="hover:text-laranja-mantui-600 block transition-colors">Notificações</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('avistamento.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Avistamentos</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('equipe.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Grupos</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('projeto.recovery') }}" class="hover:text-laranja-mantui-600 block transition-colors">Projetos</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    {% include "partials_private/header_lock.html" %}
 
     <main class="w-full my-auto flex justify-center desktop:justify-center p-3 mb-3">
 

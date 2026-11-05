@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <title>{% block title %}Mantuí{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+</head>
+
+<body class="min-h-screen">
+
+    {% include "partials_public/header_public.html" %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "partials_public/footer_public.html" %}
+
+</body>
+
+</html>
