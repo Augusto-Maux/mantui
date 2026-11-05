@@ -122,15 +122,12 @@ def delete(id):
 @bp_usuario.route('/tornar_moderador', methods=['GET', 'POST'])
 @login_required
 def tornar_moderador():
-    if current_user.papel not in ['Administrador', 'Moderador']:
-        flash("Sem acesso", "danger")
-        return redirect(url_for('usuario.home'))
-
     if request.method == "GET":
-        usuarios = Usuario.query.all()
-        return render_template('usuario/tornar_moderador.html', usuarios=usuarios)
+        if current_user.papel != 'Moderador':
+            flash("Sem acesso", "danger")
+            return redirect(url_for('usuario.home'))
 
-    elif request.method == "POST":
+    if request.method == "POST":
         id = request.form.get('id')
         usuario = Usuario.query.filter_by(id=id).first()
 
@@ -143,9 +140,8 @@ def tornar_moderador():
             flash('Dados não encontrados.', 'danger')
             return redirect(url_for('usuario.tornar_moderador'))
 
-    else:
-        flash('Problema ao tornar moderador', 'danger')
-        return redirect(url_for('usuario.home'))
+    usuarios = Usuario.query.all()
+    return render_template('usuario/tornar_moderador.html', usuarios=usuarios)
 
 # AUTH
 @lm.user_loader

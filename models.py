@@ -15,11 +15,11 @@ class Usuario(db.Model, UserMixin):
     nome = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     senha = db.Column(db.String(255), nullable=False)
-    # pode-se calcular idade a partir da data que o usuário adiciona
-    idade = db.Column(db.Date)
+    idade = db.Column(db.Date) # podia ter cálculo
     username = db.Column(db.String(255), nullable=False)
     papel = db.Column(db.String(100))
     foto_perfil = db.Column(db.String(500), unique=True)
+    comprovante_membro = db.Column(db.String(500), nullable=True) # exclusivo para tornar_moderador
 
     def __init__(self, nome, email, senha_text, idade, username, papel):
         self.nome = nome
