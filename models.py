@@ -130,9 +130,8 @@ class Midia(db.Model):
     fk_id_avistamento = db.Column(db.Integer, db.ForeignKey('avistamento.id'), nullable=False)
     avistamento = db.relationship('Avistamento', back_populates='midias')
 
-    def __init__(self, caminho, tipo, fk_id_avistamento):
+    def __init__(self, caminho, fk_id_avistamento):
         self.caminho = caminho
-        self.tipo = tipo
         self.fk_id_avistamento = fk_id_avistamento
 
     def __repr__(self):
