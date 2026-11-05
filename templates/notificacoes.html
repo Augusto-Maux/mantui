@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mantuí{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+</head>
+
+<body class="bg-neutro-mantui-50 min-h-screen">
+    <main class="flex flex-col items-center gap-[36px] mt-[72px] mx-[24px]">
+
+        <section class="flex flex-col items-center h-auto w-[395px] gap-[24px]">
+
+            <div>
+                <img class="w-[395px] h-auto" src="{{ url_for('static', filename='img/img-erro-404.png') }}" alt="">
+            </div>
+
+            <div class="flex items-stretch justify-center items-center flex-col gap-[24px]">
+                <div class="flex flex-col items-center text-center text-neutro-mantui-950">
+                    <h2 class="font-sans font-bold text-2xl">Ops! Essa página voou para longe...</h2>
+                    <span class="font-lato text-base">O endereço digitado pode estar incorreto ou a página mudou de
+                        lugar.</span>
+                </div>
+
+                <div
+                    class="flex items-stretch justify-center items-center py-[15px] px-[10px] bg-verde-mantui-500 hover:bg-verde-mantui-600 transition cursor-pointer font-lato font-medium text-verde-mantui-50 rounded-[3px]">
+                    <a href="{{ url_for('usuario.home')}}">
+                        Ir para a Home
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+        <figure>
+            <img class="w-[1295px] h-auto" src="{{ url_for('static', filename='img/img-erro.png')}}" alt="">
+        </figure>
+
+    </main>
+    <footer class="mt-[36px] mx-0">
+        <article
+            class="bg-neutro-mantui-950 px-6 py-4 flex flex-col gap-4 items-center justify-between tablet:flex-row">
+            <span class="text-laranja-mantui-50 text-sm text-center tablet:text-left">© 2025 MANTUÍ. Todos os direitos
+                Reservados</span>
+            <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="Logo GitHub"
+                class="w-6 h-6 cursor-pointer">
+        </article>
+    </footer>
+</body>
+
+</html>
