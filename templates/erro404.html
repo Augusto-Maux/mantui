@@ -1,7 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="scroll-smooth">
+<html lang="pt-br">
+
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Mantuí{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
+
+<body>
+  <main>
+    <section>
+      <div>
+        <img src="{{ url_for('static', filename='img/img-erro-404.png') }}" alt="">
+      </div>
+      <div>
+        <h2>Ops! Essa página voou para longe...</h2>
+        <span>O endereço digitado pode estar incorreto ou a página mudou de lugar.</span>
+      </div>
+      <div>
+        <a href="{{ url_for 'usuario.home')}}"></a>
+      </div>
+
+    </section>
+    <figure>
+      <img src="{{ url_for('static', filename='img/img-erro.png')}}" alt="">
+    </figure>
+  </main>
+</body>
+
+</html>
