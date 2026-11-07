@@ -10,10 +10,9 @@ avistamento_pesquisador = db.Table('Avistamento_Pesquisador',
 )
 
 # Membros <-> Equipe
-# colocar CASCADE
 membros_equipe = db.Table('Membros_Equipe',
-    db.Column('id_usuario', db.Integer, db.ForeignKey('usuario.id'), primary_key=True),
-    db.Column('id_equipe', db.Integer, db.ForeignKey('equipe.id'), primary_key=True)               
+    db.Column('id_usuario', db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('id_equipe', db.Integer, db.ForeignKey('equipe.id', ondelete='CASCADE'), primary_key=True)               
 )
 
 class Usuario(db.Model, UserMixin):
@@ -183,3 +182,22 @@ class StatusConservacao(db.Model):
         return f"<Status Conservação {self.descricao}>"
 
 # Notificação - classe
+class Notificacao(db.Model):
+    __tablename__ = "notificacao"
+    id = db.Column(db.Integer, primary_key=True)
+    mensagem = db.Column(db.String(300), nullable=False) # adicionar tipo?
+    data_hora = db.Column(db.DateTime(timezone=True), default=datetime.now(timezone.utc))
+
+    fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), nullable=False) # destinatário
+    user_destinatario = db.relationship('Usuario', foreign_keys=fk_id_user, backref='notificacoes') # relacionamento
+
+    fk_id_equipe = db.Column(db.Integer, db.ForeignKey('equipe.id', ondelete='CASCADE')) 
+    equipe = db.relationship('Equipe', foreign_keys=fk_id_equipe)
+
+    def __init__(self, mensagem, fk_id_user, fk_id_equipe):
+        self.mensagem = mensagem
+        self.fk_id_user = fk_id_user
+        self.fk_id_equipe = fk_id_equipe
+
+    def __repr__(self):
+        return f"Notificação {self.mensagem}"
