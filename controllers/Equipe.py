@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from models import Equipe
+from models import Equipe, Usuario, Notificacao
 from utils import db
 from flask_login import current_user, login_required
 
@@ -64,6 +64,42 @@ def delete(id):
 	return redirect(url_for('equipe.recovery'))
 
 
-# convidar - equipe (id)
+@bp_equipe.route('/convidar/<int:id>', methods=['POST'])
+@login_required
+def convidar(id):
+	equipe = Equipe.query.get_or_404(id)
+
+	if equipe.fk_id_user != current_user.id:
+		flash('Você não pode convidar usuários')
+		return redirect(url_for('usuario.home'))
+
+	username_convidado = request.form.get('username')
+	username_convidado = Usuario.query.filter_by(username=username_convidado).first()
+
+	if not username_convidado:
+		flash('Usuário não encontrado')
+		return redirect(url_for('usuario.home'))
+
+	if (username_convidado in equipe.membros) or (username_convidado == equipe.fk_id_user):
+		flash('O usuário já faz parte do grupo')
+		return redirect(url_for('usuario.home'))
+
+	convite_existente = Notificacao.query.filter_by(
+		fk_id_user=username_convidado.id,
+		fk_id_equipe=equipe.id
+	).first()
+
+	if convite_existente:
+		flash(f'O convite deste grupo ao {username_convidado} já existe.')
+		return redirect(url_for('usuario.home'))
+
+	mensagem = f"O pesquisador {current_user.username} convidou você!"
+	notificacao = Notificacao(mensagem, username_convidado.id, equipe.id)
+
+	db.session.add(notificacao)
+	db.session.commit()
+
+	flash('Notificação Enviada!')
+	return redirect(url_for('usuario.home'))
 
 # resposta - convite
