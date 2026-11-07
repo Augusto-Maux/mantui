@@ -9,6 +9,13 @@ avistamento_pesquisador = db.Table('Avistamento_Pesquisador',
     db.Column('id_usuario', db.Integer, db.ForeignKey('usuario.id'), primary_key=True)
 )
 
+# Membros <-> Equipe
+# colocar CASCADE
+membros_equipe = db.Table('Membros_Equipe',
+    db.Column('id_usuario', db.Integer, db.ForeignKey('usuario.id'), primary_key=True),
+    db.Column('id_equipe', db.Integer, db.ForeignKey('equipe.id'), primary_key=True)               
+)
+
 class Usuario(db.Model, UserMixin):
     __tablename__= "usuario"
     id = db.Column(db.Integer, primary_key=True)
@@ -67,6 +74,8 @@ class Equipe(db.Model):
     fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))    
     user = db.relationship('Usuario', foreign_keys=fk_id_user)
     projetos = db.relationship('Projeto', back_populates='equipe')
+
+    membros = db.relationship('Usuario', secondary=membros_equipe, backref='equipes')
 
     def __init__(self, nome, fk_id_user):
         self.nome = nome
@@ -172,3 +181,5 @@ class StatusConservacao(db.Model):
 
     def __repr__(self):
         return f"<Status Conservação {self.descricao}>"
+
+# Notificação - classe

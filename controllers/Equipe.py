@@ -62,3 +62,8 @@ def delete(id):
 		flash("Não foi possível excluir a equipe", "danger")
 
 	return redirect(url_for('equipe.recovery'))
+
+
+# convidar - equipe (id)
+
+# resposta - convite
