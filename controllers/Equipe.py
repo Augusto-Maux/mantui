@@ -63,7 +63,6 @@ def delete(id):
 
 	return redirect(url_for('equipe.recovery'))
 
-
 @bp_equipe.route('/convidar/<int:id>', methods=['POST'])
 @login_required
 def convidar(id):
@@ -102,4 +101,28 @@ def convidar(id):
 	flash('Notificação Enviada!')
 	return redirect(url_for('usuario.home'))
 
-# resposta - convite
+@bp_equipe.route('/responder/<int:id>', methods=['POST'])
+@login_required
+def responder(id):
+	notificacao = Notificacao.query.get_or_404(id)
+	equipe = Equipe.query.get_or_404(notificacao.fk_id_equipe)
+
+	if notificacao.status != 'Pendente':
+		flash('A notificação já foi respondida!')
+		return redirect(url_for('usuario.home'))
+
+	aceitar_rejeitar = request.form.get('resposta') # lista suspensa ou botão
+
+	if aceitar_rejeitar == 'aceitar':
+		if equipe:
+			equipe.membros.append(current_user)
+		notificacao.status = 'Aceito'
+		flash('Agora você faz parte do grupo!')
+
+	elif aceitar_rejeitar == 'rejeitar':		
+		notificacao.status = 'Rejeitado'
+		flash('Você rejeitou o convite.')
+		return redirect(url_for('usuario.home'))
+
+	db.session.commit()
+	return redirect(url_for('usuario.home'))
