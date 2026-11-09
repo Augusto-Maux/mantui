@@ -44,7 +44,8 @@ def recovery():
 def add():
 	if request.method=="GET":
 		especies = Especie.query.order_by(Especie.nome_comum).all()
-		return render_template('avistamento/avistamento_add.html', especies=especies)
+		usuarios = Usuario.query.order_by(Usuario.nome).all()
+		return render_template('avistamento/avistamento_add.html', especies=especies, usuarios=usuarios)
 	
 	elif request.method=="POST":
 		nome = request.form.get('nome')

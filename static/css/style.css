@@ -1,0 +1,46 @@
+/* Remove a aparência de "campo dentro de campo" e zera resets do Tom Select */
+.ts-wrapper .ts-control {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Caixa principal adaptada ao visual neutro + borda 3px + foco laranja */
+.ts-wrapper {
+    background-color: transparent !important;
+    border: 3px solid #a3a3a3 !important; /* Cor idêntica a border-neutro-mantui-400 */
+    border-radius: 0.25rem !important;   /* rounded */
+    padding: 0.35rem 0.85rem !important;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Estado quando o campo recebe Foco/Clique */
+.ts-wrapper.focus {
+    border-color: #f97316 !important; /* Cor do foco naranja-mantui-500 */
+    box-shadow: 0 0 0 1px #f97316 !important;
+}
+
+/* Estilo da lista suspensa (Dropdown) */
+.ts-dropdown {
+    border: 1px solid #e5e5e5 !important;
+    border-radius: 0.5rem !important;
+    margin-top: 4px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    z-index: 50 !important;
+}
+
+/* Item hover na lista suspensa */
+.ts-dropdown .option:hover, 
+.ts-dropdown .option.active {
+    background-color: #9FD87E !important; /* Cor laranja-mantui-50 */
+}
+
+/* Força o item selecionado no Tom Select a alinhar foto e nome lado a lado */
+.ts-wrapper .item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important; /* Espaçamento de 8px entre foto e nome */
+}

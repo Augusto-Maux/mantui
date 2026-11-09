@@ -5,8 +5,10 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
   <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="bg-neutro-mantui-50 min-h-screen">
+
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
 
     {% include "partials_private/header_lock.html" %}
 
@@ -62,7 +64,7 @@
 
                     <button type="button" class="bg-orange-600 hover:bg-orange-500 text-laranja-mantui-50 font-medium px-8 py-2.5 rounded-md text-sm transition-colors pointer-events-none">
                         Selecionar Arquivos
-                    </button>
+                    </button> 
                 </div>
 
                 <div id="container-preview-midias" class="hidden flex-col gap-2 mt-2">
@@ -89,7 +91,7 @@
                     </p>
             
                         <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" id="select-especie" name="fk_id_especie">
-                            <option class="bg-laranja-mantui-50 text-neutro-mantui-950 py-2" value="">Espécie não Identificada</option>
+                            <option class="bg-verde-mantui-400 text-neutro-mantui-950 py-2" value="">Espécie não Identificada</option>
                             {% for especie in especies %}
                                 <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
                             {% endfor %}
@@ -171,12 +173,25 @@
                 </div>
 
 
-                <div class="flex flex-col">
+                <div class="flex flex-col gap-1">
                     <p>
-                    <label class="font-lato font-medium text-neutro-mantui-950">Pesquisador(es)</label>
+                        <label class="font-lato font-medium text-neutro-mantui-950">Pesquisador(es)</label>
                     </p>
-                    
-                    <input placeholder="{{ current_user.nome if current_user else 'Utilizador' }}" type="text" class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" name="current_user">
+
+                    <select class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500" id="select-pesquisador" name="fk_id_usuario">
+                        <option value="">Digite para buscar pesquisador por nome ou e-mail...</option>
+                        {% for usuario in usuarios %}
+                            <option 
+                                class="bg-verde-mantui-400 text-neutro-mantui-950 py-2 flex gap-2"
+                                value="{{ usuario.id }}"
+                                data-foto="{{ url_for('static', filename=usuario.foto_perfil) if usuario.foto_perfil else '' }}"
+                                data-email="{{ usuario.email }}"
+                                data-inicial="{{ usuario.nome[0] | upper }}"
+                                {% if current_user and current_user.id == usuario.id %}selected{% endif %}>
+                                {{ usuario.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
 
             </section>
@@ -198,8 +213,40 @@
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
         new TomSelect("#select-especie", {
-            placeholder: "Digite para buscar a espécie...",
-            maxOptions: null
+        placeholder: "Digite para buscar a espécie...",
+        maxOptions: null
+        });
+
+        new TomSelect("#select-pesquisador", {
+            placeholder: "Digite para buscar pesquisador por nome ou e-mail...",
+            maxOptions: null,
+            searchField: ['text', 'email'],
+            dataAttr: 'data',
+            render: {
+                option: function(data, escape) {
+                    const avatarHTML = data.foto 
+                        ? `<img src="${escape(data.foto)}" class="w-7 h-7 rounded-full object-cover flex-shrink-0" />`
+                        : `<div class="w-7 h-7 bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">${escape(data.inicial)}</div>`;
+
+                    return `<div class="flex items-center gap-3 py-1.5 px-2">
+                        ${avatarHTML}
+                        <div class="flex flex-col text-left">
+                            <span class="font-medium text-sm text-neutro-mantui-950">${escape(data.text)}</span>
+                            <span class="text-xs text-neutro-mantui-600">${escape(data.email)}</span>
+                        </div>
+                    </div>`;
+                },
+                item: function(data, escape) {
+                    const avatarHTML = data.foto 
+                        ? `<img src="${escape(data.foto)}" class="w-6 h-6 rounded-full object-cover flex-shrink-0" />`
+                        : `<div class="w-6 h-6 bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">${escape(data.inicial)}</div>`;
+
+                    return `<div class="flex items-center gap-2">
+                        ${avatarHTML}
+                        <span class="font-medium text-sm text-neutro-mantui-950">${escape(data.text)}</span>
+                    </div>`;
+                }
+            }
         });
     </script>
 
