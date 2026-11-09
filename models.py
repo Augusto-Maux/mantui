@@ -188,6 +188,8 @@ class Notificacao(db.Model):
     mensagem = db.Column(db.String(300), nullable=False) # adicionar tipo?
     data_hora = db.Column(db.DateTime(timezone=True), default=datetime.now(timezone.utc))
 
+    status = db.Column(db.String(100), nullable=False) # pendente (quando a pessoa não respondeu), aceito ou recusado
+
     fk_id_user = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), nullable=False) # destinatário
     user_destinatario = db.relationship('Usuario', foreign_keys=fk_id_user, backref='notificacoes') # relacionamento
 
