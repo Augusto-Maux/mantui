@@ -27,6 +27,10 @@ app.register_blueprint(bp_status, url_prefix='/status_conservacao')
 def first_page():
     return render_template('index.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('erro404.html'), 404
+
 app.config["EBIRD_API_KEY"] = os.getenv("EBIRD_API_KEY")
 
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
