@@ -1,7 +1,6 @@
-<!-- Falta responsividade -->
-
 <!DOCTYPE html>
 <html lang="pt-br" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,194 +9,175 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
 
-<body class="bg-laranja-mantui-50 min-h-screen">
+<body class="bg-laranja-mantui-50 min-h-screen flex flex-col justify-between">
 
-    {% include "partials_private/header_lock.html" %}
+    <div>
+        {% include "partials_private/header_lock.html" %}
 
-    <!-- bg do usuário (vai poder mudar?) -->
-    <div class="">
-        <figure class="relative h-80 w-full">
+        <!-- Capa do Usuário -->
+        <div class="relative w-full h-48 tablet:h-64 desktop:h-80 overflow-hidden bg-neutro-mantui-300">
             <img src="{{ url_for('static', filename='img/bg-profile-padrao.png') }}" alt="Foto de capa do perfil"
-                class="w-screen h-full object-cover relative left-1/2 -translate-x-1/2">
-        </figure>
-    </div>
+                class="w-full h-full object-cover">
+        </div>
 
+        <!-- Conteúdo Principal -->
+        <main class="max-w-[1440px] mx-auto min-h-screen bg-[#FAF7EF] w-full">
+            <div class="px-4 tablet:px-8 desktop:px-16 relative pb-12">
 
-    <!-- main -->
-    <main class="max-w-[1440px] mx-auto min-h-screen bg-[#FAF7EF]">
-        <div class="px-16 relative">
+                <!-- Bloco de Informações do Usuário & Ações -->
+                <section aria-label="Informações do Usuário">
+                    <div
+                        class="flex flex-col tablet:flex-row items-center tablet:items-end justify-between mb-8 tablet:mb-10 gap-6">
 
-            <!-- primeiro bloco da página, bloco do user -->
-            <section aria-label="Informações do Usuário">
-                <div class="flex flex-row items-end justify-between -mt-[25px] mb-10 gap-6">
+                        <!-- Foto + Dados -->
+                        <div
+                            class="flex flex-col tablet:flex-row items-center tablet:items-end gap-2 tablet:gap-6 text-center tablet:text-left w-full tablet:w-auto">
 
-                    <!-- área do usuario -->
-                    <div class="flex flex-row items-end gap-6 text-left">
-                        <figure class="relative">
-                            {% if current_user.foto_perfil %}
-                            <img src="{{ url_for('static', filename=current_user.foto_perfil) }}"
-                                alt="Foto de {{ current_user.nome }}"
-                                class="w-44 h-44 rounded-full object-cover border-4 border-[#FAF7EF] shadow-lg">
-                            {% else %}
-                            <div
-                                class="w-44 h-44 rounded-full bg-[#E86C30] text-white flex items-center justify-center text-6xl font-bold border-4 border-[#FAF7EF] shadow-lg">
-                                {{ current_user.nome[0] if current_user and current_user.nome else 'U' }}
+                            <!-- Margem negativa aplicada APENAS na foto -->
+                            <figure class="relative shrink-0 -mt-15 tablet:-mt-20">
+                                {% if current_user.foto_perfil %}
+                                <img src="{{ url_for('static', filename=current_user.foto_perfil) }}"
+                                    alt="Foto de {{ current_user.nome }}"
+                                    class="w-32 h-32 tablet:w-40 tablet:h-40 desktop:w-44 desktop:h-44 rounded-full object-cover border-4 border-[#FAF7EF] shadow-lg">
+                                {% else %}
+                                <div
+                                    class="w-32 h-32 tablet:w-40 tablet:h-40 desktop:w-44 desktop:h-44 rounded-full bg-[#E86C30] text-white flex items-center justify-center text-4xl tablet:text-5xl desktop:text-6xl font-bold border-4 border-[#FAF7EF] shadow-lg">
+                                    {{ current_user.nome[0] if current_user and current_user.nome else 'U' }}
+                                </div>
+                                {% endif %}
+                            </figure>
+
+                            <div class="mb-1 tablet:mb-2 pt-2 tablet:pt-0">
+                                <h1
+                                    class="text-2xl tablet:text-3xl desktop:text-4xl font-bold text-gray-900 leading-tight">
+                                    {{ current_user.nome if current_user else 'Usuário' }}
+                                </h1>
+                                <p class="text-sm tablet:text-base text-gray-600 font-medium mt-1">
+                                    Instituição
+                                </p>
+                                <p class="text-sm tablet:text-base text-gray-600 font-medium">
+                                    Cargo
+                                </p>
                             </div>
-                            {% endif %}
-                        </figure>
-
-                        <!-- Dados da página configurações do perfil?? -->
-                        <div class="mb-2">
-                            <h1 class="text-4xl font-bold text-gray-900 leading-tight">
-                                {{ current_user.nome if current_user else 'Usuário' }}
-                            </h1>
-                            <p class="text-base text-gray-600 font-medium mt-1">
-                                Institução
-                            </p>
-                            <p class="text-base text-gray-600 font-medium">
-                                Cargo
-                            </p>
                         </div>
-                    </div>
 
-                    <!-- Botões de Ação do Perfil -->
-                    <nav aria-label="Ações do perfil" class="flex flex-col gap-3 items-end mb-2">
-                        <a href="{{ url_for('usuario.home') }}"
-                            class="w-[150px] bg-laranja-mantui-500 text-laranja-mantui-50 text-base text-base font-lato font-bold px-7 py-3 rounded shadow-sm text-center">
-                            Ir pra home
-                        </a>
-
-                        <!-- Falta página de configurações do perfil -->
-                        <a href=""
-                            class="w-[150px] bg-verde-mantui-500 text-neutro-mantui-50 text-base font-lato font-bold px-7 py-3 rounded shadow-sm text-center">
-                            Editar Perfil
-                        </a>
-                    </nav>
-
-                </div>
-            </section>
-
-            <!-- Visão Geral -->
-            <section class="mb-12" aria-labelledby="title-visao-geral">
-                <h2 id="title-visao-geral" class="text-[42px] font-bold font-sans text-laranja-mantui-500 mb-6">Visão
-                    Geral</h2>
-
-                <div class="flex flex-row gap-8">
-                    <!-- Linha de Pesquisa -->
-                    <article
-                        class="flex-1 w-full min-w-0 border border-neutro-mantui-950 bg-transparent rounded-md p-6 flex flex-col justify-between shadow-xs min-h-[200px]">
-                        <div>
-                            <h3 class="font-bold font-lato text-neutro-mantui-950 mb-3 text-2xl">Linha de Pesquisa</h3>
-                            <p class="text-base font-normal text-neutro-mantui-600 leading-relaxed">
-                                Escreva aqui sua linha de pesquisa... (300 caracteres)
-                            </p>
-                        </div>
-                        <div class="flex justify-end pt-6">
-                            <!-- Link para editar linha de pesquisa? (configurações do perfil?) -->
-                            <a
-                                class="bg-laranja-mantui-500 hover:bg-laranja-mantui-600 transition cursor-pointer text-laranja-mantui-50 text-base font-bold px-5 py-2 rounded shadow-xs">
-                                Editar Linha de Pesquisa
+                        <!-- Botões de Ação -->
+                        <nav aria-label="Ações do perfil"
+                            class="flex flex-col sm:flex-row tablet:flex-col desktop:flex-row gap-3 w-full tablet:w-auto items-stretch tablet:items-end">
+                            <a href="{{ url_for('usuario.update', id=current_user.id) }}"
+                                class="w-full sm:w-auto bg-verde-mantui-500 text-neutro-mantui-50 text-base font-lato font-medium px-6 py-3 rounded shadow-sm text-center hover:bg-verde-mantui-600 transition">
+                                Editar Perfil
                             </a>
-                        </div>
-                    </article>
+                            <a href="{{ url_for('usuario.home') }}"
+                                class="w-full sm:w-auto bg-laranja-mantui-500 text-laranja-mantui-50 text-base font-lato font-medium px-6 py-3 rounded shadow-sm text-center hover:bg-laranja-mantui-600 transition">
+                                Voltar para a Home
+                            </a>
+                        </nav>
+
+                    </div>
+                </section>
+
+                <hr class="border-t border-neutro-mantui-950 my-6 tablet:my-10" />
+
+                <!-- Visão Geral -->
+                <section class="mb-8 tablet:mb-12" aria-labelledby="title-visao-geral">
+                    <h2 id="title-visao-geral"
+                        class="text-2xl tablet:text-3xl desktop:text-[42px] font-bold font-sans text-laranja-mantui-500 mb-4 tablet:mb-6 text-center tablet:text-left">
+                        Visão Geral
+                    </h2>
 
                     <!-- Sobre Mim -->
                     <article
-                        class="flex-1 w-full min-w-0 border border-neutro-mantui-950 bg-transparent rounded-md p-6 flex flex-col justify-between shadow-xs min-h-[200px]">
+                        class="w-full border border-neutro-mantui-950 bg-transparent rounded-md p-4 tablet:p-6 flex flex-col justify-between min-h-[180px]">
                         <div>
-                            <h3 class="font-bold font-lato text-neutro-mantui-950 mb-3 text-2xl">Sobre Mim</h3>
-                            <p class="text-base font-normal text-neutro-mantui-600 leading-relaxed">
+                            <h3 class="font-bold font-lato text-neutro-mantui-950 mb-3 text-xl tablet:text-2xl">Sobre
+                                Mim</h3>
+                            <p class="text-sm tablet:text-base font-normal text-neutro-mantui-600 leading-relaxed">
                                 Escreva aqui sobre você... (300 caracteres)
                             </p>
                         </div>
                         <div class="flex justify-end pt-6">
-
-                            <!-- Link para editar descrição? (configurações do perfil?) -->
-                            <a
-                                class="bg-laranja-mantui-500 hover:bg-laranja-mantui-600 transition cursor-pointer text-laranja-mantui-50 text-base font-bold px-5 py-2 rounded shadow-xs">
+                            <a href="{{ url_for('usuario.update', id=current_user.id) }}"
+                                class="w-full tablet:w-auto text-center bg-laranja-mantui-500 hover:bg-laranja-mantui-600 transition cursor-pointer text-laranja-mantui-50 text-base font-medium px-5 py-2 rounded shadow-xs">
                                 Editar Descrição
                             </a>
                         </div>
                     </article>
-                </div>
-            </section>
+                </section>
 
-            <hr class="border-t border-neutro-mantui-950 my-10" />
+                <hr class="border-t border-neutro-mantui-950 my-6 tablet:my-10" />
 
-            <!-- Métricas -->
-            <section class="pb-1" aria-labelledby="title-metricas">
-                <h2 id="title-metricas" class="text-[42px] font-bold font-sans text-verde-mantui-600 mb-6">Métricas</h2>
+                <!-- Métricas -->
+                <section aria-labelledby="title-metricas">
+                    <h2 id="title-metricas"
+                        class="text-2xl tablet:text-3xl desktop:text-[42px] font-bold font-sans text-verde-mantui-600 mb-4 tablet:mb-6 text-center tablet:text-left">
+                        Métricas
+                    </h2>
 
-                <div class="flex flex-row gap-[24px] w-full text-laranja-mantui-50">
+                    <div
+                        class="flex flex-col tablet:flex-row tablet:flex-wrap desktop:flex-nowrap gap-6 w-full text-laranja-mantui-50">
 
-                    <!-- Métrica Avistamentos -->
-                    <article
-                        class="flex-1 w-full bg-verde-mantui-600 rounded-md p-8 flex flex-col items-center justify-between shadow-md text-center">
-                        <figure class="p-3 mb-4">
-                            <img src="{{ url_for('static', filename='img/icon-avistamentos-black.svg') }}"
-                                alt="Ícone Avistamentos" class="w-auto">
-                        </figure>
-                        <div class="mb-5">
-                            <h3 class="font-sans text-2xl font-bold mb-1">Avistamentos</h3>
-                            <!-- Como colcoar quantidade atual do usuário??? -->
-                            <span class="font-lato text-2xl font-bold">1</span>
-                        </div>
-                        <a href="{{ url_for('avistamento.recovery') }}"
-                            class="bg-laranja-mantui-50 hover:bg-neutro-mantui-300 transition text-verde-mantui-600 text-base font-lato font-medium px-5 py-2 rounded shadow-sm">
-                            Acessar Avistamentos
-                        </a>
-                    </article>
+                        <!-- Métrica Avistamentos -->
+                        <article
+                            class="w-full tablet:w-[calc(50%-12px)] desktop:w-auto desktop:flex-1 bg-verde-mantui-600 rounded-md p-6 tablet:p-8 flex flex-col items-center justify-between shadow-md text-center">
+                            <figure class="p-3 mb-2 tablet:mb-4">
+                                <img src="{{ url_for('static', filename='img/icon-avistamentos-black.svg') }}"
+                                    alt="Ícone Avistamentos" class="w-12 h-12 tablet:w-auto">
+                            </figure>
+                            <div class="mb-5">
+                                <h3 class="font-sans text-xl tablet:text-2xl font-bold mb-1">Avistamentos</h3>
+                                <span class="font-lato text-2xl font-bold">1</span>
+                            </div>
+                            <a href="{{ url_for('avistamento.recovery') }}"
+                                class="w-full bg-laranja-mantui-50 hover:bg-neutro-mantui-300 transition text-verde-mantui-600 text-base font-lato font-medium px-5 py-2 rounded shadow-sm">
+                                Acessar Avistamentos
+                            </a>
+                        </article>
 
-                    <!-- Métrica Grupos -->
-                    <article
-                        class="flex-1 w-full bg-verde-mantui-600 rounded-md p-8 flex flex-col items-center justify-between shadow-md text-center">
-                        <figure class="p-3 mb-4">
-                            <img src="{{ url_for('static', filename='img/icon-groups-black.svg') }}" alt="Ícone Grupos"
-                                class="w-auto">
-                        </figure>
-                        <div class="mb-5">
-                            <h3 class="font-sans text-2xl font-bold mb-1">Grupos</h3>
-                            <!-- Como colcoar quantidade atual do usuário??? -->
-                            <span class="font-lato text-2xl font-bold">1</span>
-                        </div>
-                        <a href="{{ url_for('equipe.recovery') }}"
-                            class="bg-laranja-mantui-50 hover:bg-neutro-mantui-300 transition text-verde-mantui-600 text-base font-lato font-medium px-5 py-2 rounded shadow-sm">
-                            Acessar Grupos
-                        </a>
-                    </article>
+                        <!-- Métrica Grupos -->
+                        <article
+                            class="w-full tablet:w-[calc(50%-12px)] desktop:w-auto desktop:flex-1 bg-verde-mantui-600 rounded-md p-6 tablet:p-8 flex flex-col items-center justify-between shadow-md text-center">
+                            <figure class="p-3 mb-2 tablet:mb-4">
+                                <img src="{{ url_for('static', filename='img/icon-groups-black.svg') }}"
+                                    alt="Ícone Grupos" class="w-12 h-12 tablet:w-auto">
+                            </figure>
+                            <div class="mb-5">
+                                <h3 class="font-sans text-xl tablet:text-2xl font-bold mb-1">Grupos</h3>
+                                <span class="font-lato text-2xl font-bold">1</span>
+                            </div>
+                            <a href="{{ url_for('equipe.recovery') }}"
+                                class="w-full bg-laranja-mantui-50 hover:bg-neutro-mantui-300 transition text-verde-mantui-600 text-base font-lato font-medium px-5 py-2 rounded shadow-sm">
+                                Acessar Grupos
+                            </a>
+                        </article>
 
-                    <!-- Métrica Projetos -->
-                    <article
-                        class="flex-1 w-full bg-verde-mantui-600 ounded-md p-8 flex flex-col items-center justify-between shadow-md text-center">
-                        <figure class="p-3 mb-4">
-                            <img src="{{ url_for('static', filename='img/icon-projects-black.svg') }}"
-                                alt="Ícone Projetos" class="w-auto">
-                        </figure>
-                        <div class="mb-5">
-                            <h3 class="font-sans text-2xl font-bold mb-1">Projetos</h3>
-                            <!-- Como colcoar quantidade atual do usuário??? -->
-                            <span class="font-lato text-2xl font-bold">1</span>
-                        </div>
-                        <a href="{{ url_for('projeto.recovery') }}"
-                            class="bg-laranja-mantui-50 hover:bg-neutro-mantui-300 transition text-verde-mantui-600 text-base font-lato font-medium px-5 py-2 rounded shadow-sm">
-                            Acessar Projetos
-                        </a>
-                    </article>
+                        <!-- Métrica Projetos -->
+                        <article
+                            class="w-full tablet:w-full desktop:w-auto desktop:flex-1 bg-verde-mantui-600 rounded-md p-6 tablet:p-8 flex flex-col items-center justify-between shadow-md text-center">
+                            <figure class="p-3 mb-2 tablet:mb-4">
+                                <img src="{{ url_for('static', filename='img/icon-projects-black.svg') }}"
+                                    alt="Ícone Projetos" class="w-12 h-12 tablet:w-auto">
+                            </figure>
+                            <div class="mb-5">
+                                <h3 class="font-sans text-xl tablet:text-2xl font-bold mb-1">Projetos</h3>
+                                <span class="font-lato text-2xl font-bold">1</span>
+                            </div>
+                            <a href="{{ url_for('projeto.recovery') }}"
+                                class="w-full bg-laranja-mantui-50 hover:bg-neutro-mantui-300 transition text-verde-mantui-600 text-base font-lato font-medium px-5 py-2 rounded shadow-sm">
+                                Acessar Projetos
+                            </a>
+                        </article>
 
-                </div>
-            </section>
+                    </div>
+                </section>
 
-        </div>
-    </main>
-    <footer class="mt-[36px] mx-0">
-        <article
-            class="bg-neutro-mantui-950 px-6 py-4 flex flex-col gap-4 items-center justify-between tablet:flex-row">
-            <span class="text-laranja-mantui-50 text-sm text-center tablet:text-left">© 2025 MANTUÍ. Todos os direitos
-                Reservados</span>
-            <img src="{{ url_for('static', filename='img/github-icone.svg') }}" alt="Logo GitHub"
-                class="w-6 h-6 cursor-pointer">
-        </article>
-    </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    {% include "partials_private/footer_lock.html" %}
+
 </body>
 
 </html>
