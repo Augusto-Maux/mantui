@@ -4,6 +4,7 @@ from flask import render_template
 from utils import db, lm
 from dotenv import load_dotenv
 from flask_migrate import Migrate
+import logging
 
 from controllers.Usuario import bp_usuario
 from controllers.Projeto import bp_projeto
@@ -11,6 +12,11 @@ from controllers.Equipe import bp_equipe
 from controllers.Avistamento import bp_avistamento
 from controllers.Especie import bp_especie
 from controllers.StatusConservacao import bp_status
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(levelname)s: %(message)s]'
+)
 
 load_dotenv()
 

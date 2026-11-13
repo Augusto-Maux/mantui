@@ -4,6 +4,7 @@ from utils import db, lm
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os, uuid
+from flask import current_app
 
 EXTENSOES = {'png', 'jpg', 'jpeg', 'webp'}
 
@@ -168,6 +169,8 @@ def login():
     email = request.form.get('email')
     senha = request.form.get('senha')
 
+    current_app.logger.info(f'Tentativa de logar usuário, email: {email}')
+
     usuario = Usuario.query.filter_by(email=email).first()
 
     if usuario and usuario._verificar_senha(senha):
@@ -176,6 +179,7 @@ def login():
         # Redireciona para usuario.home, renderizando home.html com a URL /usuario/home
         return redirect(url_for('usuario.home'))
     else:
+        current_app.logger.warning('Tentativa de logar usuário falha')
         flash('Dados não encontrados.', 'danger')
         return redirect(url_for('usuario.login'))
 
