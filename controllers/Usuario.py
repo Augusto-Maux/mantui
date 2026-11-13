@@ -185,7 +185,7 @@ def login():
 
 @bp_usuario.route('/logout', methods=['GET', 'POST'])
 def logout():
-    logout_user()
     current_app.logger.info(f'Tentativa de encerrar sessão para {current_user.email}')
+    logout_user()
     flash('Sessão encerrada', 'info')
     return redirect(url_for('usuario.login'))
