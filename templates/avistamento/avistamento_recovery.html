@@ -5,82 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avistamentos</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="p-6 bg-gray-50 space-y-6">
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
 
-    <!-- BLOCO DE MENSAGENS FLASH -->
-    {% set mensagens = get_flashed_messages(with_categories=True) %} 
-    {% if mensagens %}     
-        {% for category, message in mensagens %}
-            <div class="font-bold p-4 mb-4 rounded-lg 
-                {% if category == 'success' %} bg-green-50 text-green-800
-                {% elif category == 'danger' %} bg-red-50 text-red-800
-                {% else %} bg-blue-50 text-blue-800 {% endif %}">
-                {{ message }}
+    <!-- HEADER -->
+    {% include "partials_private/header_lock.html" %}
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="w-full flex-1 p-6 max-w-7xl mx-auto space-y-6">
+
+        <!-- BLOCO DE MENSAGENS FLASH -->
+        {% set mensagens = get_flashed_messages(with_categories=True) %} 
+        {% if mensagens %}     
+            {% for category, message in mensagens %}
+                <div class="font-bold p-4 rounded-lg 
+                    {% if category == 'success' %} bg-green-50 text-green-800 border border-green-200
+                    {% elif category == 'danger' %} bg-red-50 text-red-800 border border-red-200
+                    {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}   
+
+        <!-- CABEÇALHO DA PÁGINA -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-neutro-mantui-950">Avistamentos</h1>
+                <p class="text-sm text-neutro-mantui-700">Gerencie e visualize os registros cadastrados no sistema.</p>
             </div>
-        {% endfor %}
-    {% endif %}   
 
-    <!-- TABELA COMPLETA DE AVISTAMENTOS -->
-    <div class="overflow-x-auto shadow rounded-lg">
-        <table class="w-full text-left border-collapse bg-white">
-            <thead class="bg-gray-100 border-b">
-                <tr>
-                    <th class="p-3">ID</th>
-                    <th class="p-3">Mídias</th>
-                    <th class="p-3">Nome</th>
-                    <th class="p-3">Latitude</th>
-                    <th class="p-3">Longitude</th>
-                    <th class="p-3">Bioma</th>
-                    <th class="p-3">Tipo Registro</th>
-                    <th class="p-3">Condição do Clima</th>
-                    <th class="p-3">Condição dos Ventos</th>
-                    <th class="p-3">Observações</th>
-                    <th class="p-3">Espécie</th>
-                </tr>
-            </thead>
-            <tbody>        
-                {% for a in avistamento %}
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-3 font-bold">{{ a.id }}</td>
-                    
-                    <!-- RENDERIZAÇÃO DE MÍDIAS (FOTOS E VÍDEOS) -->
-                    <td class="p-3">
-                        {% if a.midias and a.midias|length > 0 %}
-                            <div class="flex flex-wrap gap-2">
-                                {% for m in a.midias %}
-                                    {% set caminho_arquivo = m.caminho if m.caminho is defined else m.caminho_relativo %}
-                                    {% if caminho_arquivo.endswith(('.mp4', '.webm', '.ogg', '.mov', '.avi')) %}
-                                        <video controls class="w-32 h-24 object-cover rounded border shadow-sm">
-                                            <source src="{{ url_for('static', filename=caminho_arquivo) }}">
-                                            Seu navegador não suporta este vídeo.
-                                        </video>
-                                    {% else %}
-                                        <img src="{{ url_for('static', filename=caminho_arquivo) }}" 
-                                             alt="Mídia {{ a.id }}" 
-                                             class="w-24 h-24 object-cover rounded border shadow-sm">
+            <a href="{{ url_for('avistamento.add') }}" 
+               class="px-4 py-2 bg-neutro-mantui-950 hover:bg-laranja-mantui-500 text-white rounded text-sm font-medium transition-colors">
+                + Novo Avistamento
+            </a>
+        </div>
+
+        <!-- TABELA DE AVISTAMENTOS -->
+        <div class="overflow-x-auto shadow rounded-lg bg-white border border-gray-200">
+            <table class="w-full text-left border-collapse">
+                <tbody class="divide-y divide-gray-200 text-sm text-gray-800">        
+                    {% for a in avistamento %}
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        
+                        <!-- 1. RENDERIZAÇÃO DE MÍDIAS EM PILHA DE CARDS -->
+                        <td class="p-4">
+                            {% if a.midias and a.midias|length > 0 %}
+                                {% set primeira = a.midias[0] %}
+                                {% set caminho_arquivo = primeira.caminho if primeira.caminho is defined else primeira.caminho_relativo %}
+                                {% set total = a.midias|length %}
+
+                                <div class="relative w-28 h-24 group">
+                                    
+                                    <!-- Efeito de cards atrás (só aparece se tiver mais de 1 mídia) -->
+                                    {% if total > 2 %}
+                                        <div class="absolute inset-0 bg-gray-300 rounded-lg border border-gray-400 transform translate-x-2 -translate-y-2 transition-transform group-hover:translate-x-3 group-hover:-translate-y-3"></div>
                                     {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <span class="text-gray-400 text-sm italic">Sem mídia</span>
-                        {% endif %}
-                    </td>
+                                    {% if total > 1 %}
+                                        <div class="absolute inset-0 bg-gray-200 rounded-lg border border-gray-300 transform translate-x-1 -translate-y-1 transition-transform group-hover:translate-x-1.5 group-hover:-translate-y-1.5"></div>
+                                    {% endif %}
 
-                    <td class="p-3">{{ a.nome }}</td>
-                    <td class="p-3">{{ a.latitude }}</td>
-                    <td class="p-3">{{ a.longitude }}</td>
-                    <td class="p-3">{{ a.bioma }}</td>
-                    <td class="p-3">{{ a.tipo_registro }}</td>
-                    <td class="p-3">{{ a.cond_clima }}</td>
-                    <td class="p-3">{{ a.cond_ventos }}</td>
-                    <td class="p-3">{{ a.observacoes }}</td>
-                    <td class="p-3">{{ a.fk_id_especie }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                                    <!-- Card Principal (Frente) -->
+                                    <div class="relative w-full h-full rounded-lg border border-gray-300 shadow-sm overflow-hidden bg-white">
+                                        {% if caminho_arquivo.endswith(('.mp4', '.webm', '.ogg', '.mov', '.avi')) %}
+                                            <video controls class="w-full h-full object-cover">
+                                                <source src="{{ url_for('static', filename=caminho_arquivo) }}">
+                                            </video>
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename=caminho_arquivo) }}" 
+                                                 alt="Mídia {{ a.id }}" 
+                                                 class="w-full h-full object-cover">
+                                        {% endif %}
+
+                                        <!-- Contador no canto inferior direito (Ex: +3) -->
+                                        {% if total > 1 %}
+                                            <a href="{{ url_for('avistamento.update', id=a.id) }}" 
+                                               title="Ver todas as {{ total }} mídias"
+                                               class="absolute bottom-1 right-1 bg-black/75 hover:bg-orange-600 text-white text-[11px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm transition-colors">
+                                                +{{ total - 1 }}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            {% else %}
+                                <div class="w-28 h-24 bg-gray-100 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-xs italic">
+                                    Sem mídia
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <!-- 2. TÍTULO -->
+                        <td class="p-4 font-semibold text-gray-900">
+                            {{ a.nome or 'Sem título' }}
+                        </td>
+
+                        <!-- 3. NOME COMUM DA ESPÉCIE -->
+                        <td class="p-4">
+                            {{ a.especie.nome_comum if a.especie else 'Não identificada' }}
+                        </td>
+
+                        <!-- 4. BIOMA -->
+                        <td class="p-4">
+                            <span class="px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full text-xs font-medium">
+                                {{ a.bioma or 'Não informado' }}
+                            </span>
+                        </td>
+
+                        <!-- 5. DATA E HORA -->
+                        <td class="p-4 whitespace-nowrap text-gray-600">
+                            {{ a.data_hora.strftime('%d/%m/%Y %H:%M') if a.data_hora else 'Não informada' }}
+                        </td>
+
+                        <!-- 6. BOTÕES DE AÇÃO -->
+                        <td class="p-4">
+                            <div class="flex items-center justify-end gap-2">
+                                
+                                <!-- Detalhes / Update -->
+                                <a href="{{ url_for('avistamento.update', id=a.id) }}" 
+                                   class="px-3 py-1.5 bg-gray-900 hover:bg-orange-600 text-white rounded text-xs font-medium transition-colors">
+                                    Detalhes
+                                </a>
+
+                                <!-- Deletar -->
+                                <a href="{{ url_for('avistamento.delete', id=a.id) }}" 
+                                   onclick="return confirm('Tem certeza que deseja excluir este avistamento?');"
+                                   class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-medium transition-colors">
+                                    Deletar
+                                </a>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="p-8 text-center text-gray-500">
+                            Nenhum avistamento registrado ainda.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
 
 </body>
 </html>

@@ -36,7 +36,8 @@ def salvar_midias_uploads(arquivos, id_avistamento):
 @bp_avistamento.route('/recovery')
 @login_required
 def recovery():
-	avistamento = Avistamento.query.all()
+	avistamento = Avistamento.query.order_by(Avistamento.id.desc()).all()
+	
 	return render_template('avistamento/avistamento_recovery.html', avistamento=avistamento)
 
 @bp_avistamento.route('/add', methods=['GET', 'POST'])
@@ -140,11 +141,11 @@ def delete(id):
 
 	return redirect(url_for('avistamento.recovery'))
 
-@bp_avistamento.route('/pdf')
+@bp_avistamento.route('/pdf/<int:id>')
 @login_required
-def avistamentos_pdf():
-    avistamentos = Avistamento.query.all()
-    html = render_template('relatorio/avistamentos.html', avistamentos=avistamentos)
+def avistamento_pdf_individual(id):
+    avistamento = Avistamento.query.get_or_404(id)
+    html = render_template('relatorio/avistamentos.html', avistamentos=[avistamento])
     pdf = HTML(string=html).write_pdf()
     resposta = make_response(pdf)
     resposta.headers['Content-Type'] = 'application/pdf'
