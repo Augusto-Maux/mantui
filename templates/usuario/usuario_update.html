@@ -1,18 +1,413 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" class="scroll-smooth">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar Usuário</title>
+    <title>{% block title %}Configurações da Conta{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
-<body>
-    <form action="{{url_for('usuario.update', id=user.id)}}" method="POST" enctype="multipart/form-data">
-        
-        Nome: <input type="text" name="nome" value="{{ user.nome }}"><br/>
-        E-mail: <input type="email" name="email" value="{{ user.email }}"><br/>
-        Foto de Perfil: <input type="file" name="foto_perfil" accept="image/png,image/jpeg,image/webp">
-        <input type="submit" name="Atualizar">
-    
-    </form>
+
+<body class="bg-neutro-mantui-100 min-h-screen flex flex-col justify-between">
+
+    {% include "partials_private/header_lock.html" %}
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-[1076px] w-full mx-auto px-4 tablet:px-8 desktop:px-16 pt-8 tablet:pt-12 pb-12">
+
+        <!-- Cabeçalho da Página -->
+        <div class="mb-8 tablet:mb-10">
+            <h1 class="font-bold mb-2 font-sans text-2xl tablet:text-3xl desktop:text-4xl text-gray-900">Configurações
+                da Conta</h1>
+            <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Gerencie seu perfil, sua segurança e as
+                preferências da sua experiência no
+                Mantui.</p>
+        </div>
+
+        <!-- Navegação de Abas -->
+        <nav aria-label="Menu de configurações da conta"
+            class="flex justify-around gap-8 mb-8 tablet:mb-12 text-base font-lato font-semibold text-neutro-mantui-800 border-b border-neutro-mantui-300 pb-4">
+            <a href="#editar-perfil" class="hover:text-laranja-mantui-500">Editar perfil</a>
+            <a href="#conta-e-seguranca" class="hover:text-laranja-mantui-600 transition-colors">Conta e segurança</a>
+            <a href="#tornar-moderador" class="hover:text-laranja-mantui-600 transition-colors">Tornar-se moderador</a>
+            <a href="#preferencias-do-sistema" class="hover:text-laranja-mantui-600 transition-colors">Preferências</a>
+            <a href="#meus-dados" class="hover:text-laranja-mantui-600 transition-colors">Meus dados</a>
+        </nav>
+
+        <!-- Seção de Edição de Perfil -->
+        <section aria-labelledby="titulo-editar-perfil" id="editar-perfil" class="mb-8 tablet:mb-12">
+
+            <header class="mb-4 tablet:mb-6">
+                <h2 id="titulo-editar-perfil"
+                    class="text-2xl tablet:text-3xl desktop:text-2xl font-bold font-sans mb-1">Editar Perfil</h2>
+                <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Estas informações aparecem no seu
+                    perfil público.</p>
+            </header>
+
+            <!-- Formulário de Edição -->
+            <form id="form-perfil" action="{{ url_for('usuario.update', id=user.id) }}" method="POST"
+                enctype="multipart/form-data">
+
+                <!-- Agrupamento de Mídias (Foto e Banner) -->
+                <fieldset
+                    class="desktop:h-[201px] flex flex-col md:flex-row gap-6 tablet:gap-8 mb-6 tablet:mb-8 border-none p-0 m-0">
+                    <legend class="sr-only">Imagens do perfil</legend>
+
+                    <!-- Foto de Perfil -->
+                    <figure class="flex flex-col desktop:w-[199px] m-0">
+                        <figcaption class="text-base font-lato font-bold text-neutro-mantui-950 mb-2">Foto de perfil
+                        </figcaption>
+                        <div
+                            class="flex flex-col justify-start items-center desktop:h-[180px] desktop:justify-between gap-3 desktop:gap-0">
+                            {% if user.foto_perfil %}
+                            <img src="{{ url_for('static', filename=user.foto_perfil) }}" alt="Foto de {{ user.nome }}"
+                                class="w-32 h-32 tablet:w-40 tablet:h-40 desktop:w-[80px] desktop:h-[80px] rounded-full object-cover shadow-lg">
+                            {% else %}
+                            <div
+                                class="w-32 h-32 tablet:w-40 tablet:h-40 desktop:w-[80px] desktop:h-[80px] rounded-full bg-[#E86C30] text-white flex items-center justify-center text-4xl tablet:text-5xl desktop:text-3xl font-bold shadow-lg">
+                                {{ user.nome[0] if user and user.nome else 'U' }}
+                            </div>
+                            {% endif %}
+                            <input id="foto_perfil" name="foto_perfil" type="file"
+                                accept="image/png,image/jpeg,image/webp" class="sr-only peer">
+                            <label for="foto_perfil"
+                                class="max-w-max cursor-pointer bg-verde-mantui-500 text-neutro-mantui-50 text-sm font-lato font-medium py-1 px-2 rounded shadow-sm mb-2 hover:bg-verde-mantui-600 transition peer-focus-visible:ring-2 peer-focus-visible:ring-verde-mantui-600 peer-focus-visible:ring-offset-2">
+                                Editar foto
+                            </label>
+                            <button type="button"
+                                class="text-laranja-mantui-600 text-sm font-lato font-medium hover:text-laranja-mantui-800">
+                                Remover foto
+                            </button>
+                        </div>
+                    </figure>
+
+                    <!-- Banner -->
+                    <figure class="flex-1 m-0">
+                        <figcaption class="flex justify-between items-end mb-2">
+                            <span class="text-base font-lato font-bold text-neutro-mantui-950">Banner</span>
+                            <button type="button"
+                                class="text-laranja-mantui-600 text-sm font-lato font-medium hover:text-laranja-mantui-800">
+                                Editar banner
+                            </button>
+                        </figcaption>
+                        <div class="w-full h-32 bg-neutro-mantui-300 rounded-md mb-2" role="img"
+                            aria-label="Banner atual do perfil"><img
+                                src="{{ url_for('static', filename='img/bg-profile-padrao.png') }}"
+                                alt="Foto de capa do perfil" class="w-full h-full object-cover"></div>
+                        <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">JPG ou PNG. Escolha uma
+                            imagem para
+                            personalizar seu perfil.
+                        </p>
+                    </figure>
+                </fieldset>
+
+                <!-- Agrupamento de Dados em Texto -->
+                <fieldset class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 border-none p-0 m-0">
+                    <legend class="sr-only">Dados pessoais e profissionais</legend>
+
+                    <div>
+                        <label for="nome"
+                            class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Nome</label>
+                        <input id="nome" name="nome" type="text" value="{{ user.nome }}"
+                            class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600" />
+                    </div>
+
+                    <div>
+                        <label for="nome_usuario"
+                            class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Nome de
+                            usuário</label>
+                        <input id="nome_usuario" name="nome_usuario" type="text" value="@joaopaulo"
+                            class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600" />
+                    </div>
+
+                    <div>
+                        <label for="instituicao"
+                            class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Instituição
+                            (Projeto)</label>
+                        <select id="instituicao" name="instituicao"
+                            class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-neutro-mantui-600 appearance-none focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600">
+                            <option value="">Selecione uma instituição ou projeto</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="atuacao"
+                            class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Tipo de
+                            atuação</label>
+                        <select id="atuacao" name="atuacao"
+                            class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-neutro-mantui-600 appearance-none focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600">
+                            <option value="">Selecione sua área de atuação</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- Descrição -->
+                <div class="mb-8 tablet:mb-10">
+                    <label for="descricao"
+                        class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="4"
+                        placeholder="Conte um pouco sobre você e seu interesse pela biodiversidade."
+                        class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 resize-none focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600"></textarea>
+                </div>
+
+                <!-- Rodapé do Formulário / Ações -->
+                <footer class="flex justify-end gap-3 mt-6">
+                    <button type="button"
+                        class="border border-neutro-mantui-950 text-base font-lato font-medium py-3 px-6 rounded text-neutro-mantui-950 hover:bg-neutro-mantui-300 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                        class="bg-verde-mantui-500 text-neutro-mantui-50 text-base font-lato font-medium py-3 px-6 rounded shadow-sm hover:bg-verde-mantui-600 transition">
+                        Salvar
+                    </button>
+                </footer>
+            </form>
+
+        </section>
+
+        <!-- Linha divisória -->
+        <hr class="border-t border-neutro-mantui-300 my-6 tablet:my-10" aria-hidden="true" />
+
+        <!-- Secção: Conta e Segurança -->
+        <section aria-labelledby="titulo-conta-seguranca" class="mb-8 tablet:mb-12" id="conta-e-seguranca">
+            <header class="mb-4 tablet:mb-6">
+                <h2 id="titulo-conta-seguranca"
+                    class="text-2xl tablet:text-3xl desktop:text-2xl font-bold font-sans mb-1">Conta e Segurança</h2>
+                <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Proteja seu acesso e mantenha seus
+                    dados de entrada atualizados.</p>
+            </header>
+
+            <form action="#" method="POST">
+                <fieldset class="grid grid-cols-1 md:grid-cols-2 gap-6 tablet:gap-8 border-none p-0 m-0">
+                    <legend class="sr-only">Dados de acesso e credenciais</legend>
+
+                    <!-- Coluna E-mail -->
+                    <div class="flex flex-col">
+                        <label for="email"
+                            class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">E-mail</label>
+                        <input id="email" name="email" type="email" form="form-perfil" value="{{ user.email }}"
+                            placeholder="Seu e-mail cadastrado" readonly
+                            class="w-full bg-black/5 border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-neutro-mantui-600 focus:outline-none mb-3" />
+
+                        <a href="#"
+                            class="text-laranja-mantui-600 text-sm font-lato font-medium hover:text-laranja-mantui-800 mb-1">
+                            Esqueci minha senha
+                        </a>
+                        <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Valide seu e-mail para
+                            receber o link de redefinição de senha.
+                        </p>
+                    </div>
+
+                    <!-- Coluna Senha -->
+                    <div class="flex flex-col">
+                        <label for="senha"
+                            class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Senha</label>
+                        <input id="senha" name="senha" type="password" value="............" readonly
+                            class="w-full bg-black/5 border border-neutro-mantui-950 rounded-md p-2 text-xl tracking-widest text-neutro-mantui-950 focus:outline-none mb-3" />
+
+                        <div class="flex justify-end mt-1">
+                            <button type="button"
+                                class="bg-laranja-mantui-500 hover:bg-laranja-mantui-600 transition text-laranja-mantui-50 text-base font-lato font-medium py-2 px-5 rounded shadow-xs">
+                                Alterar senha
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <!-- Linha divisória -->
+        <hr class="border-t border-neutro-mantui-950 my-6 tablet:my-10" aria-hidden="true" />
+
+        <!-- Secção: Tornar-se Moderador -->
+        <section aria-labelledby="titulo-moderador" id="tornar-moderador" class="mb-8 tablet:mb-12">
+            <header class="mb-4 tablet:mb-6">
+                <h2 id="titulo-moderador" class="text-2xl tablet:text-3xl desktop:text-2xl font-bold font-sans mb-1">
+                    Tornar-se Moderador</h2>
+                <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Compartilhe seu conhecimento e
+                    fortaleça a ciência cidadã.</p>
+            </header>
+
+            <!-- Painel de Status -->
+            <article
+                class="bg-verde-mantui-600 text-laranja-mantui-50 rounded-md p-6 tablet:p-8 mb-6 tablet:mb-8 shadow-md"
+                aria-labelledby="titulo-status">
+                <h3 id="titulo-status" class="font-sans text-xl font-bold mb-3">Status da solicitação</h3>
+                <span
+                    class="inline-block bg-laranja-mantui-50 text-verde-mantui-600 text-sm font-lato font-medium px-3 py-1.5 rounded mb-4 shadow-sm">
+                    Não solicitada
+                </span>
+                <p class="text-sm tablet:text-base w-full md:w-2/3">
+                    Após o envio, você poderá acompanhar a análise por aqui.
+                </p>
+            </article>
+
+            <!-- Formulário de Solicitação -->
+            <form action="#" method="POST">
+                <div class="flex flex-wrap items-center justify-between mb-6 tablet:mb-8 gap-4">
+                    <div class="flex items-center gap-3">
+                        <input id="termos" name="termos" type="checkbox"
+                            class="w-5 h-5 border-2 border-neutro-mantui-950 rounded bg-transparent accent-[#E86C30]" />
+                        <label for="termos" class="text-sm tablet:text-base text-neutro-mantui-950">
+                            Li e aceito os Termos de Moderador.
+                        </label>
+                    </div>
+                    <a href="#"
+                        class="text-laranja-mantui-600 text-sm font-lato font-medium hover:text-laranja-mantui-800">
+                        Ler termos
+                    </a>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Aceite os termos para enviar
+                        sua solicitação.</p>
+                    <button type="submit" disabled
+                        class="bg-neutro-mantui-300 text-neutro-mantui-600 text-base font-lato font-medium py-3 px-6 rounded cursor-not-allowed">
+                        Solicitar Moderação
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Linha divisória -->
+        <hr class="border-t border-neutro-mantui-950 my-6 tablet:my-10" aria-hidden="true" />
+
+        <!-- Secção: Preferências do Sistema -->
+        <section aria-labelledby="titulo-preferencias" class="mb-8 tablet:mb-12" id="preferencias-do-sistema">
+            <header class="mb-4 tablet:mb-6">
+                <h2 id="titulo-preferencias" class="text-2xl tablet:text-3xl desktop:text-2xl font-bold font-sans mb-1">
+                    Preferências do Sistema</h2>
+                <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Ajuste o Mantuí para o seu jeito de
+                    explorar.</p>
+            </header>
+
+            <form action="#" method="POST">
+                <fieldset class="border-none p-0 m-0">
+                    <legend class="sr-only">Configurações de interface e acessibilidade</legend>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <!-- Idioma -->
+                        <div>
+                            <label for="idioma"
+                                class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Idioma</label>
+                            <select id="idioma" name="idioma"
+                                class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 appearance-none focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600">
+                                <option value="pt-BR" selected>Português (Brasil)</option>
+                                <option value="en-US">Inglês (US)</option>
+                            </select>
+                        </div>
+
+                        <!-- Aparência -->
+                        <div>
+                            <label for="aparencia"
+                                class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Aparência</label>
+                            <select id="aparencia" name="aparencia"
+                                class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 appearance-none focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600">
+                                <option value="clara" selected>Clara</option>
+                                <option value="escura">Escura</option>
+                            </select>
+                        </div>
+
+                        <!-- Acessibilidade -->
+                        <div>
+                            <label for="acessibilidade"
+                                class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Acessibilidade</label>
+                            <select id="acessibilidade" name="acessibilidade"
+                                class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 appearance-none focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600">
+                                <option value="tamanho-texto" selected>Tamanho de texto</option>
+                                <option value="leitor-ecra">Otimizar para leitor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Aumentar Contraste (Checkbox) -->
+                    <div class="flex items-center gap-3">
+                        <input id="contraste" name="contraste" type="checkbox"
+                            class="w-5 h-5 border-2 border-neutro-mantui-950 rounded bg-transparent accent-[#E86C30]" />
+                        <label for="contraste" class="text-sm tablet:text-base text-neutro-mantui-950">
+                            Aumentar contraste
+                        </label>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <!-- Linha Divisória -->
+        <hr class="border-t border-neutro-mantui-950 my-6 tablet:my-10" aria-hidden="true" />
+
+        <!-- Secção: Meus Dados -->
+        <section aria-labelledby="titulo-dados" id="meus-dados">
+            <header class="mb-4 tablet:mb-6">
+                <h2 id="titulo-dados" class="text-2xl tablet:text-3xl desktop:text-2xl font-bold font-sans mb-1">Meus
+                    Dados</h2>
+                <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Seus registros e suas escolhas,
+                    sempre sob seu controle.</p>
+            </header>
+
+            <!-- Cartão: Exportação de Dados -->
+            <article class="border border-neutro-mantui-950 rounded-md p-4 tablet:p-6 mb-6 tablet:mb-8"
+                aria-labelledby="titulo-exportacao">
+
+                <!-- Estado Inicial: Botão de Exportar -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h3 id="titulo-exportacao" class="font-bold font-lato text-neutro-mantui-950 text-xl mb-1">
+                            Exportar todos os meus
+                            avistamentos</h3>
+                        <p class="text-sm tablet:text-base text-neutro-mantui-600">Baixe um relatório em PDF com seus
+                            registros e informações de
+                            avistamento.</p>
+                    </div>
+                    <button type="button"
+                        class="bg-verde-mantui-500 hover:bg-verde-mantui-600 transition text-neutro-mantui-50 text-base font-lato font-medium py-2 px-6 rounded shadow-sm whitespace-nowrap">
+                        Exportar Dados
+                    </button>
+                </div>
+
+                <!-- Estado de Confirmação (Expandido) -->
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <h4 class="font-bold font-lato text-neutro-mantui-950 text-lg mb-1">Confirmar exportação?</h4>
+                        <p class="text-sm tablet:text-base text-neutro-mantui-600">O relatório incluirá todos os seus
+                            avistamentos. Confirme para
+                            preparar o download em PDF.</p>
+                    </div>
+
+                    <div class="flex justify-end gap-3 mt-2">
+                        <button type="button"
+                            class="border border-neutro-mantui-950 text-base font-lato font-medium py-2 px-6 rounded text-neutro-mantui-950 hover:bg-neutro-mantui-300 transition">
+                            Cancelar
+                        </button>
+                        <button type="button"
+                            class="bg-laranja-mantui-500 hover:bg-laranja-mantui-600 transition text-laranja-mantui-50 text-base font-lato font-medium py-2 px-6 rounded shadow-sm">
+                            Confirmar exportação
+                        </button>
+                    </div>
+                </div>
+
+            </article>
+
+            <!-- Área de Perigo: Excluir Conta -->
+            <article class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                aria-labelledby="titulo-excluir">
+                <div>
+                    <h3 id="titulo-excluir" class="font-bold font-lato text-laranja-mantui-600 text-xl mb-1">Excluir
+                        conta</h3>
+                    <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">A exclusão é permanente. Você
+                        precisará confirmar antes de
+                        continuar.</p>
+                </div>
+                <button type="button"
+                    class="bg-transparent border border-laranja-mantui-600 text-laranja-mantui-600 text-base font-lato font-medium py-2 px-6 rounded hover:bg-laranja-mantui-600 hover:text-white transition whitespace-nowrap">
+                    Excluir Conta
+                </button>
+            </article>
+
+        </section>
+    </main>
+
+
+    {% include "partials_private/footer_lock.html" %}
+
 </body>
+
 </html>
