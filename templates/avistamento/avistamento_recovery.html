@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avistamentos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
-<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
+<body class="bg-neutro-mantui-100 min-h-screen">
 
     <!-- HEADER -->
     {% include "partials_private/header_lock.html" %}
@@ -29,15 +29,22 @@
         {% endif %}   
 
         <!-- CABEÇALHO DA PÁGINA -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-neutro-mantui-950">Avistamentos</h1>
-                <p class="text-sm text-neutro-mantui-700">Gerencie e visualize os registros cadastrados no sistema.</p>
+        <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
+            <div class="space-y-1.5 max-w-md">
+                <h1 class="font-sans text-2xl sm:text-[26px] font-semibold text-neutro-mantui-950 tracking-tight">
+                    Meus Avistamentos
+                </h1>
+                <p class="font-lato text-sm text-neutro-mantui-600 leading-relaxed">
+                    Espaço dedicado ao registro, catalogação e partilha de aves observadas na região.
+                </p>
             </div>
 
             <a href="{{ url_for('avistamento.add') }}" 
-               class="px-4 py-2 bg-neutro-mantui-950 hover:bg-laranja-mantui-500 text-white rounded text-sm font-medium transition-colors">
-                + Novo Avistamento
+            class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#467C2B] hover:bg-[#3A6823] text-white rounded-[4px] text-sm font-medium transition-colors shadow-sm flex-shrink-0">
+                <span>Novo</span>
+                <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
             </a>
         </div>
 
@@ -107,7 +114,7 @@
 
                         <!-- 4. BIOMA -->
                         <td class="p-4">
-                            <span class="px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full text-xs font-medium">
+                            <span class="px-2.5 py-2 bg-verde-mantui-50 text-verde-mantui-800 rounded-sm text-xs font-medium">
                                 {{ a.bioma or 'Não informado' }}
                             </span>
                         </td>
@@ -123,14 +130,16 @@
                                 
                                 <!-- Detalhes / Update -->
                                 <a href="{{ url_for('avistamento.update', id=a.id) }}" 
-                                   class="px-3 py-1.5 bg-gray-900 hover:bg-orange-600 text-white rounded text-xs font-medium transition-colors">
+                                   class="flex justify-center items-center gap-2 px-3 py-1.5 bg-gray-900 hover:bg-orange-600 text-white rounded text-xs font-medium transition-colors">
+                                   <img src="{{ url_for('static', filename='img/vermais-icone.png') }}" alt="olhar">
                                     Detalhes
                                 </a>
 
                                 <!-- Deletar -->
                                 <a href="{{ url_for('avistamento.delete', id=a.id) }}" 
                                    onclick="return confirm('Tem certeza que deseja excluir este avistamento?');"
-                                   class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-medium transition-colors">
+                                   class="flex justify-center items-center gap-2 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-medium transition-colors">
+                                   <img src="{{ url_for('static', filename='img/lixo-icone.png') }}" alt="lixo">
                                     Deletar
                                 </a>
 
