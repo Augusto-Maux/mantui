@@ -15,18 +15,26 @@
     <main class="max-w-[1076px] w-full mx-auto px-4 tablet:px-8 desktop:px-16 pt-8 tablet:pt-12 pb-12">
 
         <!-- Cabeçalho da Página -->
-        <div class="mb-8 tablet:mb-10">
-            <h1 class="font-bold mb-2 font-sans text-2xl tablet:text-3xl desktop:text-4xl text-gray-900">Configurações
-                da Conta</h1>
-            <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Gerencie seu perfil, sua segurança e as
-                preferências da sua experiência no
-                Mantui.</p>
+        <div class="mb-8 tablet:mb-10 flex flex-row justify-between items-end">
+            <div>
+                <h1 class="font-bold mb-2 font-sans text-2xl tablet:text-3xl desktop:text-4xl text-gray-900">
+                    Configurações
+                    da Conta</h1>
+                <p class="text-sm tablet:text-base text-neutro-mantui-800 font-lato">Gerencie seu perfil, sua segurança
+                    e as
+                    preferências da sua experiência no
+                    Mantui.</p>
+            </div>
+            <a href="{{ url_for('usuario.home') }}"
+                class="desktop:max-h-max bg-laranja-mantui-500 text-laranja-mantui-50 text-base font-lato font-medium px-6 py-3 rounded shadow-sm text-center hover:bg-laranja-mantui-600 transition">
+                Voltar para a Home
+            </a>
         </div>
 
         <!-- Navegação de Abas -->
         <nav aria-label="Menu de configurações da conta"
             class="flex justify-around gap-8 mb-8 tablet:mb-12 text-base font-lato font-semibold text-neutro-mantui-800 border-b border-neutro-mantui-300 pb-4">
-            <a href="#editar-perfil" class="hover:text-laranja-mantui-500">Editar perfil</a>
+            <a href="#editar-perfil" class="hover:text-laranja-mantui-500 transition">Editar perfil</a>
             <a href="#conta-e-seguranca" class="hover:text-laranja-mantui-600 transition-colors">Conta e segurança</a>
             <a href="#tornar-moderador" class="hover:text-laranja-mantui-600 transition-colors">Tornar-se moderador</a>
             <a href="#preferencias-do-sistema" class="hover:text-laranja-mantui-600 transition-colors">Preferências</a>
@@ -57,7 +65,7 @@
                         <figcaption class="text-base font-lato font-bold text-neutro-mantui-950 mb-2">Foto de perfil
                         </figcaption>
                         <div
-                            class="flex flex-col justify-start items-center desktop:h-[180px] desktop:justify-between gap-3 desktop:gap-0">
+                            class="flex flex-col justify-start items-center desktop:max-h-max desktop:justify-between gap-3 desktop:gap-[16px]">
                             {% if user.foto_perfil %}
                             <img src="{{ url_for('static', filename=user.foto_perfil) }}" alt="Foto de {{ user.nome }}"
                                 class="w-32 h-32 tablet:w-40 tablet:h-40 desktop:w-[80px] desktop:h-[80px] rounded-full object-cover shadow-lg">
@@ -70,7 +78,7 @@
                             <input id="foto_perfil" name="foto_perfil" type="file"
                                 accept="image/png,image/jpeg,image/webp" class="sr-only peer">
                             <label for="foto_perfil"
-                                class="max-w-max cursor-pointer bg-verde-mantui-500 text-neutro-mantui-50 text-sm font-lato font-medium py-1 px-2 rounded shadow-sm mb-2 hover:bg-verde-mantui-600 transition peer-focus-visible:ring-2 peer-focus-visible:ring-verde-mantui-600 peer-focus-visible:ring-offset-2">
+                                class="max-w-max cursor-pointer bg-verde-mantui-500 text-neutro-mantui-50 text-sm font-lato font-medium py-1 px-2 rounded shadow-sm hover:bg-verde-mantui-600 transition peer-focus-visible:ring-2 peer-focus-visible:ring-verde-mantui-600 peer-focus-visible:ring-offset-2">
                                 Editar foto
                             </label>
                             <button type="button"
@@ -115,7 +123,7 @@
                         <label for="nome_usuario"
                             class="block text-base font-lato font-bold mb-1 text-neutro-mantui-950">Nome de
                             usuário</label>
-                        <input id="nome_usuario" name="nome_usuario" type="text" value="@joaopaulo"
+                        <input id="nome_usuario" name="nome_usuario" type="text" value="@nomeusuario"
                             class="w-full bg-white border border-neutro-mantui-950 rounded-md p-2 text-sm tablet:text-base text-gray-800 focus:outline-none focus:border-verde-mantui-600 focus:ring-1 focus:ring-verde-mantui-600" />
                     </div>
 
@@ -346,7 +354,7 @@
             <!-- Cartão: Exportação de Dados -->
             <article class="border border-neutro-mantui-950 rounded-md p-4 tablet:p-6 mb-6 tablet:mb-8"
                 aria-labelledby="titulo-exportacao">
-
+                <input type="checkbox" id="toggle-div" class="peer hidden" />
                 <!-- Estado Inicial: Botão de Exportar -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <div>
@@ -357,14 +365,14 @@
                             registros e informações de
                             avistamento.</p>
                     </div>
-                    <button type="button"
-                        class="bg-verde-mantui-500 hover:bg-verde-mantui-600 transition text-neutro-mantui-50 text-base font-lato font-medium py-2 px-6 rounded shadow-sm whitespace-nowrap">
+                    <label type="button" for="toggle-div"
+                        class="select-none bg-verde-mantui-500 hover:bg-verde-mantui-600 transition text-neutro-mantui-50 text-base font-lato font-medium py-2 px-6 rounded shadow-sm whitespace-nowrap">
                         Exportar Dados
-                    </button>
+                </label>
                 </div>
 
                 <!-- Estado de Confirmação (Expandido) -->
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4 hidden peer-checked:block">
                     <div>
                         <h4 class="font-bold font-lato text-neutro-mantui-950 text-lg mb-1">Confirmar exportação?</h4>
                         <p class="text-sm tablet:text-base text-neutro-mantui-600">O relatório incluirá todos os seus
@@ -373,14 +381,14 @@
                     </div>
 
                     <div class="flex justify-end gap-3 mt-2">
-                        <button type="button"
+                        <label type="button" for="toggle-div"
                             class="border border-neutro-mantui-950 text-base font-lato font-medium py-2 px-6 rounded text-neutro-mantui-950 hover:bg-neutro-mantui-300 transition">
                             Cancelar
-                        </button>
-                        <button type="button"
+                    </label>
+                        <label type="button"
                             class="bg-laranja-mantui-500 hover:bg-laranja-mantui-600 transition text-laranja-mantui-50 text-base font-lato font-medium py-2 px-6 rounded shadow-sm">
                             Confirmar exportação
-                        </button>
+                    </label>
                     </div>
                 </div>
 
@@ -396,11 +404,11 @@
                         precisará confirmar antes de
                         continuar.</p>
                 </div>
-                <button type="button"
+                <a href="{{ url_for('usuario.delete', id=user.id) }}"
                     class="bg-transparent border border-laranja-mantui-600 text-laranja-mantui-600 text-base font-lato font-medium py-2 px-6 rounded hover:bg-laranja-mantui-600 hover:text-white transition whitespace-nowrap">
                     Excluir Conta
-                </button>
-            </article>
+                    </button>
+                </a>
 
         </section>
     </main>
