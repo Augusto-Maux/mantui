@@ -77,11 +77,12 @@ npm run dev
 ## 🗂️ Estrutura do Repositório
 ```text
 ├── 📂 controllers/       # organiza o fluxo de dados e resposta pro Usuário
-|   ├── Ave.py
 │   ├── Avistamento.py
+│   ├── ebird.py 
 │   ├── Equipe.py 
 │   ├── Especie.py 
 │   ├── Projeto.py      
+│   ├── StatusConservacao.py      
 │   └── Usuario.py 
 |      
 ├── 📂 migrations/        # Rastrear Histórico de alteração do Banco de Dados
@@ -90,34 +91,77 @@ npm run dev
 │   └── 📂 img/           # Armazenar imagens
 │        ├── Diagrama-Entidade-Relacionamento.png
 │        └── Diagrama-de-Classes.png 
+│        └── 📂 assets
+│        └── 📂 css
+│        └── 📂 dist
+│        └── 📂 img
+│        └── 📂 src
+│        └── 📂 uploads
+│        └── 📂 vid
 │   
 ├── 📂 templates/         # Guarda os arquivos HTML
-│   ├── ave_add.html
-│   ├── ave_recovery.html 
-│   ├── ave_update.html
-|   | 
-│   ├── avistamento_add.html
-│   ├── avistamento_recovery.html 
-│   ├── avistamento_update.html
-|   | 
-│   ├── equipe_add.html      
-│   ├── equipe_recovery.html 
-│   ├── equipe_update.html 
-|   | 
-│   ├── especie_add.html      
-│   ├── especie_recovery.html
-│   ├── especie_update.html
-|   | 
-│   ├── index.html 
-|   | 
-│   ├── projeto_add.html      
-│   ├── projeto_recovery.html
-│   ├── projeto_update.html
-|   | 
-│   ├── usuario_add.html      
-│   ├── usuario_recovery.html
-│   └── usuario_update.html
+|    │        
+|    └── 📂 auth
+│    |    ├── esqueci_senha_nova.html
+│    |    └── esqueci_senha_validar.html 
+|    └── 📂 avistamento
+│    |    ├── avistamento_add.html
+│    |    ├── avistamento_recovery.html 
+│    |    └── avistamento_update.html
+|    └── 📂 equipe
+│    |    ├── equipe_add.html
+│    |    ├── equipe_recovery.html 
+│    |    └── equipe_update.html
+|    └── 📂 especie
+│    |    ├── 📂 partials
+│    |    |   └── especie_card.html
+│    |    ├── especie_add.html
+│    |    ├── especie_recovery.html 
+│    |    └── especie_update.html
+|    └── 📂 legal
+│    |    ├── privacidade.html 
+│    |    └── termos.html
+|    └── 📂 moderacao
+│    |    ├── fila_avistamentos.html 
+│    |    └── fila_projetos.html
+|    └── 📂 partials_private
+│    |    ├── footer_lock.html 
+│    |    └── heador_lock.html
+|    └── 📂 partials_public
+│    |    ├── footer_public.html 
+│    |    └── heador_public.html
+|    └── 📂 projeto
+│    |    ├── projeto_add.html
+│    |    ├── projeto_recovery.html 
+│    |    └── projeto_update.html
+|    └── 📂 relatorio
+│    |    └── avistamentos.html
+|    └── 📂 status_conservacao
+│    |    ├── status_conservacao_add.html
+│    |    ├── status_conservacao_recovery.html 
+│    |    └── status_conservacao_update.html
+|    └── 📂 usuario
+│    |    ├── cadastro.html
+│    |    ├── configuracoes.html 
+│    |    ├── login.html 
+│    |    ├── perfil.html 
+│    |    ├── tornar_moderador.html 
+│    |    └── usuario_update.html
+│    ├── base_private.html      
+│    ├── base_public.html 
+│    ├── busca_resultados.html 
+│    ├── erro404.html 
+│    ├── flashes_messages.html 
+│    ├── home.html 
+│    ├── index.html 
+│    └── notificacoes.html 
+|     
 ├── .gitignore              # Indicar ao Git quais arquivos e pastas não devem ser rastreados
+├── app.py
+├── models.py
+├── package-lock.json
+├── package.json
+├── popular_especies.py
 ├── README.md               # apresentar e explicar o projeto
 ├── requirements.txt        # Listar todas os pacotes externos que o projeto precisa para funcionar
 └── utils.py                # armazenar funções de ajuda reutilizáveis e genéricas
