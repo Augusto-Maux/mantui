@@ -1,133 +1,362 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>{% block title %}Mantuí{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mantuí - Início{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body class="bg-neutro-mantui-100 min-h-screen">
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
 
+    <!-- 1. HEADER -->
     {% include "partials_private/header_lock.html" %}
 
-    <!-- 2. SIDEBAR LATERAL (Apenas Desktop - Inicia abaixo do Header com top-[76px]) -->
-    <aside class="desktop:h-full hidden desktop:flex flex-col justify-between w-64 min-h-[calc(100vh-76px)] absolute left-0 top-[76px] bg-neutro-mantui-950 p-6 z-40 border-r border-neutro-mantui-800">
-        <!-- Topo da Sidebar -->
-        <div class="flex flex-col gap-8 w-full">
+    <!-- 2. CONTAINER PRINCIPAL (SIDEBAR + CONTEÚDO) -->
+    <div class="flex flex-1 w-full">
 
-            <div class="flex justify-center pt-2">
-            <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
-            </div>
-
-            <!-- Botão Principal: Realizar Avistamento -->
-            <a href="{{ url_for('avistamento.add') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
-                <span>Realizar Avistamento</span>
-                <span class="text-xl leading-none">+</span>
-            </a>
-
-            <!-- Links de Navegação Principal -->
-            <nav class="flex flex-col gap-4 font-lato text-base">
-                <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
-                    <span class="text-xs">▶</span>
-                    <span>Meus Avistamentos</span>
-                </a>
-                <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
-                    <span class="text-xs">▶</span>
-                    <span>Meus Grupos</span>
-                </a>
-                <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
-                    <span class="text-xs">▶</span>
-                    <span>Meus Projetos</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- Rodapé da Sidebar (Botão Sair) -->
-        <div class="w-full">
-            <a href="{{ url_for('usuario.logout') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-laranja-mantui-600 hover:bg-laranja-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
-                <span>✖</span>
-                <span>Sair do Sistema</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- 3. BARRA DE NAVEGAÇÃO INFERIOR (Mobile/Tablet) -->
-    <nav class="flex desktop:hidden fixed bottom-0 left-0 w-full bg-neutro-mantui-950 border-t border-neutro-mantui-800 px-4 py-2 z-40 justify-around items-center">
-        <!-- Item: Avistamentos -->
-        <a href="{{ url_for('avistamento.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
-                <img src="{{ url_for('static', filename='img/icon-avistamentos-neutro.svg') }}" alt="Avistamentos" class="w-6 h-6">
-            </div>
-            <span>Avistamentos</span>
-        </a>
-
-        <!-- Item: Grupos -->
-        <a href="{{ url_for('equipe.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
-                <img src="{{ url_for('static', filename='img/icon-groups-neutro.svg') }}" alt="Grupos" class="w-6 h-6 opacity-70">
-            </div>
-            <span>Grupos</span>
-        </a>
-
-        <!-- Botão Central (+) -->
-        <a href="#" class="flex items-center justify-center w-12 h-12 bg-verde-mantui-600 rounded-xl text-white text-2xl font-bold shadow-lg hover:scale-105 transition -mt-4">
-            +
-        </a>
-
-        <!-- Item: Projetos -->
-        <a href="{{ url_for('projeto.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
-                <img src="{{ url_for('static', filename='img/icon-projects-neutro.svg') }}" alt="Projetos" class="w-6 h-6 opacity-70">
-            </div>
-            <span>Projetos</span>
-        </a>
-
-        <!-- Item: Sair -->
-        <a href="{{ url_for('usuario.logout') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-laranja-mantui-600 text-white font-bold">
-                ✖
-            </div>
-            <span>Sair</span>
-        </a>
-    </nav>
-
-    <!-- 4. CONTEÚDO PRINCIPAL (Main) -->
-    <main class=" min-h-screen pt-[96px] pb-24 desktop:pb-8 desktop:ml-64 p-6 bg-neutro-mantui-100">
-        
-        <!-- BLOCO DE MENSAGENS FLASH -->
-        {% set mensagens = get_flashed_messages(with_categories=True) %}
-        {% if mensagens %}
-            <div class="w-full max-w-4xl mx-auto mb-6 space-y-2">
-                {% for category, message in mensagens %}
-                <div class="flash-message font-bold p-4 flex justify-between items-center rounded-lg shadow-sm transition-opacity duration-500
-                            {% if category == 'success' %} bg-green-100 text-green-800 border border-green-200
-                            {% elif category == 'danger' %} bg-red-100 text-red-800 border border-red-200
-                            {% else %} bg-blue-100 text-blue-800 border border-blue-200 {% endif %}">
-                    <span>{{ message }}</span>
-                    <button onclick="this.parentElement.remove()" class="ml-4 font-bold text-xl leading-none hover:opacity-75">&times;</button>
+        <!-- SIDEBAR LATERAL (Desktop) -->
+        <aside class="hidden desktop:flex flex-col justify-between w-64 flex-shrink-0 bg-neutro-mantui-950 p-6 border-r border-neutro-mantui-800">
+            <!-- Topo da Sidebar -->
+            <div class="flex flex-col gap-8 w-full">
+                <div class="flex justify-center pt-2">
+                    <a href="{{ url_for('usuario.home') }}">
+                        <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
+                    </a>
                 </div>
-                {% endfor %}
+
+                <!-- Botão Principal: Realizar Avistamento -->
+                <a href="{{ url_for('avistamento.add') }}" 
+                   class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                    <span>Realizar Avistamento</span>
+                    <span class="text-xl leading-none">+</span>
+                </a>
+
+                <!-- Links de Navegação Principal -->
+                <nav class="flex flex-col gap-4 font-lato text-base">
+                    <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span>▶</span>
+                        <span>Meus Avistamentos</span>
+                    </a>
+                    <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span>▶</span>
+                        <span>Meus Grupos</span>
+                    </a>
+                    <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span>▶</span>
+                        <span>Meus Projetos</span>
+                    </a>
+                </nav>
             </div>
-        {% endif %}
 
-        <!-- CONTEÚDO DAS SEÇÕES DO SISTEMA -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold font-sans text-verde-mantui-700 mb-4">Avistamentos</h2>
-            <!-- Inserir cards de avistamentos aqui -->
-        </section>
+            <!-- Rodapé da Sidebar (Botão Sair) -->
+            <div class="w-full pt-8">
+                <a href="{{ url_for('usuario.logout') }}" 
+                   class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-laranja-mantui-600 hover:bg-laranja-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                    <span>✖</span>
+                    <span>Sair do Sistema</span>
+                </a>
+            </div>
+        </aside>
 
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold font-sans text-verde-mantui-700 mb-4">Equipes</h2>
-            <!-- Inserir cards de equipes aqui -->
-        </section>
+        <!-- BARRA DE NAVEGAÇÃO INFERIOR (Mobile/Tablet) -->
+        <nav class="flex desktop:hidden fixed bottom-0 left-0 w-full bg-neutro-mantui-950 border-t border-neutro-mantui-800 px-4 py-2 z-40 justify-around items-center">
+            <a href="{{ url_for('avistamento.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
+                    <img src="{{ url_for('static', filename='img/icon-avistamentos-neutro.svg') }}" alt="Avistamentos" class="w-6 h-6">
+                </div>
+                <span>Avistamentos</span>
+            </a>
 
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold font-sans text-verde-mantui-700 mb-4">Projetos</h2>
-            <!-- Inserir cards de projetos aqui -->
-        </section>
+            <a href="{{ url_for('equipe.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
+                    <img src="{{ url_for('static', filename='img/icon-groups-neutro.svg') }}" alt="Grupos" class="w-6 h-6 opacity-70">
+                </div>
+                <span>Grupos</span>
+            </a>
 
-    </main>
+            <!-- Botão Central (+) -->
+            <a href="{{ url_for('avistamento.add') }}" title="Novo Avistamento" class="flex items-center justify-center w-12 h-12 bg-verde-mantui-600 rounded-xl text-white text-2xl font-bold shadow-lg hover:scale-105 transition -mt-4">
+                +
+            </a>
+
+            <a href="{{ url_for('projeto.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
+                    <img src="{{ url_for('static', filename='img/icon-projects-neutro.svg') }}" alt="Projetos" class="w-6 h-6 opacity-70">
+                </div>
+                <span>Projetos</span>
+            </a>
+
+            <a href="{{ url_for('usuario.logout') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-laranja-mantui-600 text-white font-bold">
+                    ✖
+                </div>
+                <span>Sair</span>
+            </a>
+        </nav>
+
+        <!-- 3. CONTEÚDO PRINCIPAL (MAIN) -->
+        <main class="flex-1 min-w-0 p-6 sm:p-8 pb-24 desktop:pb-12 bg-neutro-mantui-50">
+            <div class="max-w-5xl mx-auto space-y-12">
+
+                <!-- BLOCO DE MENSAGENS FLASH -->
+                {% set mensagens = get_flashed_messages(with_categories=True) %}
+                {% if mensagens %}
+                    <div class="w-full space-y-2">
+                        {% for category, message in mensagens %}
+                            <div class="flash-message font-bold p-4 flex justify-between items-center rounded-lg shadow-sm transition-opacity duration-500
+                                {% if category == 'success' %} bg-green-100 text-green-800 border border-green-200
+                                {% elif category == 'danger' %} bg-red-100 text-red-800 border border-red-200
+                                {% else %} bg-blue-100 text-blue-800 border border-blue-200 {% endif %}">
+                                <span>{{ message }}</span>
+                                <button onclick="this.parentElement.remove()" class="ml-4 font-bold text-xl leading-none hover:opacity-75">&times;</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Normaliza variáveis caso venham no singular ou plural -->
+                {% set lista_avistamentos = avistamentos if avistamentos is defined else (avistamento if avistamento is defined else []) %}
+                {% set lista_equipes = equipes if equipes is defined else (equipe if equipe is defined else []) %}
+                {% set lista_projetos = projetos if projetos is defined else (projeto if projeto is defined else []) %}
+
+                <!-- SEÇÃO 1: MEUS AVISTAMENTOS (PRÉ-RECOVERY)                 -->
+                <section>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h2 class="font-sans text-xl sm:text-2xl font-semibold text-neutro-mantui-950">
+                            Meus Avistamentos
+                        </h2>
+                        <a href="{{ url_for('avistamento.recovery') }}" 
+                           class="inline-flex items-center justify-between sm:justify-center gap-4 px-4 py-1.5 bg-white hover:bg-neutro-mantui-200 text-neutro-mantui-950 rounded-sm text-xs sm:text-sm font-medium transition-colors self-start sm:self-auto">
+                            <span>Ver todos</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                    <p class="font-lato text-sm text-neutro-mantui-600 mt-1.5 mb-5 max-w-2xl leading-relaxed">
+                        Espaço dedicado ao registro, catalogação e partilha de aves observadas na região.
+                    </p>
+
+                    {% if lista_avistamentos and lista_avistamentos|length > 0 %}
+                        <!-- GRID COM OS 3 ÚLTIMOS AVISTAMENTOS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {% for a in lista_avistamentos[:3] %}
+                            <a href="{{ url_for('avistamento.update', id=a.id) }}" 
+                               class="group bg-white rounded-lg border border-neutro-mantui-300 hover:border-laranja-mantui-500 shadow-sm overflow-hidden flex flex-col transition-all">
+                                
+                                <!-- Miniatura de Mídia -->
+                                <div class="relative w-full h-40 bg-neutro-mantui-200 overflow-hidden">
+                                    {% if a.midias and a.midias|length > 0 %}
+                                        {% set primeira = a.midias[0] %}
+                                        {% set caminho = primeira.caminho if primeira.caminho is defined else primeira.caminho_relativo %}
+                                        {% if caminho.lower().endswith(('.mp4', '.webm', '.ogg', '.mov', '.avi')) %}
+                                            <video class="w-full h-full object-cover">
+                                                <source src="{{ url_for('static', filename=caminho) }}">
+                                            </video>
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename=caminho) }}" 
+                                                 alt="{{ a.nome or 'Avistamento' }}" 
+                                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                        {% endif %}
+
+                                        {% if a.midias|length > 1 %}
+                                            <span class="absolute bottom-2 right-2 bg-black/75 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">
+                                                +{{ a.midias|length - 1 }}
+                                            </span>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="w-full h-full flex flex-col items-center justify-center text-neutro-mantui-500 text-xs italic">
+                                            <span>Sem mídia anexada</span>
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Badge de Bioma -->
+                                    {% if a.bioma %}
+                                        <span class="absolute top-2 left-2 px-2 py-0.5 bg-verde-mantui-600/90 text-white text-[11px] font-medium rounded-sm backdrop-blur-sm">
+                                            {{ a.bioma }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Dados do Card -->
+                                <div class="p-4 flex-1 flex flex-col justify-between gap-3">
+                                    <div>
+                                        <h3 class="font-sans font-semibold text-base text-neutro-mantui-950 group-hover:text-laranja-mantui-600 transition-colors line-clamp-1">
+                                            {{ a.nome or 'Avistamento sem título' }}
+                                        </h3>
+                                        <p class="font-lato text-xs text-neutro-mantui-600 mt-0.5 line-clamp-1">
+                                            {{ a.especie.nome_comum if a.especie else 'Espécie não identificada' }}
+                                        </p>
+                                    </div>
+
+                                    <div class="pt-2 border-t border-neutro-mantui-200 flex items-center justify-between text-xs text-neutro-mantui-500">
+                                        <span>{{ a.data_hora.strftime('%d/%m/%Y') if a.data_hora else 'Data não inf.' }}</span>
+                                        <span class="font-medium text-neutro-mantui-900 group-hover:text-laranja-mantui-600">Detalhes &rarr;</span>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <!-- ESTADO VAZIO: AVISTAMENTOS -->
+                        <div class="border-2 border-dashed border-neutro-mantui-400 rounded-xl py-10 px-6 flex flex-col items-center justify-center text-center bg-neutro-mantui-50/40">
+                            <h3 class="font-sans font-bold text-base text-neutro-mantui-950">
+                                Você ainda não possui Avistamentos
+                            </h3>
+                            <p class="font-lato text-xs text-neutro-mantui-600 max-w-md mt-1 mb-5 leading-relaxed">
+                                Registre suas observações em campo com fotos, coordenadas e condições climáticas para contribuir com o catálogo.
+                            </p>
+
+                            <a href="{{ url_for('avistamento.add') }}" 
+                               class="w-full max-w-sm py-2.5 px-6 bg-neutro-mantui-900 hover:bg-laranja-mantui-500 text-white font-sans font-medium text-sm rounded-sm transition-colors inline-flex items-center justify-center gap-2 shadow-sm">
+                                <span>Fazer Avistamento</span>
+                                <span class="text-lg leading-none">+</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </section>
+
+                <!-- SEÇÃO 2: MEUS GRUPOS (PRÉ-RECOVERY)                       -->
+                <section>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h2 class="font-sans text-xl sm:text-2xl font-semibold text-neutro-mantui-950">
+                            Meus Grupos
+                        </h2>
+                        <a href="{{ url_for('equipe.recovery') }}" 
+                           class="inline-flex items-center justify-between sm:justify-center gap-4 px-4 py-1.5 bg-white hover:bg-neutro-mantui-200 text-neutro-mantui-950 rounded-sm text-xs sm:text-sm font-medium transition-colors self-start sm:self-auto">
+                            <span>Ver todos</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                    <p class="font-lato text-sm text-neutro-mantui-600 mt-1.5 mb-5 max-w-2xl leading-relaxed">
+                        Espaço dedicado à organização, colaboração e gestão das suas equipes de pesquisa.
+                    </p>
+
+                    {% if lista_equipes and lista_equipes|length > 0 %}
+                        <!-- GRID COM OS 3 ÚLTIMOS GRUPOS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {% for eq in lista_equipes[:3] %}
+                            <a href="{{ url_for('equipe.update', id=eq.id) }}" 
+                               class="group bg-white rounded-lg border border-neutro-mantui-300 hover:border-laranja-mantui-500 p-4 shadow-sm flex items-center justify-between gap-3 transition-all">
+                                
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-11 h-11 rounded-lg bg-verde-mantui-600 text-white font-sans font-bold text-base flex items-center justify-center flex-shrink-0 shadow-sm">
+                                        {{ eq.nome[0] | upper if eq.nome else '#' }}
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-sans font-semibold text-sm text-neutro-mantui-950 group-hover:text-laranja-mantui-600 transition-colors truncate">
+                                            {{ eq.nome or 'Grupo sem nome' }}
+                                        </h3>
+                                        <span class="inline-block mt-1 px-2 py-0.5 bg-verde-mantui-50 text-verde-mantui-800 rounded-sm text-[11px] font-medium">
+                                            Grupo #{{ '%02d' % eq.id }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <span class="text-neutro-mantui-500 group-hover:text-laranja-mantui-600 font-bold text-sm flex-shrink-0">
+                                    &rarr;
+                                </span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <!-- ESTADO VAZIO: GRUPOS -->
+                        <div class="border-2 border-dashed border-neutro-mantui-400 rounded-xl py-10 px-6 flex flex-col items-center justify-center text-center bg-neutro-mantui-50/40">
+
+                            <h3 class="font-sans font-bold text-base text-neutro-mantui-950">
+                                Você ainda não participa de nenhum Grupo
+                            </h3>
+                            <p class="font-lato text-xs text-neutro-mantui-600 max-w-md mt-1 mb-5 leading-relaxed">
+                                Crie uma equipe de campo para reunir pesquisadores e compartilhar registros de avistamentos em conjunto.
+                            </p>
+
+                            <a href="{{ url_for('equipe.add') }}" 
+                               class="w-full max-w-sm py-2.5 px-6 bg-neutro-mantui-900 hover:bg-laranja-mantui-500 text-white font-sans font-medium text-sm rounded-sm transition-colors inline-flex items-center justify-center gap-2 shadow-sm">
+                                <span>Criar Grupo</span>
+                                <span class="text-lg leading-none">+</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </section>
+
+                <!-- SEÇÃO 3: MEUS PROJETOS (PRÉ-RECOVERY)                     -->
+                <section>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h2 class="font-sans text-xl sm:text-2xl font-semibold text-neutro-mantui-950">
+                            Meus Projetos
+                        </h2>
+                        <a href="{{ url_for('projeto.recovery') }}" 
+                           class="inline-flex items-center justify-between sm:justify-center gap-4 px-4 py-1.5 bg-white hover:bg-neutro-mantui-200 text-neutro-mantui-950 rounded-sm text-xs sm:text-sm font-medium transition-colors self-start sm:self-auto">
+                            <span>Ver todos</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                    <p class="font-lato text-sm text-neutro-mantui-600 mt-1.5 mb-5 max-w-2xl leading-relaxed">
+                        Acompanhe os projetos de monitoramento e conservação ambiental vinculados às suas equipes.
+                    </p>
+
+                    {% if lista_projetos and lista_projetos|length > 0 %}
+                        <!-- GRID COM OS 3 ÚLTIMOS PROJETOS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {% for p in lista_projetos[:3] %}
+                            <a href="{{ url_for('projeto.recovery') }}" 
+                               class="group bg-white rounded-lg border border-neutro-mantui-300 hover:border-laranja-mantui-500 p-4 shadow-sm flex items-center justify-between gap-3 transition-all">
+                                
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-11 h-11 rounded-lg bg-laranja-mantui-600 text-white font-sans font-bold text-base flex items-center justify-center flex-shrink-0 shadow-sm">
+                                        {{ p.nome[0] | upper if p.nome else 'P' }}
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-sans font-semibold text-sm text-neutro-mantui-950 group-hover:text-laranja-mantui-600 transition-colors truncate">
+                                            {{ p.nome or 'Projeto sem título' }}
+                                        </h3>
+                                        <span class="inline-block mt-1 px-2 py-0.5 bg-laranja-mantui-50 text-laranja-mantui-800 rounded-sm text-[11px] font-medium">
+                                            Projeto #{{ '%02d' % p.id }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <span class="text-neutro-mantui-500 group-hover:text-laranja-mantui-600 font-bold text-sm flex-shrink-0">
+                                    &rarr;
+                                </span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <!-- ESTADO VAZIO: PROJETOS -->
+                        <div class="border-2 border-dashed border-neutro-mantui-400 rounded-xl py-10 px-6 flex flex-col items-center justify-center text-center bg-neutro-mantui-50/40">
+
+                            <h3 class="font-sans font-bold text-base text-neutro-mantui-950">
+                                Você ainda não participa de nenhum Projeto
+                            </h3>
+                            <p class="font-lato text-xs text-neutro-mantui-600 max-w-md mt-1 mb-5 leading-relaxed">
+                                Inicie um projeto de pesquisa para consolidar dados e relatórios das expedições da sua equipe.
+                            </p>
+
+                            <a href="{{ url_for('projeto.recovery') }}" 
+                               class="w-full max-w-sm py-2.5 px-6 bg-neutro-mantui-900 hover:bg-laranja-mantui-500 text-white font-sans font-medium text-sm rounded-sm transition-colors inline-flex items-center justify-center gap-2 shadow-sm">
+                                <span>Criar Projeto</span>
+                                <span class="text-lg leading-none">+</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- 4. RODAPÉ -->
+    <footer class="w-full bg-neutro-mantui-950 text-neutro-mantui-400 py-4 px-6 border-t border-neutro-mantui-800 flex items-center justify-between text-xs font-lato z-40">
+        <span>&copy; 2026 MANTUÍ. Todos os direitos Reservados</span>
+        <a href="https://github.com/Augusto-Maux/mantui" target="_blank" title="Repositório GitHub" class="text-white hover:text-laranja-mantui-500 transition-colors">
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+        </a>
+    </footer>
 
 </body>
-
 </html>
