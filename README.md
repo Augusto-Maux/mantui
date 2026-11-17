@@ -171,13 +171,20 @@ npm run dev
 
 ## 📊 Modelo Entidade-Relacionamento (DER)
 <p align="center">
-  <img src="./static/img/Diagrama-Entidade-Relacionamento.png" alt="DiagraMA Entidade Relacionamento" width="100%">
+  <img src="./static/img/Diagrama Entidade Relacionamento.png" alt="DiagraMA Entidade Relacionamento" width="100%">
+</p>
+
+---
+
+## Diagrama de Classe
+<p align="center">
+  <img src="./static/img/Diagrama de Classes.png" alt="DiagraMA Entidade Relacionamento" width="100%">
 </p>
 
 ---
 
 ## 📝 Sobre as Classes do sistema
-Breve resumo das principais classes:
+Principais classes:
 
 | Classe | Descrição |
 | :--- | :--- |
@@ -186,7 +193,7 @@ Breve resumo das principais classes:
 | `Moderador(CidadaoCientista)` | Valida os avistamentos. |
 | `SolicitacaoModerador` | CidadaoCientista solicita a permição para moderar. |
 | `MembroEquipe` | Representa a participação de um usuário em uma equipe. |
-| `Equipe` | Grupo de Usuários (ou um usuário individual) para realizar e armazenar os avistamentos. |
+| `Grupo` | Grupo de Usuários (ou um usuário individual) para realizar e armazenar os avistamentos. |
 | `Projeto` | Junção de equipes e usários. |
 | `Avistamento` | Coleta as informações observadas de determinada(s) Ave(s). |
 | `Ave` | Determinado Animal observado isoladamente. |
