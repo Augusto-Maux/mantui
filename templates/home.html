@@ -17,84 +17,39 @@
     <!-- 2. CONTAINER PRINCIPAL (SIDEBAR + CONTEÚDO) -->
     <div class="flex flex-1 w-full">
 
-    <!-- 2. SIDEBAR LATERAL (Apenas Desktop - Inicia abaixo do Header com top-[76px]) -->
-    <aside class="hidden desktop:flex flex-col justify-between w-64 flex-shrink-0 bg-neutro-mantui-950 p-6 border-r border-neutro-mantui-800">
-        <!-- Topo da Sidebar -->
-        <div class="flex flex-col gap-8 w-full">
-
-            <div class="flex justify-center pt-2">
-            <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
-            </div>
-
-            <!-- Botão Principal: Realizar Avistamento -->
-            <a href="{{ url_for('avistamento.add') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
-                <span>Realizar Avistamento</span>
-                <span class="text-xl leading-none">+</span>
-            </a>
-
-            <!-- Links de Navegação Principal -->
-            <nav class="flex flex-col gap-4 font-lato text-base">
-                <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-laranja-mantui-500 font-medium hover:text-white transition">
-                    <span class="text-xs">▶</span>
-                    <span>Meus Avistamentos</span>
-                </a>
-                <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
-                    <span class="text-xs">▶</span>
-                    <span>Meus Grupos</span>
-                </a>
-                <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
-                    <span class="text-xs">▶</span>
-                    <span>Meus Projetos</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- Rodapé da Sidebar (Botão Sair) -->
-        <div class="w-full">
-            <a href="{{ url_for('usuario.logout') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-laranja-mantui-600 hover:bg-laranja-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
-                <span>✖</span>
-                <span>Sair do Sistema</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="flex-1 min-w-0 p-6">
-
-        <div class="max-w-7xl mx-auto space-y-6">
-
-        <!-- BLOCO DE MENSAGENS FLASH -->
-        {% set mensagens = get_flashed_messages(with_categories=True) %} 
-        {% if mensagens %}     
-            {% for category, message in mensagens %}
-                <div class="font-bold p-4 rounded-lg 
-                    {% if category == 'success' %} bg-green-50 text-green-800 border border-green-200
-                    {% elif category == 'danger' %} bg-red-50 text-red-800 border border-red-200
-                    {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
-                    {{ message }}
+        <!-- SIDEBAR LATERAL (Desktop) -->
+        <aside class="hidden desktop:flex flex-col justify-between w-64 flex-shrink-0 bg-neutro-mantui-950 p-6 border-r border-neutro-mantui-800">
+            <!-- Topo da Sidebar -->
+            <div class="flex flex-col gap-8 w-full">
+                <div class="flex justify-center pt-2">
+                    <a href="{{ url_for('usuario.home') }}">
+                        <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
+                    </a>
                 </div>
-            {% endfor %}
-        {% endif %}   
 
-        <!-- CABEÇALHO DA PÁGINA -->
-        <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
-            <div class="space-y-1.5 max-w-md">
-                <h1 class="font-sans text-2xl sm:text-[26px] font-semibold text-neutro-mantui-950 tracking-tight">
-                    Meus Avistamentos
-                </h1>
-                <p class="font-lato text-sm text-neutro-mantui-600 leading-relaxed">
-                    Espaço dedicado ao registro, catalogação e partilha de aves observadas na região.
-                </p>
+                <!-- Botão Principal: Realizar Avistamento -->
+                <a href="{{ url_for('avistamento.add') }}" 
+                   class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                    <span>Realizar Avistamento</span>
+                    <span class="text-xl leading-none">+</span>
+                </a>
+
+                <!-- Links de Navegação Principal -->
+                <nav class="flex flex-col gap-4 font-lato text-base">
+                    <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span>▶</span>
+                        <span>Meus Avistamentos</span>
+                    </a>
+                    <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span>▶</span>
+                        <span>Meus Grupos</span>
+                    </a>
+                    <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span>▶</span>
+                        <span>Meus Projetos</span>
+                    </a>
+                </nav>
             </div>
-
-            <a href="{{ url_for('avistamento.add') }}" 
-            class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#467C2B] hover:bg-[#3A6823] text-white rounded-[4px] text-sm font-medium transition-colors shadow-sm flex-shrink-0">
-                <span>Novo</span>
-                <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            </a>
-        </div>
 
             <!-- Rodapé da Sidebar (Botão Sair) -->
             <div class="w-full pt-8">
@@ -112,7 +67,7 @@
                 <div class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutro-mantui-300">
                     <img src="{{ url_for('static', filename='img/icon-avistamentos-neutro.svg') }}" alt="Avistamentos" class="w-6 h-6">
                 </div>
-                <span>Avistamentos</span>
+                <span>Avistamentos</span>s
             </a>
 
             <a href="{{ url_for('equipe.recovery') }}" class="flex flex-col items-center gap-1 text-neutro-mantui-400 text-xs font-lato hover:text-white">
@@ -246,6 +201,7 @@
                     {% else %}
                         <!-- ESTADO VAZIO: AVISTAMENTOS -->
                         <div class="border-2 border-dashed border-neutro-mantui-400 rounded-xl py-10 px-6 flex flex-col items-center justify-center text-center bg-neutro-mantui-50/40">
+
                             <h3 class="font-sans font-bold text-base text-neutro-mantui-950">
                                 Você ainda não possui Avistamentos
                             </h3>
