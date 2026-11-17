@@ -157,11 +157,11 @@ npm run dev
 │    └── notificacoes.html 
 |     
 ├── .gitignore              # Indicar ao Git quais arquivos e pastas não devem ser rastreados
-├── app.py
-├── models.py
-├── package-lock.json
-├── package.json
-├── popular_especies.py
+├── app.py                  # Inclui instâncias necessárias para que o sistema funcione
+├── models.py               # Indica tabelas e classes do sistema
+├── package-lock.json       # Atribui versões exatas das dependências do projeto
+├── package.json            # Arquivo de configuração do sistema
+├── popular_especies.py     # Arquivo que importa espécies do eBird (API)
 ├── README.md               # apresentar e explicar o projeto
 ├── requirements.txt        # Listar todas os pacotes externos que o projeto precisa para funcionar
 └── utils.py                # armazenar funções de ajuda reutilizáveis e genéricas
