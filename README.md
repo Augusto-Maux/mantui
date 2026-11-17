@@ -171,14 +171,21 @@ npm run dev
 
 ## 📊 Modelo Entidade-Relacionamento (DER)
 <p align="center">
-  <img src="./static/img/Diagrama Entidade Relacionamento.png" alt="DiagraMA Entidade Relacionamento" width="100%">
+  <img src="./static/img/Diagrama Entidade Relacionamento.png" alt="Diagrama Entidade Relacionamento" width="100%">
+</p>
+
+---
+
+## Diagrama de Caso de Uso
+<p align="center">
+  <img src="./static/img/Caso de Uso.png" alt="Diagrama de Caso de Uso" width="100%">
 </p>
 
 ---
 
 ## Diagrama de Classe
 <p align="center">
-  <img src="./static/img/Diagrama de Classes.png" alt="DiagraMA Entidade Relacionamento" width="100%">
+  <img src="./static/img/Diagrama de Classes.png" alt="Diagrama de Classe" width="100%">
 </p>
 
 ---
