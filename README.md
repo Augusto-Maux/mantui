@@ -142,7 +142,6 @@ npm run dev
 │    |    └── status_conservacao_update.html
 |    └── 📂 usuario
 │    |    ├── cadastro.html
-│    |    ├── configuracoes.html 
 │    |    ├── login.html 
 │    |    ├── perfil.html 
 │    |    ├── tornar_moderador.html 
