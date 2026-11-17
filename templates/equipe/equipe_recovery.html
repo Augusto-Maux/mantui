@@ -1,28 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}Meus Grupos{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <table class="table">
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
 
-		<thead>
-            <tr>
-                <th></th>
-                <th>Nome</th>
-            </tr>
-		</thead>
+    <!-- HEADER -->
+    {% include "partials_private/header_lock.html" %}
 
-		<tbody>			
-			{% for equipe in equipes %}
-			<tr>
-				<td>{{ equipe.id }}</td>
-				<td>{{ equipe.nome }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+    <!-- CONTAINER LADO A LADO (SIDEBAR + MAIN) -->
+    <div class="flex flex-1 w-full">
+
+        <!-- SIDEBAR LATERAL -->
+        <aside class="hidden desktop:flex flex-col justify-between w-64 flex-shrink-0 bg-neutro-mantui-950 p-6 border-r border-neutro-mantui-800">
+            <!-- Topo da Sidebar -->
+            <div class="flex flex-col gap-8 w-full">
+
+                <div class="flex justify-center pt-2">
+                    <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
+                </div>
+
+                <!-- Botão Principal: Realizar Avistamento -->
+                <a href="{{ url_for('avistamento.add') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                    <span>Realizar Avistamento</span>
+                    <span class="text-xl leading-none">+</span>
+                </a>
+
+                <!-- Links de Navegação Principal -->
+                <nav class="flex flex-col gap-4 font-lato text-base">
+                    <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span class="text-xs">▶</span>
+                        <span>Meus Avistamentos</span>
+                    </a>
+                    <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-laranja-mantui-500 font-medium hover:text-white transition">
+                        <span class="text-xs">▶</span>
+                        <span>Meus Grupos</span>
+                    </a>
+                    <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                        <span class="text-xs">▶</span>
+                        <span>Meus Projetos</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Rodapé da Sidebar (Botão Sair) -->
+            <div class="w-full">
+                <a href="{{ url_for('usuario.logout') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-laranja-mantui-600 hover:bg-laranja-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                    <span>✖</span>
+                    <span>Sair do Sistema</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="flex-1 min-w-0 p-6">
+            <div class="max-w-7xl mx-auto space-y-6">
+
+                <!-- BLOCO DE MENSAGENS FLASH -->
+                {% set mensagens = get_flashed_messages(with_categories=True) %} 
+                {% if mensagens %}     
+                    {% for category, message in mensagens %}
+                        <div class="font-bold p-4 rounded-lg 
+                            {% if category == 'success' %} bg-green-50 text-green-800 border border-green-200
+                            {% elif category == 'danger' %} bg-red-50 text-red-800 border border-red-200
+                            {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- CABEÇALHO DA PÁGINA -->
+                <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
+                    <div class="space-y-1.5 max-w-md">
+                        <h1 class="font-sans text-2xl sm:text-[26px] font-semibold text-neutro-mantui-950 tracking-tight">
+                            Meus Grupos
+                        </h1>
+                        <p class="font-lato text-sm text-neutro-mantui-600 leading-relaxed">
+                            Espaço dedicado à organização, colaboração e gestão das suas equipes de pesquisa.
+                        </p>
+                    </div>
+
+                    <a href="{{ url_for('equipe.add') }}" 
+                       class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#467C2B] hover:bg-[#3A6823] text-white rounded-[4px] text-sm font-medium transition-colors shadow-sm flex-shrink-0">
+                        <span>Novo</span>
+                        <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- TABELA DE EQUIPES / GRUPOS -->
+                <div class="overflow-x-auto shadow rounded-lg bg-white border border-gray-200">
+                    <table class="w-full text-left border-collapse">
+                        <tbody class="divide-y divide-gray-200 text-sm text-gray-800">
+                            {% for equipe in equipes %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+
+                                <!-- 1. AVATAR / IDENTIFICADOR VISUAL DO GRUPO -->
+                                <td class="p-4 w-20">
+                                    <div class="w-12 h-12 rounded-lg bg-verde-mantui-600 text-white font-sans font-bold text-lg flex items-center justify-center shadow-sm">
+                                        {{ equipe.nome[0] | upper if equipe.nome else '#' }}
+                                    </div>
+                                </td>
+
+                                <!-- 2. NOME DO GRUPO (E DESCRIÇÃO SE HOUVER) -->
+                                <td class="p-4">
+                                    <div class="font-semibold text-gray-900 text-base">
+                                        {{ equipe.nome or 'Grupo sem nome' }}
+                                    </div>
+                                    {% if equipe.descricao is defined and equipe.descricao %}
+                                        <p class="text-xs text-gray-500 mt-0.5 line-clamp-1">
+                                            {{ equipe.descricao }}
+                                        </p>
+                                    {% endif %}
+                                </td>
+
+                                <!-- 3. TAG DE CÓDIGO / MEMBROS -->
+                                <td class="p-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-1.5 bg-verde-mantui-50 text-verde-mantui-800 rounded-sm text-xs font-medium">
+                                        Grupo #{{ '%02d' % equipe.id }}
+                                    </span>
+                                </td>
+
+                                <!-- 4. BOTÕES DE AÇÃO -->
+                                <td class="p-4">
+                                    <div class="flex items-center justify-end gap-2">
+                                        
+                                        <!-- Detalhes / Update -->
+                                        <a href="{{ url_for('equipe.update', id=equipe.id) }}" 
+                                           class="flex justify-center items-center gap-2 px-3 py-1.5 bg-gray-900 hover:bg-orange-600 text-white rounded text-xs font-medium transition-colors">
+                                            <img src="{{ url_for('static', filename='img/vermais-icone.png') }}" alt="olhar">
+                                            Detalhes
+                                        </a>
+
+                                        <!-- Deletar -->
+                                        <a href="{{ url_for('equipe.delete', id=equipe.id) }}" 
+                                           onclick="return confirm('Tem certeza que deseja excluir este grupo?');"
+                                           class="flex justify-center items-center gap-2 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-medium transition-colors">
+                                            <img src="{{ url_for('static', filename='img/lixo-icone.png') }}" alt="lixo">
+                                            Deletar
+                                        </a>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="p-8 text-center text-gray-500">
+                                    Nenhum grupo cadastrado ainda.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
 </body>
 </html>

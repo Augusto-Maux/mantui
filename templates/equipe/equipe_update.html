@@ -1,16 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}Detalhes do Grupo{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <form action="{{url_for('equipe.update', id=equipe.id)}}" method="POST">
-        
-        Nome: <input type="text" name="nome" value="{{equipe.nome}}"><br/>
-        <input type="submit" name="Atualizar">
-    
-    </form>
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
+
+    {% include "partials_private/header_lock.html" %}
+
+    <main class="w-full my-auto flex justify-center desktop:justify-center p-3 mb-3">
+
+        <div class="w-full text-neutro-mantui-950 p-6 flex flex-col justify-center items-center">
+
+            <!-- BOTÕES DO TOPO: CANCELAR E EDITAR/SALVAR -->
+            <div class="w-full flex items-center justify-end gap-3">
+                <a id="btn-cancelar" 
+                   href="{{ url_for('equipe.recovery') }}" 
+                   class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 hover:bg-neutro-mantui-200 focus:outline-none focus:border-laranja-mantui-500 text-center font-medium transition-colors">
+                    Cancelar
+                </a>
+
+                <button type="button" 
+                        id="btn-editar-salvar"
+                        class="px-4 py-2 rounded text-neutro-mantui-50 border-3 border-transparent bg-neutro-mantui-950 hover:bg-laranja-mantui-500 cursor-pointer font-medium transition-colors">
+                    Editar
+                </button>
+            </div>
+
+            <!-- FORMULÁRIO -->
+            <form id="form-equipe" 
+                  class="w-full flex flex-col gap-4 max-w-xl p-2" 
+                  action="{{ url_for('equipe.update', id=equipe.id) }}" 
+                  method="POST">
+
+                <!-- Mantém compatibilidade caso o controller verifique 'Atualizar' no request.form -->
+                <input type="hidden" name="Atualizar" value="Atualizar">
+
+                <div class="text-center space-y-3 py-center mb-2 mt-4">
+                    <h2 id="titulo-pagina" class="font-sans font-medium text-neutro-mantui-950 text-2xl leading-none">
+                        Detalhes do Grupo
+                    </h2>
+                    <p id="subtitulo-pagina" class="font-lato text-neutro-mantui-700">
+                        Visualize os dados registrados ou clique em editar para alterá-los.
+                    </p>
+                </div>
+
+                <!-- SEÇÃO DE DADOS DO GRUPO -->
+                <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200 border-t">
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Nome do Grupo</label>
+                        </p>
+                        <input type="text" 
+                               id="input-nome"
+                               name="nome" 
+                               value="{{ equipe.nome or '' }}"
+                               required
+                               disabled
+                               placeholder="Ex: 'Expedição Ornitológica Mata Atlântica'" 
+                               class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                    </div>
+
+                </section>
+
+                <!-- BOTÃO INFERIOR -->
+                <div class="flex flex-col pt-2">
+                    <a id="btn-inferior"
+                       href="{{ url_for('equipe.recovery') }}" 
+                       class="px-4 py-2.5 rounded text-neutro-mantui-50 border-3 border-transparent bg-neutro-mantui-950 hover:bg-laranja-mantui-500 text-center font-medium transition-colors cursor-pointer">
+                        Voltar para Meus Grupos
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
+    <!-- SCRIPT DE CONTROLE DE EDIÇÃO -->
+    <script>
+        let modoEdicao = false;
+        const btnEditarSalvar = document.getElementById('btn-editar-salvar');
+        const btnCancelar = document.getElementById('btn-cancelar');
+        const btnInferior = document.getElementById('btn-inferior');
+        const form = document.getElementById('form-equipe');
+        const campos = form.querySelectorAll('.campo-editavel');
+        const inputNome = document.getElementById('input-nome');
+
+        btnEditarSalvar.addEventListener('click', function (e) {
+            if (!modoEdicao) {
+                e.preventDefault();
+                modoEdicao = true;
+
+                // Libera o campo para edição e foca nele
+                campos.forEach(campo => {
+                    campo.disabled = false;
+                });
+                if (inputNome) inputNome.focus();
+
+                // Transforma "Editar" em "Salvar"
+                btnEditarSalvar.textContent = 'Salvar';
+                btnEditarSalvar.classList.remove('bg-neutro-mantui-950');
+                btnEditarSalvar.classList.add('bg-verde-mantui-600', 'hover:bg-verde-mantui-700');
+
+                // Faz o "Cancelar" descartar alterações recarregando a visualização
+                btnCancelar.href = "javascript:window.location.reload()";
+
+                // Atualiza o botão inferior para também salvar ao clicar
+                btnInferior.textContent = 'Salvar Alterações';
+                btnInferior.href = '#';
+                btnInferior.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    if (form.reportValidity()) {
+                        form.submit();
+                    }
+                });
+
+                // Atualiza título e subtítulo
+                document.getElementById('titulo-pagina').textContent = 'Editar Grupo';
+                document.getElementById('subtitulo-pagina').textContent = 'Altere o nome do grupo e clique em Salvar.';
+            } else {
+                if (form.reportValidity()) {
+                    form.submit();
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>

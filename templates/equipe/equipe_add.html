@@ -1,16 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}Novo Grupo{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <form action="{{ url_for('equipe.add') }}" method="POST">
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
 
-        Nome: <input type="text" name="nome"><br/>
-        <input type="submit" name="Cadastrar">
+    {% include "partials_private/header_lock.html" %}
 
-    </form>
+    <main class="w-full my-auto flex justify-center desktop:justify-center p-3 mb-3">
+
+        <div class="w-full text-neutro-mantui-950 p-6 flex flex-col justify-center items-center">
+
+            <!-- BOTÕES DO TOPO -->
+            <div class="w-full flex items-center justify-end gap-3">
+                <a href="{{ url_for('equipe.recovery') }}" 
+                   class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 hover:bg-neutro-mantui-200 focus:outline-none focus:border-laranja-mantui-500 text-center font-medium transition-colors">
+                    Cancelar
+                </a>
+
+                <button type="submit" 
+                        form="form-equipe"
+                        name="Cadastrar"
+                        class="px-4 py-2 rounded text-neutro-mantui-50 border-3 border-transparent bg-neutro-mantui-950 hover:bg-laranja-mantui-500 cursor-pointer font-medium transition-colors">
+                    Criar Grupo
+                </button>
+            </div>
+
+            <!-- FORMULÁRIO -->
+            <form id="form-equipe" 
+                  class="w-full flex flex-col gap-4 max-w-xl p-2" 
+                  action="{{ url_for('equipe.add') }}" 
+                  method="POST">
+
+                <div class="text-center space-y-3 py-center mb-2 mt-4">
+                    <h2 class="font-sans font-medium text-neutro-mantui-950 text-2xl leading-none">
+                        Novo Grupo
+                    </h2>
+                    <p class="font-lato text-neutro-mantui-700">
+                        Preencha os dados e crie uma nova equipe de pesquisa.
+                    </p>
+                </div>
+
+                <!-- SEÇÃO DE DADOS DO GRUPO -->
+                <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200 border-t">
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Nome do Grupo</label>
+                        </p>
+                        <input type="text" 
+                               name="nome" 
+                               required
+                               placeholder="Ex: 'Expedição Ornitológica Mata Atlântica'" 
+                               class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500">
+                    </div>
+
+                </section>
+
+                <!-- BOTÃO INFERIOR -->
+                <div class="flex flex-col pt-2">
+                    <input type="submit" 
+                           name="Cadastrar" 
+                           value="Criar Grupo"
+                           class="px-4 py-2 rounded text-neutro-mantui-50 border-3 border-transparent bg-neutro-mantui-950 hover:bg-laranja-mantui-500 cursor-pointer font-medium transition-colors">
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
 </body>
 </html>
