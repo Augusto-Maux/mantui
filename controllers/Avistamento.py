@@ -154,5 +154,5 @@ def avistamento_pdf_individual(id):
     
     resposta = make_response(pdf)
     resposta.headers['Content-Type'] = 'application/pdf'
-    resposta.headers['Content-Disposition'] = f'inline; filename=Mantuí_avistamento_{avistamento.id}.pdf'
+    resposta.headers['Content-Disposition'] = f'inline; filename=avistamento_{avistamento.id}.pdf'
     return resposta
