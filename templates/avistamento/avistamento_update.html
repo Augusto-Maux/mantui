@@ -1,31 +1,437 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Atualizar Avistamento{% endblock %}</title>
+    <title>{% block title %}Detalhes do Avistamento{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <form action="{{url_for('avistamento.update', id=avistamento.id)}}" method="POST">
-        
-        Nome: <input type="text" name="nome"><br/>
-        Latitude: <input type="number" name="latitude"><br/>
-        Longitude: <input type="number" name="longitude"><br/>
-        Bioma: <input type="text" name="bioma"><br/>
-        Tipo Registro: <input type="text" name="tipo_registro"><br/>
-        Condição Climática: <input type="text" name="cond_clima"><br/>
-        Condição Ventos: <input type="text" name="cond_ventos"><br/>
-        Observações:  <input type="text" name="observacoes"><br/>
-        ID Espécie: <select name="fk_id_especie" id="">
-            <option value="">Selecione uma espécie</option>
-            {% for especie in especies %}
-                <option value="{{ especie.id }}">{{ especie.nome_comum }}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" name="Atualizar">
-    
-    </form>
+<body class="bg-neutro-mantui-50 min-h-screen flex flex-col">
+
+    {% include "partials_private/header_lock.html" %}
+
+    <main class="w-full my-auto flex justify-center desktop:justify-center p-3 mb-3">
+
+        <div class="w-full text-neutro-mantui-950 p-6 flex flex-col justify-center items-center">
+            
+            <!-- BOTÕES DO TOPO: CANCELAR E EDITAR/SALVAR -->
+            <div class="w-full flex items-center justify-end gap-3">
+                <a id="btn-cancelar" 
+                   href="{{ url_for('avistamento.recovery') }}" 
+                   class="px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 hover:bg-neutro-mantui-200 focus:outline-none focus:border-laranja-mantui-500 text-center font-medium transition-colors">
+                    Cancelar
+                </a>
+
+                <button type="button" 
+                        id="btn-editar-salvar"
+                        class="px-4 py-2 rounded text-neutro-mantui-50 border-3 border-transparent bg-neutro-mantui-800 hover:bg-laranja-mantui-500 cursor-pointer font-medium transition-colors">
+                    Editar
+                </button>
+            </div>
+
+            <form id="form-avistamento" 
+                  class="w-full flex flex-col gap-4 max-w-xl p-2" 
+                  action="{{ url_for('avistamento.update', id=avistamento.id) }}" 
+                  method="POST" 
+                  enctype="multipart/form-data">
+
+                <div class="text-center space-y-3 py-center mb-2 mt-4">
+                    <h2 id="titulo-pagina" class="font-sans font-medium text-neutro-mantui-950 text-2xl leading-none">
+                        Detalhes do Avistamento
+                    </h2>
+                    <p id="subtitulo-pagina" class="font-lato text-neutro-mantui-700">
+                        Visualize os dados registrados ou clique em editar para alterá-los.
+                    </p>
+                </div>
+
+                <!-- SEÇÃO 1: TÍTULO E MÍDIAS -->
+                <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200 border-t">
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Título</label>
+                        </p>
+                        <input type="text" 
+                               name="nome" 
+                               value="{{ avistamento.nome or '' }}"
+                               disabled
+                               placeholder="Ex: 'Garça-branca-grande em área alagada'" 
+                               class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                    </div>
+
+                    <!-- MÍDIAS JÁ CADASTRADAS -->
+                    <div class="flex flex-col gap-2">
+                        <label class="font-lato font-medium text-neutro-mantui-950">Mídias Registradas</label>
+                        
+                        {% if avistamento.midias and avistamento.midias|length > 0 %}
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                {% for m in avistamento.midias %}
+                                    {% set caminho_arquivo = m.caminho if m.caminho is defined else m.caminho_relativo %}
+                                    <div class="rounded-lg overflow-hidden border-2 border-neutro-mantui-300 bg-white shadow-sm aspect-square">
+                                        {% if caminho_arquivo.endswith(('.mp4', '.webm', '.ogg', '.mov', '.avi')) %}
+                                            <video controls class="w-full h-full object-cover">
+                                                <source src="{{ url_for('static', filename=caminho_arquivo) }}">
+                                            </video>
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename=caminho_arquivo) }}" 
+                                                 alt="Mídia do avistamento" 
+                                                 class="w-full h-full object-cover">
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-sm text-neutro-mantui-600 italic">Nenhuma mídia anexada a este avistamento.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- ÁREA DE UPLOAD (OCULTA ATÉ CLICAR EM EDITAR) -->
+                    <div id="zona-upload-midia" class="hidden flex-col gap-2">
+                        <div class="relative border-3 border-dashed border-neutro-mantui-600 rounded-2xl p-8 flex flex-col items-center justify-center text-center group hover:border-orange-500 transition-colors cursor-pointer bg-laranja-mantui-50/50">
+                            <input type="file" 
+                                   id="input-midia" 
+                                   name="midia" 
+                                   accept="image/*,audio/*,video/*" 
+                                   multiple 
+                                   disabled
+                                   class="campo-editavel absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+
+                            <div class="mb-3 text-neutro-mantui-950">
+                                <svg class="w-12 h-12 stroke-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="3" y="3" width="18" height="18" rx="3" ry="3" stroke-width="2"/>
+                                    <path d="M8.5 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" stroke-width="2"/>
+                                    <path d="M21 15l-5-5L5 21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+
+                            <h3 class="text-base font-lato font-bold text-neutro-mantui-950 mb-1">Adicionar Novas Mídias</h3>
+                            <p class="text-xs text-neutro-mantui-950 max-w-xs leading-relaxed mb-4">
+                                Faça Upload de Imagens, Vídeos e Áudios<br> 
+                                adicionais para este avistamento
+                            </p>
+
+                            <button type="button" class="bg-orange-600 hover:bg-orange-500 text-laranja-mantui-50 font-medium px-8 py-2.5 rounded-md text-sm transition-colors pointer-events-none">
+                                Selecionar Arquivos
+                            </button>
+                        </div>
+
+                        <div id="container-preview-midias" class="hidden flex-col gap-2 mt-2">
+                            <span id="contador-arquivos" class="text-xs font-lato font-bold text-neutro-mantui-950"></span>
+                            <div id="lista-arquivos-nomes" class="flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- SEÇÃO 2: DESCRIÇÃO, ESPÉCIE, BIOMA, COORDENADAS E CLIMA -->
+                <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200">
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Descrição</label>
+                        </p>
+                        <input type="text" 
+                               name="observacoes" 
+                               value="{{ avistamento.observacoes or '' }}"
+                               disabled
+                               placeholder="Adicionar Descrição" 
+                               class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Espécie</label>
+                        </p>
+                        <select id="select-especie" 
+                                name="fk_id_especie" 
+                                disabled
+                                class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500">
+                            <option class="bg-verde-mantui-400 text-neutro-mantui-950 py-2" value="">Espécie não Identificada</option>
+                            {% for especie in especies %}
+                                <option value="{{ especie.id }}" {% if avistamento.fk_id_especie == especie.id %}selected{% endif %}>
+                                    {{ especie.nome_comum }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Bioma</label>
+                        </p>
+                        <select name="bioma" 
+                                disabled
+                                class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                            {% set biomas = ['Bioma não Identificado', 'Amazônia', 'Cerrado', 'Caatinga', 'Mata Atlântica', 'Pantanal', 'Pampa'] %}
+                            {% for b in biomas %}
+                                <option class="bg-laranja-mantui-50 text-neutro-mantui-950 py-2" value="{{ b }}" {% if avistamento.bioma == b %}selected{% endif %}>
+                                    {{ b }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Latitude</label>
+                        </p>
+                        <input type="number" 
+                               step="any"
+                               name="latitude" 
+                               value="{{ avistamento.latitude if avistamento.latitude is not none else '' }}"
+                               disabled
+                               placeholder="Latitude" 
+                               class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Longitude</label>
+                        </p>
+                        <input type="number" 
+                               step="any"
+                               name="longitude" 
+                               value="{{ avistamento.longitude if avistamento.longitude is not none else '' }}"
+                               disabled
+                               placeholder="Longitude" 
+                               class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                    </div>
+
+                    <div class="grid grid-cols-1 tablet:grid-cols-2 gap-1.5 w-full">
+                        <div class="flex flex-col">
+                            <p>
+                                <label class="font-lato font-medium text-neutro-mantui-950">Condição Climática</label>
+                            </p>
+                            <select name="cond_clima" 
+                                    disabled
+                                    class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                                {% set climas = ['Clima não Identificado', 'Ensolarado', 'Nublado', 'Parcialmente Nublado', 'Chuva Leve', 'Chuva Forte'] %}
+                                {% for c in climas %}
+                                    <option class="bg-laranja-mantui-50 text-neutro-mantui-950 py-2" value="{{ c }}" {% if avistamento.cond_clima == c %}selected{% endif %}>
+                                        {{ c }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <p>
+                                <label class="font-lato font-medium text-neutro-mantui-950">Condição do Vento</label>
+                            </p>
+                            <select name="cond_ventos" 
+                                    disabled
+                                    class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                                {% set ventos = ['Vento não Identificada', 'Calmo', 'Vento Leve', 'Vento Moderado', 'Vento Forte', 'Vento Muito Forte'] %}
+                                {% for v in ventos %}
+                                    <option class="bg-laranja-mantui-50 text-neutro-mantui-950 py-2" value="{{ v }}" {% if avistamento.cond_ventos == v %}selected{% endif %}>
+                                        {{ v }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- SEÇÃO 3: DATA/HORA E PESQUISADOR -->
+                <section class="w-full space-y-6 py-4 border-b border-neutro-mantui-200">
+
+                    <div class="flex flex-col">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Data e Hora</label>
+                        </p>
+                        <input type="datetime-local" 
+                               name="data_hora" 
+                               value="{{ avistamento.data_hora.strftime('%Y-%m-%dT%H:%M') if avistamento.data_hora else '' }}"
+                               disabled
+                               class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500 disabled:bg-neutro-mantui-50 disabled:text-neutro-mantui-700 disabled:cursor-not-allowed">
+                    </div>
+
+                    {% if usuarios is defined and usuarios %}
+                    <div class="flex flex-col gap-1">
+                        <p>
+                            <label class="font-lato font-medium text-neutro-mantui-950">Pesquisador(es)</label>
+                        </p>
+                        <select id="select-pesquisador" 
+                                name="fk_id_usuario" 
+                                disabled
+                                class="campo-editavel px-4 py-2 rounded text-neutro-mantui-950 border-3 border-neutro-mantui-400 focus:outline-none focus:border-laranja-mantui-500">
+                            <option value="">Digite para buscar pesquisador por nome ou e-mail...</option>
+                            {% set pesq_atual = avistamento.fk_id_usuario if avistamento.fk_id_usuario is defined else (current_user.id if current_user else '') %}
+                            {% for usuario in usuarios %}
+                                <option class="bg-verde-mantui-400 text-neutro-mantui-950 py-2 flex gap-2"
+                                        value="{{ usuario.id }}"
+                                        data-foto="{{ url_for('static', filename=usuario.foto_perfil) if usuario.foto_perfil else '' }}"
+                                        data-email="{{ usuario.email }}"
+                                        data-inicial="{{ usuario.nome[0] | upper }}"
+                                        {% if pesq_atual == usuario.id %}selected{% endif %}>
+                                    {{ usuario.nome }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+
+                </section>
+
+                <!-- BOTÃO FINAL: BAIXAR AVISTAMENTO (ROTA PDF INDIVIDUAL) -->
+                <div class="flex flex-col pt-2">
+                    <a href="{{ url_for('avistamento.avistamento_pdf_individual', id=avistamento.id) }}" 
+                    target="_blank"
+                    class="px-4 py-2.5 rounded text-neutro-mantui-50 border-3 border-transparent bg-neutro-mantui-950 hover:bg-laranja-mantui-500 text-center font-medium transition-colors cursor-pointer">
+                        Baixar Avistamento
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- SCRIPTS TOM SELECT E CONTROLE DE EDIÇÃO -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        // Inicializa Tom Select de Espécies (inicia desabilitado)
+        const tsEspecie = new TomSelect("#select-especie", {
+            placeholder: "Digite para buscar a espécie...",
+            maxOptions: null
+        });
+        tsEspecie.disable();
+
+        // Inicializa Tom Select de Pesquisadores (se existir na página)
+        let tsPesquisador;
+        if (document.getElementById("select-pesquisador")) {
+            tsPesquisador = new TomSelect("#select-pesquisador", {
+                placeholder: "Digite para buscar pesquisador por nome ou e-mail...",
+                maxOptions: null,
+                searchField: ['text', 'email'],
+                dataAttr: 'data',
+                render: {
+                    option: function(data, escape) {
+                        const avatarHTML = data.foto
+                            ? `<img src="${escape(data.foto)}" class="w-7 h-7 rounded-full object-cover flex-shrink-0" />`
+                            : `<div class="w-7 h-7 bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">${escape(data.inicial)}</div>`;
+
+                        return `<div class="flex items-center gap-3 py-1.5 px-2">
+                            ${avatarHTML}
+                            <div class="flex flex-col text-left">
+                                <span class="font-medium text-sm text-neutro-mantui-950">${escape(data.text)}</span>
+                                <span class="text-xs text-neutro-mantui-600">${escape(data.email)}</span>
+                            </div>
+                        </div>`;
+                    },
+                    item: function(data, escape) {
+                        const avatarHTML = data.foto
+                            ? `<img src="${escape(data.foto)}" class="w-6 h-6 rounded-full object-cover flex-shrink-0" />`
+                            : `<div class="w-6 h-6 bg-laranja-mantui-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">${escape(data.inicial)}</div>`;
+
+                        return `<div class="flex items-center gap-2">
+                            ${avatarHTML}
+                            <span class="font-medium text-sm text-neutro-mantui-950">${escape(data.text)}</span>
+                        </div>`;
+                    }
+                }
+            });
+            tsPesquisador.disable();
+        }
+
+        // LÓGICA DO BOTÃO EDITAR -> SALVAR
+        let modoEdicao = false;
+        const btnEditarSalvar = document.getElementById('btn-editar-salvar');
+        const btnCancelar = document.getElementById('btn-cancelar');
+        const form = document.getElementById('form-avistamento');
+        const campos = form.querySelectorAll('.campo-editavel');
+        const zonaUpload = document.getElementById('zona-upload-midia');
+
+        btnEditarSalvar.addEventListener('click', function (e) {
+            if (!modoEdicao) {
+                e.preventDefault();
+                modoEdicao = true;
+
+                // Libera inputs e selects nativos
+                campos.forEach(campo => {
+                    campo.disabled = false;
+                });
+
+                // Libera TomSelects
+                tsEspecie.enable();
+                if (tsPesquisador) tsPesquisador.enable();
+
+                // Exibe área de upload de novas mídias
+                if (zonaUpload) {
+                    zonaUpload.classList.remove('hidden');
+                    zonaUpload.classList.add('flex');
+                }
+
+                // Transforma "Editar" em "Salvar"
+                btnEditarSalvar.textContent = 'Salvar';
+                btnEditarSalvar.classList.remove('bg-neutro-mantui-950');
+                btnEditarSalvar.classList.add('bg-verde-mantui-600', 'hover:bg-verde-mantui-700');
+
+                // Faz o "Cancelar" descartar alterações recarregando a visualização
+                btnCancelar.href = "javascript:window.location.reload()";
+
+                // Atualiza título
+                document.getElementById('titulo-pagina').textContent = 'Editar Avistamento';
+                document.getElementById('subtitulo-pagina').textContent = 'Altere os dados desejados e clique em Salvar.';
+            } else {
+                // Já está editando: envia o formulário
+                form.submit();
+            }
+        });
+    </script>
+
+    <!-- SCRIPT DE ACÚMULO E PREVIEW DE NOVAS MÍDIAS -->
+    <script>
+        const dt = new DataTransfer();
+        const inputMidia = document.getElementById('input-midia');
+
+        if (inputMidia) {
+            inputMidia.addEventListener('change', function () {
+                for (let file of this.files) {
+                    dt.items.add(file);
+                }
+                this.files = dt.files;
+                atualizarInterfaceMidias();
+            });
+        }
+
+        function atualizarInterfaceMidias() {
+            const container = document.getElementById('container-preview-midias');
+            const contador = document.getElementById('contador-arquivos');
+            const lista = document.getElementById('lista-arquivos-nomes');
+
+            lista.innerHTML = '';
+
+            if (dt.files.length > 0) {
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+
+                const total = dt.files.length;
+                contador.innerText = `${total} arquivo${total > 1 ? 's' : ''} selecionado${total > 1 ? 's' : ''}:`;
+
+                Array.from(dt.files).forEach((file, index) => {
+                    const badge = document.createElement('span');
+                    badge.className = 'text-xs bg-verde-mantui-600 text-neutro-mantui-50 px-3 py-1 rounded-sm font-lato flex items-center gap-1.5 truncate max-w-[220px]';
+                    badge.innerHTML = `
+                        <span class="truncate">${file.name}</span>
+                        <button type="button" onclick="removerArquivoMidia(${index})" class="text-amarelo-mantui-600 hover:text-amarelo-mantui-700 font-bold ml-1 cursor-pointer z-20">&times;</button>
+                    `;
+                    lista.appendChild(badge);
+                });
+            } else {
+                container.classList.add('hidden');
+                container.classList.remove('flex');
+            }
+        }
+
+        function removerArquivoMidia(index) {
+            dt.items.remove(index);
+            inputMidia.files = dt.files;
+            atualizarInterfaceMidias();
+        }
+    </script>
 </body>
 </html>

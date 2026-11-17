@@ -1,47 +1,343 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ficha de Avistamento - Mantuí</title>
+    <style>
+        /* CONFIGURAÇÃO DA PÁGINA A4 E RODAPÉ AUTOMÁTICO */
+        @page {
+            size: A4 portrait;
+            margin: 18mm 16mm 20mm 16mm;
+
+            @bottom-left {
+                content: "Plataforma Mantuí • Registro Científico de Avistamentos";
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 8.5pt;
+                color: #78716c;
+            }
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 8.5pt;
+                color: #78716c;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1c1917;
+            font-size: 10.5pt;
+            line-height: 1.5;
+            background-color: #ffffff;
+        }
+
+        /* Quebra de página entre fichas quando houver múltiplos avistamentos */
+        .ficha-avistamento {
+            page-break-after: always;
+        }
+        .ficha-avistamento:last-child {
+            page-break-after: auto;
+        }
+
+        /* CABEÇALHO INSTITUCIONAL */
+        .header {
+            width: 100%;
+            border-bottom: 2.5px solid #467C2B;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .header-logo {
+            height: 36px;
+            vertical-align: middle;
+        }
+        .header-info {
+            text-align: right;
+            vertical-align: middle;
+        }
+        .badge-id {
+            display: inline-block;
+            background-color: #1c1917;
+            color: #ffffff;
+            font-size: 8.5pt;
+            font-weight: bold;
+            padding: 3px 9px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+        .data-emissao {
+            display: block;
+            font-size: 8.5pt;
+            color: #57534e;
+            margin-top: 4px;
+        }
+
+        /* TÍTULO PRINCIPAL DO REGISTRO */
+        .titulo-bloco {
+            background-color: #f5f5f4;
+            border-left: 4px solid #ea580c;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border-radius: 0 4px 4px 0;
+        }
+        .titulo-bloco .label-topo {
+            font-size: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #ea580c;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        .titulo-bloco h1 {
+            font-size: 16pt;
+            color: #1c1917;
+            font-weight: bold;
+            line-height: 1.25;
+        }
+
+        /* SEÇÕES E TÍTULOS DE BLOCO */
+        .secao {
+            margin-bottom: 18px;
+            break-inside: avoid;
+        }
+        .secao-titulo {
+            font-size: 9.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #467C2B;
+            border-bottom: 1px solid #d6d3d1;
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+        }
+
+        /* GRADE DE DADOS (TABELA ESTRUTURADA PARA PRECISÃO NO PDF) */
+        .dados-grid {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .dados-grid td {
+            width: 50%;
+            vertical-align: top;
+            padding: 7px 10px;
+            border: 1px solid #e7e5e4;
+            background-color: #fafaf9;
+        }
+        .campo-label {
+            display: block;
+            font-size: 8pt;
+            text-transform: uppercase;
+            color: #78716c;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .campo-valor {
+            font-size: 10.5pt;
+            color: #1c1917;
+            font-weight: 500;
+        }
+        .tag-bioma {
+            display: inline-block;
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9.5pt;
+            font-weight: bold;
+        }
+
+        /* CAIXA DE OBSERVAÇÕES / DESCRIÇÃO */
+        .box-descricao {
+            background-color: #fafaf9;
+            border: 1px solid #e7e5e4;
+            border-radius: 4px;
+            padding: 10px 12px;
+            font-size: 10pt;
+            color: #292524;
+            min-height: 45px;
+        }
+
+        /* GALERIA DE IMAGENS */
+        .galeria-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 8px;
+            margin-left: -8px;
+            margin-right: -8px;
+        }
+        .galeria-cell {
+            width: 50%;
+            vertical-align: top;
+            border: 1px solid #d6d3d1;
+            border-radius: 4px;
+            padding: 6px;
+            background-color: #ffffff;
+            text-align: center;
+        }
+        .galeria-img {
+            width: 100%;
+            height: 185px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+        }
+        .galeria-legenda {
+            font-size: 8pt;
+            color: #78716c;
+            margin-top: 5px;
+        }
+        .anexo-multimidia {
+            margin-top: 8px;
+            padding: 6px 10px;
+            background-color: #fef3c7;
+            border: 1px solid #fde68a;
+            border-radius: 4px;
+            font-size: 9pt;
+            color: #92400e;
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Relatório de Avistamentos</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <!-- Avistamento - Demais Atributos -->
-                <th>ID</th>
-                <th>Nome do Avistamento</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Bioma</th>
-                <th>Tipo do Registro</th>
-                <th>Condição do Clima</th>
-                <th>Condição dos Ventos</th>
-                <th>Observações</th>
-                <th>Espécie</th>
-            </tr>
-        </thead>
+    {% for a in avistamentos %}
+    <div class="ficha-avistamento">
 
-        <tbody>
-            {% for avistamento in avistamentos %}
-            <tr>
-                <td>{{ avistamento.id }}</td>
-                <td>{{ avistamento.nome }}</td>
-                <td>{{ avistamento.latitude }}</td>
-                <td>{{ avistamento.longitude }}</td>
-                <td>{{ avistamento.bioma }}</td>
-                <td>{{ avistamento.tipo_registro }}</td>
-                <td>{{ avistamento.cond_clima }}</td>
-                <td>{{ avistamento.cond_ventos }}</td>
-                <td>{{ avistamento.observacoes }}</td>
-                <td>{{ avistamento.fk_id_especie }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- CABEÇALHO -->
+        <div class="header">
+            <table class="header-table">
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename='img/icone-do-mantui.png') }}" alt="Mantuí" class="header-logo">
+                    </td>
+                    <td class="header-info">
+                        <span class="badge-id">REGISTRO #{{ '%04d' % a.id }}</span>
+                        <span class="data-emissao">
+                            Data do avistamento: {{ a.data_hora.strftime('%d/%m/%Y às %H:%M') if a.data_hora else 'Não informada' }}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- TÍTULO DO AVISTAMENTO -->
+        <div class="titulo-bloco">
+            <div class="label-topo">Ficha de Registro de Avistamento</div>
+            <h1>{{ a.nome or 'Avistamento sem título' }}</h1>
+        </div>
+
+        <!-- IDENTIFICAÇÃO E LOCALIZAÇÃO -->
+        <div class="secao">
+            <div class="secao-titulo">1. Identificação e Localização</div>
+            <table class="dados-grid">
+                <tr>
+                    <td>
+                        <span class="campo-label">Espécie Observada</span>
+                        <span class="campo-valor">
+                            {{ a.especie.nome_comum if a.especie else 'Espécie não identificada' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="campo-label">Bioma</span>
+                        <span class="campo-valor">
+                            <span class="tag-bioma">{{ a.bioma or 'Não identificado' }}</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="campo-label">Latitude</span>
+                        <span class="campo-valor">{{ a.latitude if a.latitude is not none else 'Não informada' }}</span>
+                    </td>
+                    <td>
+                        <span class="campo-label">Longitude</span>
+                        <span class="campo-valor">{{ a.longitude if a.longitude is not none else 'Não informada' }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="campo-label">Condição Climática</span>
+                        <span class="campo-valor">{{ a.cond_clima or 'Não informada' }}</span>
+                    </td>
+                    <td>
+                        <span class="campo-label">Condição dos Ventos</span>
+                        <span class="campo-valor">{{ a.cond_ventos or 'Não informada' }}</span>
+                    </td>
+                </tr>
+                {% if a.usuario is defined and a.usuario %}
+                <tr>
+                    <td colspan="2">
+                        <span class="campo-label">Pesquisador Responsável</span>
+                        <span class="campo-valor">{{ a.usuario.nome }} ({{ a.usuario.email }})</span>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <!-- DESCRIÇÃO / OBSERVAÇÕES -->
+        <div class="secao">
+            <div class="secao-titulo">2. Descrição e Observações de Campo</div>
+            <div class="box-descricao">
+                {{ a.observacoes if a.observacoes else 'Nenhuma observação adicional foi registrada para este avistamento.' }}
+            </div>
+        </div>
+
+        <!-- REGISTROS FOTOGRÁFICOS -->
+        <div class="secao">
+            <div class="secao-titulo">3. Registros Fotográficos</div>
+            
+            {% set ns = namespace(imagens=[], outros=0) %}
+            {% if a.midias %}
+                {% for m in a.midias %}
+                    {% set caminho = m.caminho if m.caminho is defined else m.caminho_relativo %}
+                    {% if caminho.lower().endswith(('.jpg', '.jpeg', '.png', '.webp', '.gif')) %}
+                        {% set ns.imagens = ns.imagens + [caminho] %}
+                    {% else %}
+                        {% set ns.outros = ns.outros + 1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            {% if ns.imagens|length > 0 %}
+                <table class="galeria-table">
+                    {% for img_path in ns.imagens %}
+                        {% if loop.index0 % 2 == 0 %}<tr>{% endif %}
+                        
+                        <td class="galeria-cell">
+                            <img src="{{ url_for('static', filename=img_path) }}" alt="Foto {{ loop.index }}" class="galeria-img">
+                            <div class="galeria-legenda">Figura {{ loop.index }} — Registro anexado</div>
+                        </td>
+
+                        {% if loop.last and loop.index0 % 2 == 0 %}
+                            <td style="width: 50%; border: none;"></td>
+                        {% endif %}
+                        {% if loop.index0 % 2 == 1 or loop.last %}</tr>{% endif %}
+                    {% endfor %}
+                </table>
+            {% else %}
+                <div class="box-descricao" style="color: #78716c; font-style: italic;">
+                    Nenhuma fotografia anexada a este registro.
+                </div>
+            {% endif %}
+
+            {% if ns.outros > 0 %}
+                <div class="anexo-multimidia">
+                    * Este avistamento também possui <strong>{{ ns.outros }}</strong> arquivo(s) de áudio ou vídeo disponível(is) na plataforma digital.
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+    {% endfor %}
+
 </body>
 </html>

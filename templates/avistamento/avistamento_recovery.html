@@ -7,13 +7,58 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/output.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icone-do-mantui.png') }}">
 </head>
-<body class="bg-neutro-mantui-100 min-h-screen">
+<body class="bg-neutro-mantui-50 min-h-screen">
 
     <!-- HEADER -->
     {% include "partials_private/header_lock.html" %}
 
+    <div class="flex flex-1 w-full">
+
+        <!-- 2. SIDEBAR LATERAL (Apenas Desktop - Inicia abaixo do Header com top-[76px]) -->
+    <aside class="hidden desktop:flex flex-col justify-between w-64 flex-shrink-0 bg-neutro-mantui-950 p-6 border-r border-neutro-mantui-800">
+        <!-- Topo da Sidebar -->
+        <div class="flex flex-col gap-8 w-full">
+
+            <div class="flex justify-center pt-2">
+            <img src="{{ url_for('static', filename='img/logo-mantui-hero.png') }}" alt="Mantuí" class="w-36 object-contain">
+            </div>
+
+            <!-- Botão Principal: Realizar Avistamento -->
+            <a href="{{ url_for('avistamento.add') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-verde-mantui-600 hover:bg-verde-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                <span>Realizar Avistamento</span>
+                <span class="text-xl leading-none">+</span>
+            </a>
+
+            <!-- Links de Navegação Principal -->
+            <nav class="flex flex-col gap-4 font-lato text-base">
+                <a href="{{ url_for('avistamento.recovery') }}" class="flex items-center gap-2 text-laranja-mantui-500 font-medium hover:text-white transition">
+                    <span class="text-xs">▶</span>
+                    <span>Meus Avistamentos</span>
+                </a>
+                <a href="{{ url_for('equipe.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                    <span class="text-xs">▶</span>
+                    <span>Meus Grupos</span>
+                </a>
+                <a href="{{ url_for('projeto.recovery') }}" class="flex items-center gap-2 text-neutro-mantui-300 font-medium hover:text-white transition">
+                    <span class="text-xs">▶</span>
+                    <span>Meus Projetos</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Rodapé da Sidebar (Botão Sair) -->
+        <div class="w-full">
+            <a href="{{ url_for('usuario.logout') }}" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-laranja-mantui-600 hover:bg-laranja-mantui-700 text-white font-sans font-medium text-sm rounded-sm shadow transition">
+                <span>✖</span>
+                <span>Sair do Sistema</span>
+            </a>
+        </div>
+    </aside>
+
     <!-- CONTEÚDO PRINCIPAL -->
-    <main class="w-full flex-1 p-6 max-w-7xl mx-auto space-y-6">
+    <main class="flex-1 min-w-0 p-6">
+
+        <div class="max-w-7xl mx-auto space-y-6">
 
         <!-- BLOCO DE MENSAGENS FLASH -->
         {% set mensagens = get_flashed_messages(with_categories=True) %} 
@@ -158,7 +203,11 @@
             </table>
         </div>
 
+        </div>
+
     </main>
+
+    </div>
 
 </body>
 </html>

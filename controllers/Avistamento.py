@@ -141,12 +141,18 @@ def delete(id):
 
 	return redirect(url_for('avistamento.recovery'))
 
+from flask import render_template, make_response, request
+from weasyprint import HTML
+
 @bp_avistamento.route('/pdf/<int:id>')
 @login_required
 def avistamento_pdf_individual(id):
     avistamento = Avistamento.query.get_or_404(id)
     html = render_template('relatorio/avistamentos.html', avistamentos=[avistamento])
-    pdf = HTML(string=html).write_pdf()
+    
+    pdf = HTML(string=html, base_url=request.url_root).write_pdf()
+    
     resposta = make_response(pdf)
     resposta.headers['Content-Type'] = 'application/pdf'
+    resposta.headers['Content-Disposition'] = f'inline; filename=Mantuí_avistamento_{avistamento.id}.pdf'
     return resposta
