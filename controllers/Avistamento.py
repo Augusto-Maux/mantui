@@ -36,9 +36,9 @@ def salvar_midias_uploads(arquivos, id_avistamento):
 @bp_avistamento.route('/recovery')
 @login_required
 def recovery():
-	avistamento = Avistamento.query.order_by(Avistamento.id.desc()).all()
-	
-	return render_template('avistamento/avistamento_recovery.html', avistamento=avistamento)
+    avistamento = Avistamento.query.filter_by(fk_id_user=current_user.id).order_by(Avistamento.id.desc()).all()
+    
+    return render_template('avistamento/avistamento_recovery.html', avistamento=avistamento)
 
 @bp_avistamento.route('/add', methods=['GET', 'POST'])
 @login_required
